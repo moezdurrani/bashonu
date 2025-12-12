@@ -85,6 +85,7 @@
 /* Other styles remain unchanged */
 
 .song-item {
+  position: relative;
   cursor: pointer;
   margin: 5px;
   padding: 10px;
@@ -144,4 +145,33 @@
 .scrollable {
   -ms-overflow-style: none;
   scrollbar-width: thin;
+}
+
+/*   SMALL BADGE IN TOP-RIGHT OF SONG ITEM       */
+.song-corner-card {
+  position: absolute;
+  z-index: 10;
+  top: -0px;
+  right: -0px;
+
+  width: 90px;
+  height: 25px;
+
+  background: rgba(83,169,190);
+  
+  border-radius: 4px;
+  /* transform: rotate(2.5deg); */
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  /* OUTLINE that creates separation */
+  outline: 5px solid rgb(243, 244, 247);
+}
+
+
+.song-corner-card-text {
+  font-size: 12px;
+  color: #ffffff;
 }

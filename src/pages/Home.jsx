@@ -18,12 +18,13 @@ const Home = () => {
   const fetchSongs = async () => {
     const { data, error } = await supabase
       .from("songs")
-      .select("id, title, writers (name)")
+      .select("id, title, language, display_language, writers (name)")
       .order("title", { ascending: true });
 
     if (error) {
       console.log("Error fetching songs", error);
     } else {
+      // console.log("First song:", data?.[0]);
       setSongs(data);
     }
   };
@@ -36,8 +37,10 @@ const Home = () => {
     );
   });
 
+  console.log(songs);
   return (
     <div className="wrapper">
+
       <div className="search-bar-container">
         <div className="search-input-wrapper">
           <FontAwesomeIcon icon={faSearch} className="search-icon" />
@@ -58,6 +61,9 @@ const Home = () => {
             className="song-item"
             onClick={() => navigate(`/song/${song.id}`)}
           >
+            <div className="song-corner-card">
+              <p className="song-corner-card-text">{song.language}</p>
+            </div>
             <div className="song-content">
               <div className="text-container">
                 <div className="scrollable">

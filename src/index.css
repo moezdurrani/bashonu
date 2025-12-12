@@ -1,0 +1,48 @@
+/* GLOBAL RESET */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+/* GLOBAL FONTS */
+@import url("https://fonts.googleapis.com/css2?family=Comfortaa:wght@300..700&family=Exo+2:ital,wght@0,100..900;1,100..900&family=Noto+Nastaliq+Urdu:wght@400..700&display=swap");
+
+/* THEME VARIABLES (LIGHT MODE DEFAULT) */
+:root {
+  --bg: rgb(243, 244, 247);
+  --header-bg: #f8f8f8;
+  --card-bg: #ffffff;
+  --text: #000000;
+  --text-light: #444;
+  --accent: #53a9be;
+  --outline: #f3f4f7;
+}
+
+/* DARK THEME */
+[data-theme="dark"] {
+  --bg: #0e0e0e;
+  --header-bg: #111;
+  --card-bg: #181818;
+  --text: #ffffff;
+  --text-light: #dddddd;
+  --accent: #53a9be;
+  --outline: #181818;
+}
+
+/* APPLY GLOBAL VARIABLES */
+body {
+  background-color: var(--bg);
+  font-family: "Comfortaa", Arial, sans-serif;
+}
+
+/* Ensure root container fills screen */
+body,
+#root {
+  width: 100%;
+  min-height: 100vh;
+}
