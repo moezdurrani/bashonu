@@ -15,11 +15,34 @@ html {
 /* THEME VARIABLES (LIGHT MODE DEFAULT) */
 :root {
   --bg: rgb(243, 244, 247);
+  --bg-white: rgb(255, 255, 255);
+  --txt-white: rgb(255, 255, 255);
+  --txt-dark: #333;
+  --border: #ccc;
+  --border-2: #ccc;
+  --song-item: rgba(0, 0, 0, 0.125);
+  --song-item-hover: rgba(0, 0, 0, 0.325);
+  --poet: #424242;
+  --webkit-scrollbar-track-bg: #f1f1f1;
+  --webkit-scrollbar-thumb-bg: #888;
+  --accent: #22abc1;
+  --accent-hover: #1e98aa;
+  --icon-color: #666;
+  --icon-color-hover: #4b4b4b;
+  --signup-bg: #f8d7da;
+  --signup-color: #721c24;
+  --upload-success-bg: #e8f5e9;
+  --upload-error: #f44336;
+  --upload-error-bg: #ffebee;
+  --logout-button: rgb(255, 113, 19);
+  --logout-button-hover: rgb(237, 95, 0);
+
+
   --header-bg: #f8f8f8;
   --card-bg: #ffffff;
   --text: #000000;
   --text-light: #444;
-  --accent: #53a9be;
+  
   --outline: #f3f4f7;
 }
 
