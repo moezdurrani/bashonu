@@ -1,0 +1,113 @@
+/* General styles for the header */
+.header {
+  width: 100%;
+  padding: 10px 12px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  position: fixed;
+  height: 60px; /* Fixed height to prevent resizing */
+}
+
+/* Styles for the logo and logo link */
+.nav_logo {
+  padding: 0 12px;
+  display: flex;
+  align-items: center;
+  height: 100%;
+}
+
+.nav_logo img {
+  height: 50px;
+  vertical-align: middle;
+}
+
+.nav-logo-link {
+  text-decoration: none;
+  color: #fab005;
+  font-weight: bold;
+  display: flex;
+  align-items: center;
+}
+
+/* Styles for the navigation menu */
+.nav-menu {
+  list-style: none;
+  padding: 0;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  flex-grow: 1;
+  height: 100%;
+}
+
+.nav-menu-list {
+  text-decoration: none;
+  color: black;
+  padding: 10px 20px;
+  display: block;
+}
+
+.nav-menu li:hover {
+  cursor: pointer;
+  background-color: rgb(230, 230, 230);
+  border-radius: 4px;
+}
+
+/* Styles for the menu toggle button (hamburger and close icon) */
+.menuToggleBtn {
+  cursor: pointer;
+  color: black;
+  font-size: 24px;
+  display: none;
+  position: absolute;
+  right: 20px;
+  top: 15px;
+}
+
+/* Responsive styles for mobile screens */
+@media screen and (max-width: 768px) {
+  .menuToggleBtn {
+    display: block;
+  }
+
+  .nav-menu {
+    position: fixed;
+    top: 60px; /* Start the menu right below the header */
+    right: -100%;
+    width: 300px;
+    height: calc(
+      100vh - 60px
+    ); /* Take up the remaining space below the header */
+    flex-direction: column;
+    align-items: center; /* Center all items horizontally */
+    justify-content: center; /* Center all items vertically */
+    background-color: rgba(
+      238,
+      238,
+      238,
+      0.5
+    ); /* Slightly transparent background */
+    backdrop-filter: blur(10px); /* Blur effect for the background content */
+    border-radius: 10px; /* Rounded corners for a softer look */
+    transition: right 0.3s ease;
+    z-index: 1500;
+    padding: 0; /* Remove padding */
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Subtle shadow for depth */
+    border: 1px solid rgba(255, 255, 255, 0.3); /* Light border for better edge definition */
+  }
+
+  .nav-menu.open {
+    right: 0;
+  }
+
+  .nav-menu-list {
+    padding: 15px 0; /* Space between the items */
+    text-align: center; /* Center the text inside each list item */
+    width: 100%; /* Make the links span the full width */
+  }
+
+  .nav-menu li {
+    width: 100%; /* Each list item takes up the full width */
+  }
+}

@@ -1,0 +1,81 @@
+/* Trending.css */
+.wrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  min-height: 80vh;
+}
+
+.section {
+  width: 95%;
+  max-width: 800px;
+  margin: 20px 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center; /* Center aligns the items within the section */
+}
+
+.section h2 {
+  width: 100%; /* Ensures the header spans the full width of the section */
+  text-align: center; /* Centers the text horizontally */
+  color: #444; /* Style the color (optional) */
+  margin-bottom: 20px; /* Space below the header */
+}
+
+.card {
+  background: white;
+  padding: 15px;
+  margin: 5px 0;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.125);
+  width: 100%; /* Ensure the card spans the full width of the section */
+  transition: transform 0.2s ease, box-shadow 0.3s ease;
+}
+
+.card.clickable {
+  cursor: pointer;
+}
+
+.card:hover {
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.325);
+}
+
+.card-content {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 20px;
+}
+
+.title-container {
+  flex: 1;
+  min-width: 0;
+  overflow: hidden;
+}
+
+.scroll-container {
+  overflow-x: auto;
+  scrollbar-width: none; /* Firefox */
+  -ms-overflow-style: none; /* IE and Edge */
+}
+
+.scroll-container::-webkit-scrollbar {
+  display: none; /* Chrome, Safari, and Opera */
+}
+
+.title-text {
+  display: inline-block;
+  font-weight: bold;
+  white-space: nowrap;
+  padding-bottom: 5px; /* Space for scroll bar if visible */
+}
+
+.stats-container {
+  flex-shrink: 0;
+  white-space: nowrap;
+}
+
+.stats {
+  color: #666;
+  font-size: 0.9em;
+}

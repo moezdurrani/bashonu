@@ -1,0 +1,392 @@
+/* Import Google Fonts */
+@import url("https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap");
+
+/* General styles for the Profile component */
+.profile-content,
+.profile-form {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+  width: 90%;
+  margin-left: auto; /* Centers the element horizontally */
+  margin-right: auto; /* Centers the element horizontally */
+}
+
+/* Form specific styling */
+.profile-form form {
+  display: flex;
+  flex-direction: column;
+  border: none;
+  padding: 20px;
+  border-radius: 8px;
+  background: white;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
+  width: 90%; /* Responsive width */
+  max-width: 320px; /* Max width for larger screens */
+}
+
+.profile-form .form-group {
+  margin-bottom: 20px;
+}
+
+.profile-form input[type="email"],
+.profile-form input[type="password"] {
+  padding: 12px;
+  width: 100%;
+  border: 2px solid #ccc;
+  border-radius: 4px;
+}
+
+.profile-info input {
+  padding: 10px;
+  border: 1.25px solid #ccc;
+  border-radius: 8px;
+}
+
+.save-button {
+  margin-left: 15px;
+}
+
+.profile-form .auth-button {
+  background-color: #22abc1;
+  color: white;
+  padding: 12px;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background-color 0.2s; /* Smooth transition for hover */
+}
+
+.profile-form .auth-button:hover {
+  background-color: #1e98aa;
+}
+
+.profile-form .login-error,
+.signup-success {
+  text-align: center;
+  font-size: 14px;
+  width: 100%;
+  margin-top: 10px;
+}
+
+.signup-success {
+  background-color: #f8d7da;
+  color: #721c24;
+  padding: 12px 24px;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  margin-bottom: 20px;
+  max-width: 750px;
+}
+
+.profile-form .toggle-button {
+  margin-top: 20px;
+  background: none;
+  color: #22abc1;
+  cursor: pointer;
+  border: none;
+  transition: text-decoration 0.2s; /* Smooth transition for hover */
+}
+
+.profile-form .toggle-button:hover {
+  text-decoration: underline;
+}
+
+.toggle-button {
+  font-size: 18px; /* Increased font size for better readability */
+  color: #22abc1; /* Keeping your existing color scheme */
+  background: none; /* No background color */
+  border: none; /* No border */
+  cursor: pointer; /* Cursor indicates it's clickable */
+  padding: 10px; /* Adequate padding for clickable area */
+  transition: text-decoration 0.3s, color 0.3s; /* Smooth transitions for hover effects */
+}
+
+.toggle-button:hover {
+  text-decoration: underline; /* Underline on hover for better user feedback */
+  color: #1e98aa; /* Darker color on hover for visual effect */
+}
+
+/* General button styling, if applicable */
+.profile-content .button {
+  padding: 8px 16px;
+  border-radius: 4px;
+  border: none;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+/* Specific styles for each button with increased font size */
+.upload-button,
+.my-songs-button,
+.logout-button {
+  font-size: 18px;
+  background-color: #22abc1;
+  color: white;
+}
+
+/* Hover effects for buttons */
+.upload-button:hover,
+.my-songs-button:hover,
+.logout-button:hover {
+  background-color: #1e98aa;
+}
+
+/* Loading style */
+.profile-loading {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100vh;
+}
+
+/* Upload Form Styling */
+.upload-success,
+.upload-error {
+  text-align: center;
+  padding: 10px;
+  border-radius: 4px;
+  margin: 10px 0;
+  width: 90%; /* Responsive width */
+}
+
+.upload-success {
+  color: #22abc1;
+  background-color: #e8f5e9;
+  border: 1px solid #22abc1;
+}
+
+.upload-error {
+  color: #f44336;
+  background-color: #ffebee;
+  border: 1px solid #f44336;
+}
+
+.profile-actions {
+  margin: 20px 0;
+  display: flex;
+  gap: 10px;
+}
+
+.welcome-message {
+  width: 100%; /* Ensures the div takes the full width of its container */
+  background-color: white; /* Sets the background color to white */
+  text-align: center; /* Centers the text horizontally */
+  padding: 20px; /* Adds padding around the text for spacing */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Optional: adds a subtle shadow for depth */
+  margin-bottom: 20px; /* Adds space below the welcome message */
+  border-radius: 15px;
+}
+
+.welcome-message strong {
+  color: #22abc1;
+}
+
+.toggle-upload-button {
+  padding: 8px 16px;
+  background-color: #22abc1;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+.toggle-upload-button:hover {
+  background-color: #1e98aa;
+}
+
+.upload-button {
+  margin-bottom: 50px;
+}
+
+.logout-button {
+  background-color: rgb(255, 102, 0);
+  transition: background-color 0.2s;
+}
+
+.logout-button:hover {
+  background-color: rgb(255, 34, 0);
+}
+
+.profileDetails {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.profileDetailsText {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.profileDetailsText label,
+.profileDetailsText span {
+  font-size: 16px;
+}
+
+.editUserName {
+  background-color: transparent;
+  color: rgb(81, 81, 81); /* Change icon color */
+  padding: 5px; /* Add padding around the icon */
+  font-size: 20px;
+}
+
+.editUserName:hover {
+  color: rgb(65, 65, 65);
+}
+
+.my-songs:hover {
+  background-color: #1e98aa;
+}
+
+/* Update form group styling to handle wider input fields */
+.profile-form .form-group {
+  margin-bottom: 20px;
+  width: 100%; /* Ensures that the form group takes full width */
+}
+
+/* Styling for inputs and textareas to increase width */
+.profile-form input[type="text"],
+.profile-form input[type="email"],
+.profile-form input[type="password"],
+.profile-form textarea {
+  padding: 12px;
+  width: 100%; /* Increases the width to take up 100% of their container */
+  border: 2px solid #ccc;
+  border-radius: 4px;
+}
+
+/* Specific adjustments for the song upload form to handle layout more gracefully */
+.song-upload-section input[type="text"],
+.song-upload-section textarea {
+  min-width: 100%; /* Ensures that inputs do not shrink below the size of their container */
+  box-sizing: border-box; /* Includes padding and border in the width */
+}
+
+.song-upload-section .form-group {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
+
+/* Increase the width of the select dropdown for better UI */
+.song-upload-section select {
+  width: 100%; /* Match the width of other form inputs */
+  padding: 8px;
+  margin: 8px 0;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+/* Responsive adjustments for smaller screens */
+@media (max-width: 768px) {
+  .profile-form .form-group {
+    width: 100%; /* Full width on smaller screens */
+  }
+}
+
+/* Specific adjustments for the song upload form to handle layout more gracefully */
+.song-upload-section {
+  width: 100%; /* Ensures the section uses all available space */
+  max-width: 900px; /* Sets a maximum width for better layout on larger screens */
+  padding: 20px; /* Adds padding for spacing inside the section */
+  background: white;
+  border-radius: 10px;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1); /* Optional: adds shadow for depth */
+  margin-bottom: 30px; /* Adds space below the form */
+}
+
+.song-upload-section .form-group {
+  margin-bottom: 15px; /* Space between form groups */
+  width: 100%; /* Ensures form groups take full width */
+}
+
+/* Style adjustments for input and textarea fields within the upload form */
+.song-upload-section input[type="text"],
+.song-upload-section textarea {
+  width: 100%; /* Full width to maximize space */
+  padding: 12px; /* Adequate padding for text input */
+  border: 1px solid #ccc; /* Subtle border style */
+  border-radius: 4px; /* Rounded corners */
+  background-color: rgb(242, 244, 247);
+  text-align: center;
+}
+
+.song-upload-section textarea {
+  min-height: 210px;
+}
+
+.song-upload-section select {
+  width: 100%; /* Ensure select dropdown matches the input fields width */
+  padding: 12px; /* Consistent padding with text inputs */
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  background-color: rgb(
+    242,
+    244,
+    247
+  ); /* Ensures the background color is white for consistency */
+}
+
+/* Ensure labels are clear and visible */
+.song-upload-section label {
+  display: block; /* Ensures the label is on its own line */
+  margin-bottom: 8px; /* Space below the label before the input */
+  font-weight: bold; /* Makes labels bold to distinguish from inputs */
+}
+
+/* Radio button label adjustments for spacing */
+.profile-form .writer-selection label {
+  display: flex;
+  align-items: center; /* Centers the radio button and text vertically */
+  margin-bottom: 5px; /* Adds a bottom margin for space between radio buttons */
+}
+
+.profile-form .writer-selection input[type="radio"] {
+  margin-right: 10px; /* Adds space between the radio button and the text */
+}
+
+/* Add specific class to increase text indent or add margin to text if needed */
+.profile-form .writer-selection .radio-label-text {
+  margin-left: 5px; /* Adds space between the radio button and the label text */
+}
+
+.writer-selection input {
+  margin-right: 10px;
+}
+
+/* Apply Comfortaa font to option elements */
+.song-upload-section select,
+.song-upload-section option {
+  font-family: "Comfortaa", sans-serif; /* Set Comfortaa font */
+  font-weight: 400; /* Optional: Set the desired font weight */
+}
+
+.song-upload-section select {
+  width: 100%; /* Full width to fill the container */
+  padding: 8px 12px; /* Padding for better text visibility */
+  border: 1px solid #ccc; /* Subtle border */
+  border-radius: 4px; /* Rounded corners */
+  background-color: #fff; /* White background */
+  font-family: "Comfortaa", sans-serif; /* Comfortaa font for text */
+  font-size: 1rem; /* Adequate font size */
+  color: #333; /* Text color */
+  appearance: none; /* Remove default system appearance */
+  background-image: url("data:image/svg+xml;charset=US-ASCII,%3Csvg%20width%3D%2212%22%20height%3D%2212%22%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%3E%3Cg%3E%3Cpolygon%20fill%3D%22%23666%22%20points%3D%220%2C0%206%2C6%2012%2C0%22%2F%3E%3C/g%3E%3C/svg%3E");
+  background-repeat: no-repeat; /* No repeat for the background icon */
+  background-position: right 10px center; /* Position for the arrow icon */
+  background-size: 12px; /* Size of the dropdown arrow */
+  cursor: pointer; /* Cursor pointer to indicate it's selectable */
+}
+
+.song-upload-section select:focus {
+  border-color: #22abc1; /* Highlight color when focused */
+  outline: none; /* Remove default focus outline */
+}
+
+.song-upload-section option {
+  font-family: "Comfortaa", sans-serif; /* Ensures options inherit the font */
+}

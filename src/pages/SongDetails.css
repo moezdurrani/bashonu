@@ -1,0 +1,279 @@
+@import url("https://fonts.googleapis.com/css2?family=Noto+Nastaliq+Urdu:wght@500&display=swap");
+
+.container {
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: center; /* Center items horizontally */
+  text-align: center; /* Center text */
+  padding-top: 60px;
+}
+
+/* Styling for form elements */
+.form-group {
+  width: 100%;
+  margin-bottom: 20px;
+}
+
+.form-group label {
+  display: block;
+  margin-bottom: 8px;
+  font-weight: bold;
+  color: #333;
+}
+
+.form-group input[type="text"],
+.form-group textarea {
+  width: 100%;
+  padding: 12px;
+  margin-bottom: 10px;
+  border: 2px solid #dee2e6; /* Light grey border */
+  border-radius: 5px;
+  font-size: 1rem;
+}
+
+.form-group textarea {
+  min-height: 210px;
+}
+
+/* Radio buttons and labels */
+.radio-group {
+  display: flex;
+  justify-content: center;
+  gap: 20px;
+  margin: 10px 0;
+}
+
+.radio-group label {
+  cursor: pointer;
+  color: #495057; /* Dark grey for text */
+}
+
+.radio-group input[type="radio"] {
+  margin-right: 5px;
+}
+
+.edit-form {
+  width: 100%; /* Adjust this as needed, up to 100% of the container */
+  background-color: #fff; /* White background for the form */
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Subtle shadow for depth */
+}
+
+.edit-form input {
+  background-color: rgb(242, 244, 247);
+}
+
+.edit-form textarea {
+  background-color: rgb(242, 244, 247);
+}
+
+/* Button styles */
+button {
+  background-color: #22abc1; /* Bootstrap blue */
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.2s;
+  margin-right: 10px; /* Add right margin to the button */
+}
+
+button:last-child {
+  margin-right: 0; /* Remove margin for the last button */
+}
+
+.like-button {
+  font-size: 24px;
+}
+
+/* Icons for like and edit buttons */
+.like-button .fa-heart {
+  color: red; /* Red for liked */
+}
+
+.like-button .fa-heart-o {
+  color: black; /* Black for not liked */
+}
+
+.edit-button,
+.like-button {
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 10px 20px;
+  min-width: 48px; /* Ensure space is reserved */
+}
+
+/* Styling for active toggle button */
+.lyrics-toggle-buttons {
+  display: flex;
+  justify-content: center;
+  margin-top: 20px;
+  background-color: white;
+  padding: 5px;
+  border-radius: 10px;
+  border: 1px solid #ced4da;
+  flex: 2; /* Double the space relative to side buttons */
+  max-width: 400px; /* Limit the width to prevent stretching */
+  margin: auto; /* Centers the toggle buttons horizontally */
+}
+
+.lyrics-toggle-buttons button {
+  padding: 10px 20px; /* Comfortable touch target */
+  flex-grow: 1;
+  background-color: white; /* Light gray background */
+  color: #495057; /* Dark gray text */
+  border-radius: 10px;
+  border: 2px solid transparent;
+  font-size: 1rem;
+}
+
+.lyrics-toggle-buttons button.active {
+  background-color: #22abc1; /* Active button color */
+  color: white;
+  border-color: #22acc1c2;
+}
+
+.lyrics-toggle-buttons button:not(.active):hover {
+  color: #22abc1; /* Change to desired hover text color */
+  background-color: #e5e5e5;
+}
+
+/* Style for lyrics display */
+.lyrics {
+  margin-top: 20px;
+  background-color: #fff; /* White background for readability */
+  border: 1px solid #ced4da; /* Light gray border */
+  border-radius: 5px;
+  padding: 15px;
+  font-family: Arial, sans-serif;
+  font-size: 16px;
+  color: #212529; /* Bootstrap default text color */
+  text-align: left; /* Align text to the left for lyrics */
+  height: calc(100vh - 60px - 20px - 20px - 15px - 15px - 150px);
+  overflow-y: auto; /* Enable scrolling on y-axis when content overflows */
+  width: 90vw;
+  max-width: 900px;
+  align-items: center; /* Center items horizontally */
+  text-align: center; /* Center text */
+
+  user-select: none;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+}
+
+.controls-container {
+  display: flex;
+  justify-content: space-between; /* Distributes space between items */
+  align-items: center; /* Aligns items vertically in the center */
+  width: 100%;
+  padding: 10px 0; /* Adds padding to ensure items do not touch the edges */
+}
+
+.edit-button {
+  color: rgb(81, 81, 81);
+  font-size: 24px;
+}
+
+.edit-button:hover {
+  color: rgb(42, 42, 42);
+}
+
+.khowar-lyrics-textarea {
+  font-family: "Noto Nastaliq Urdu", serif;
+}
+
+/* Add this to your SongDetails.css file */
+.login-message {
+  position: fixed;
+  top: 20px;
+  left: 50%;
+  transform: translateX(-50%);
+  background-color: #f8d7da;
+  color: #721c24;
+  padding: 12px 24px;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  z-index: 1000;
+  animation: slideDown 0.3s ease-out, fadeOut 0.3s ease-in 2.7s;
+}
+
+@keyframes slideDown {
+  from {
+    top: -100px;
+    opacity: 0;
+  }
+  to {
+    top: 20px;
+    opacity: 1;
+  }
+}
+
+@keyframes fadeOut {
+  from {
+    opacity: 1;
+  }
+  to {
+    opacity: 0;
+  }
+}
+
+/* General styles for select dropdowns within the form */
+.form-group select {
+  width: 100%; /* Full width to match other form elements */
+  padding: 12px;
+  border: 2px solid #ccc; /* Subtle border matching other inputs */
+  border-radius: 4px; /* Consistent rounded corners */
+  background-color: #fff; /* White background */
+  color: #333; /* Dark text for better readability */
+  font-family: "Comfortaa", sans-serif; /* Consistent typography */
+  font-size: 1rem; /* Adequate font size for readability */
+  appearance: none; /* Removes default system styling */
+  cursor: pointer; /* Indicates the element is interactive */
+}
+
+/* Specific styles for options to improve visibility */
+.form-group option {
+  padding: 8px; /* Padding for better handling */
+  background-color: #f7f7f7; /* Slightly off-white background for options */
+  color: #333; /* Dark color for readability */
+}
+
+/* Styling for focus and hover states to enhance user interaction feedback */
+.form-group select:focus {
+  border-color: #22abc1; /* Highlight color when focused */
+  outline: none; /* Remove default outline to use custom border color */
+}
+
+.form-group select:hover {
+  background-color: #e6f7ff; /* Light blue background on hover */
+}
+
+/* Custom arrow using background-image for select elements */
+.form-group select {
+  background-image: url("data:image/svg+xml;charset=US-ASCII,%3Csvg%20width%3D%2212%22%20height%3D%2212%22%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%3E%3Cg%3E%3Cpolygon%20fill%3D%22%23666%22%20points%3D%220%2C0%206%2C6%2012%2C0%22%2F%3E%3C/g%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 10px center; /* Position the arrow adequately */
+  background-size: 12px; /* Appropriate size for the dropdown arrow */
+}
+
+/* Responsive adjustments to maintain usability on smaller screens */
+@media (max-width: 768px) {
+  .form-group select {
+    padding: 10px; /* Slightly reduced padding on smaller devices */
+  }
+}
+
+.profile-form h1 {
+  margin-bottom: 10px;
+}
+
+.writer-name-bottom {
+  margin: 5px 0;
+}
