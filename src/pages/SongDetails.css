@@ -21,7 +21,7 @@
   display: block;
   margin-bottom: 8px;
   font-weight: bold;
-  color: #333;
+  color: var(--txt-dark);
 }
 
 .form-group input[type="text"],

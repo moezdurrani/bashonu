@@ -3,7 +3,7 @@
 .about-page {
   padding: 40px;
   line-height: 1.6;
-  color: #333;
+  color: var(--txt-dark);
   /* border-radius: 10px; */
   /* box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);  */
   margin: 40px auto;
@@ -13,7 +13,7 @@
 
 .about-page h1,
 .about-page h2 {
-  color: #2c3e50; /* Dark blue for a touch of elegance */
+  color: var(--txt-dark); /* Dark blue for a touch of elegance */
 }
 
 .about-page h1 {
@@ -25,21 +25,21 @@
   font-size: 1.25rem; /* Slightly larger for clear section headers */
   margin-top: 30px;
   margin-bottom: 20px;
-  border-bottom: 3px solid #22abc1;
+  border-bottom: 3px solid var(--accent);
   padding-bottom: 10px;
 }
 
 .about-page p {
   font-size: 1rem; /* Larger font size for readability */
-  color: #555; /* Softer color for easier reading */
+  color: var(--light-txt); /* Softer color for easier reading */
   margin-bottom: 20px;
   text-align: justify; /* Justified text for a clean, uniform layout */
 }
 
 .about-page .about-contact-link {
   font-size: 1.2rem; /* Larger for easy clicking */
-  color: #fff;
-  background-color: #22abc1; /* Consistent theme color */
+  color: var(--txt-white);
+  background-color: var(--accent); /* Consistent theme color */
   padding: 10px 20px; /* More padding for better touch interaction */
   border-radius: 5px; /* Soft rounded corners */
   transition: background-color 0.3s ease-in-out;
@@ -47,13 +47,13 @@
 }
 
 .about-page .about-contact-link:hover {
-  background-color: #1e98aa; /* Darker blue on hover for contrast */
-  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2); /* Subtle shadow for depth */
+  background-color: var(--accent-hover); /* Darker blue on hover for contrast */
+  box-shadow: 0 2px 6px var(--song-item); /* Subtle shadow for depth */
   text-decoration: none; /* Maintain no underline on hover */
 }
 
 .about-page h1 strong {
   font-family: "Comfortaa", sans-serif; /* Ensure the correct font is applied */
   font-weight: 700; /* Ensures boldness */
-  color: #22abc1;
+  color: var(--accent);
 }

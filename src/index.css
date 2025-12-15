@@ -18,6 +18,7 @@ html {
   --bg-white: rgb(255, 255, 255);
   --txt-white: rgb(255, 255, 255);
   --txt-dark: #333;
+  --light-txt: #555;
   --border: #ccc;
   --border-2: #ccc;
   --song-item: rgba(0, 0, 0, 0.125);
