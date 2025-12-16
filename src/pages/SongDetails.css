@@ -8,7 +8,7 @@
   flex-direction: column;
   align-items: center; /* Center items horizontally */
   text-align: center; /* Center text */
-  padding-top: 60px;
+  /* padding-top: 60px; */
 }
 
 /* Styling for form elements */
@@ -276,4 +276,16 @@ button:last-child {
 
 .writer-name-bottom {
   margin: 5px 0;
+}
+
+.coming-soon {
+  font-family: "Comfortaa", Arial, sans-serif, Helvetica, serif;
+  color: #22abc1;
+  font-size: 1.2em;
+  font-weight: 600;
+  text-align: center;
+  padding: 40px 20px;
+  background: rgba(34, 171, 193, 0.05);
+  border-radius: 10px;
+  border: 2px dashed rgba(34, 171, 193, 0.3);
 }
