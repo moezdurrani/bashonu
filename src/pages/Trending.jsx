@@ -62,7 +62,7 @@ const Trending = () => {
   return (
     <div className="wrapper">
       <div className="section">
-        <h2>Top 5 Chitrali Songs</h2>
+        <h2>Trending Songs</h2>
         {topSongs.length > 0 ? (
           topSongs.map((song) => (
             <div
@@ -88,7 +88,7 @@ const Trending = () => {
       </div>
 
       <div className="section">
-        <h2>Top 5 Chitrali Poets</h2>
+        <h2>Trending Poets</h2>
         {topWriters.length > 0 ? (
           topWriters.map((writer) => (
             <div className="card" key={writer.writer_id}>

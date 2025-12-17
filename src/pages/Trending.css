@@ -18,16 +18,16 @@
 .section h2 {
   width: 100%; /* Ensures the header spans the full width of the section */
   text-align: center; /* Centers the text horizontally */
-  color: #444; /* Style the color (optional) */
+  color: var(--txt-dark); /* Style the color (optional) */
   margin-bottom: 20px; /* Space below the header */
 }
 
 .card {
-  background: white;
+  background: var(--bg-white);
   padding: 15px;
   margin: 5px 0;
   border-radius: 8px;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.125);
+  box-shadow: 0 2px 4px var(--song-item);
   width: 100%; /* Ensure the card spans the full width of the section */
   transition: transform 0.2s ease, box-shadow 0.3s ease;
 }
@@ -37,7 +37,7 @@
 }
 
 .card:hover {
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.325);
+  box-shadow: 0 2px 4px var(--song-item-hover);
 }
 
 .card-content {
@@ -76,6 +76,6 @@
 }
 
 .stats {
-  color: #666;
+  color: var(--light-txt);
   font-size: 0.9em;
 }
