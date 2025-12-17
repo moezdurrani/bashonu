@@ -104,11 +104,13 @@ const Home = () => {
             </div>
 
             <div className="song-content">
+
               <div className="text-container">
                 <div className="scrollable">
                   <strong>{song.title}</strong>
                 </div>
               </div>
+
               <div className="text-container">
                 <div className="scrollable">
                   <span>
@@ -116,6 +118,7 @@ const Home = () => {
                   </span>
                 </div>
               </div>
+
             </div>
           </div>
         ))}

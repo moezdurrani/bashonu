@@ -1,113 +1,96 @@
-/* General styles for the header */
-.header {
-  width: 100%;
-  padding: 10px 12px;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  position: fixed;
-  height: 60px; /* Fixed height to prevent resizing */
-}
-
-/* Styles for the logo and logo link */
-.nav_logo {
-  padding: 0 12px;
-  display: flex;
-  align-items: center;
-  height: 100%;
-}
-
-.nav_logo img {
-  height: 50px;
-  vertical-align: middle;
-}
-
-.nav-logo-link {
-  text-decoration: none;
-  color: #fab005;
-  font-weight: bold;
-  display: flex;
-  align-items: center;
-}
-
-/* Styles for the navigation menu */
-.nav-menu {
-  list-style: none;
+/* GLOBAL RESET */
+* {
+  margin: 0;
   padding: 0;
-  display: flex;
-  align-items: center;
-  justify-content: flex-end;
-  flex-grow: 1;
-  height: 100%;
+  box-sizing: border-box;
 }
 
-.nav-menu-list {
-  text-decoration: none;
-  color: black;
-  padding: 10px 20px;
-  display: block;
+html {
+  scroll-behavior: smooth;
 }
 
-.nav-menu li:hover {
-  cursor: pointer;
-  background-color: rgb(230, 230, 230);
-  border-radius: 4px;
+/* GLOBAL FONTS */
+@import url("https://fonts.googleapis.com/css2?family=Comfortaa:wght@300..700&family=Exo+2:ital,wght@0,100..900;1,100..900&family=Noto+Nastaliq+Urdu:wght@400..700&display=swap");
+
+/* THEME VARIABLES (LIGHT MODE DEFAULT) */
+:root {
+  --bg: rgb(243, 244, 247);
+  --bg-white: rgb(255, 255, 255);
+  --txt-white: rgb(255, 255, 255);
+  --txt-dark: #333;
+  --light-txt: #555;
+  --border: #ccc;
+  --border-2: #ccc;
+  --song-item: rgba(0, 0, 0, 0.125);
+  --song-item-hover: rgba(0, 0, 0, 0.325);
+  --poet: #424242;
+  --webkit-scrollbar-track-bg: #f1f1f1;
+  --webkit-scrollbar-thumb-bg: #888;
+  --accent: #22abc1;
+  --accent-hover: #1e98aa;
+  --icon-color: #666;
+  --icon-color-hover: #4b4b4b;
+  --signup-bg: #f8d7da;
+  --signup-color: #721c24;
+  --upload-success-bg: #e8f5e9;
+  --upload-error: #f44336;
+  --upload-error-bg: #ffebee;
+  --logout-button: rgb(255, 113, 19);
+  --logout-button-hover: rgb(237, 95, 0);
+  --heart: rgb(255, 0, 0);
+  --form-group-hover: #c9f9ff;
+  --txt: #000000;
+  --nav-item-hover: rgb(238, 238, 238);
+
+
+  /* --header-bg: #f8f8f8;
+  --card-bg: #ffffff;
+  --text: #000000;
+  --text-light: #444;
+  
+  --outline: #f3f4f7; */
 }
 
-/* Styles for the menu toggle button (hamburger and close icon) */
-.menuToggleBtn {
-  cursor: pointer;
-  color: black;
-  font-size: 24px;
-  display: none;
-  position: absolute;
-  right: 20px;
-  top: 15px;
+/* DARK THEME */
+[data-theme="dark"] {
+  --bg: rgb(26, 26, 27); /* Done*/
+  --bg-white: rgb(33, 35, 36); /* Done*/
+  --txt-white: rgb(255, 255, 255);
+  --txt-dark: #333;
+  --light-txt: #555;
+  --border: #ccc;
+  --border-2: #ccc;
+  --song-item: rgba(0, 0, 0, 0.125);
+  --song-item-hover: rgba(0, 0, 0, 0.325);
+  --poet: #424242;
+  --webkit-scrollbar-track-bg: #f1f1f1;
+  --webkit-scrollbar-thumb-bg: #888;
+  --accent: #22abc1;
+  --accent-hover: #1e98aa;
+  --icon-color: rgb(166,170,175); /* Done*/
+  --icon-color-hover: rgb(215, 218, 222); /* Done*/
+  --signup-bg: #f8d7da;
+  --signup-color: #721c24;
+  --upload-success-bg: #e8f5e9;
+  --upload-error: #f44336;
+  --upload-error-bg: #ffebee;
+  --logout-button: rgb(255, 113, 19);
+  --logout-button-hover: rgb(237, 95, 0);
+  --heart: rgb(255, 0, 0);
+  --form-group-hover: #c9f9ff;
+  --txt: rgb(232, 233, 233); /* Done*/
+  --nav-item-hover: rgb(42, 45, 45); /* Done*/
 }
 
-/* Responsive styles for mobile screens */
-@media screen and (max-width: 768px) {
-  .menuToggleBtn {
-    display: block;
-  }
+/* APPLY GLOBAL VARIABLES */
+body {
+  background-color: var(--bg);
+  font-family: "Comfortaa", Arial, sans-serif;
+}
 
-  .nav-menu {
-    position: fixed;
-    top: 60px; /* Start the menu right below the header */
-    right: -100%;
-    width: 300px;
-    height: calc(
-      100vh - 60px
-    ); /* Take up the remaining space below the header */
-    flex-direction: column;
-    align-items: center; /* Center all items horizontally */
-    justify-content: center; /* Center all items vertically */
-    background-color: rgba(
-      238,
-      238,
-      238,
-      0.5
-    ); /* Slightly transparent background */
-    backdrop-filter: blur(10px); /* Blur effect for the background content */
-    border-radius: 10px; /* Rounded corners for a softer look */
-    transition: right 0.3s ease;
-    z-index: 1500;
-    padding: 0; /* Remove padding */
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Subtle shadow for depth */
-    border: 1px solid rgba(255, 255, 255, 0.3); /* Light border for better edge definition */
-  }
-
-  .nav-menu.open {
-    right: 0;
-  }
-
-  .nav-menu-list {
-    padding: 15px 0; /* Space between the items */
-    text-align: center; /* Center the text inside each list item */
-    width: 100%; /* Make the links span the full width */
-  }
-
-  .nav-menu li {
-    width: 100%; /* Each list item takes up the full width */
-  }
+/* Ensure root container fills screen */
+body,
+#root {
+  width: 100%;
+  min-height: 100vh;
 }

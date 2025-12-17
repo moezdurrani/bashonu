@@ -63,6 +63,8 @@
   border: none;
   transition: border-color 0.3s ease, box-shadow 0.3s ease;
   margin: auto;
+  background-color: var(--bg-white);
+  color: var(--txt);
 }
 
 .search-input-wrapper:has(.search-bar:focus) {
@@ -124,6 +126,14 @@
   width: 100%;
   display: block;
 }
+
+.song-item .scrollable strong {
+  color: var(--txt);
+}
+/* .song-item .text-container .scrollable span {
+  color: blue;
+} */
+
 
 /* Hide scrollbar for Chrome, Safari and Opera */
 .scrollable::-webkit-scrollbar {

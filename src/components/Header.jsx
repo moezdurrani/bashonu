@@ -1,7 +1,8 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import { FaBars, FaTimes } from "react-icons/fa";
-import bashonuImage from "../assets/bashonu1.png";
+import bashonuLight from "../assets/bashonu1.png";
+import bashonuDark from "../assets/bashonu1-dark.png";
 import "./Header.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCircleUser } from "@fortawesome/free-solid-svg-icons";
@@ -35,7 +36,11 @@ const Header = () => {
     <header className="header">
       <div className="nav_logo">
         <Link to="/" className="nav-logo-link" onClick={() => setIsOpen(false)}>
-          <img src={bashonuImage} alt="Bashonu" />
+          <img
+            src={theme === "dark" ? bashonuDark : bashonuLight}
+            alt="Bashonu"
+          />
+
         </Link>
       </div>
 

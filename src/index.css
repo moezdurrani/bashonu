@@ -53,34 +53,53 @@ html {
 
 /* DARK THEME */
 [data-theme="dark"] {
-  --bg: rgb(58, 58, 58);
-  --bg-white: rgb(255, 255, 255);
-  --txt-white: rgb(255, 255, 255);
-  --txt-dark: #333;
-  --light-txt: #555;
-  --border: #ccc;
-  --border-2: #ccc;
-  --song-item: rgba(0, 0, 0, 0.125);
-  --song-item-hover: rgba(0, 0, 0, 0.325);
-  --poet: #424242;
-  --webkit-scrollbar-track-bg: #f1f1f1;
-  --webkit-scrollbar-thumb-bg: #888;
+  /* PAGE BACKGROUND */
+  --bg: rgb(26, 26, 27); /* keep as you requested */
+
+  /* SURFACES (cards, header, inputs) */
+  --bg-white: rgb(34, 36, 38);
+
+  /* PRIMARY TEXT */
+  --txt: rgb(232, 233, 233);
+  --txt-dark: rgb(232, 233, 233);
+
+  /* SECONDARY / MUTED TEXT */
+  --light-txt: rgb(160, 162, 165);
+  --poet: rgb(145, 147, 150);
+
+  /* BORDERS & DIVIDERS (very important in dark mode) */
+  --border: rgb(58, 60, 63);
+  --border-2: rgb(48, 50, 53);
+
+  /* CARDS */
+  --song-item: rgba(0, 0, 0, 0.35);
+  --song-item-hover: rgba(0, 0, 0, 0.65);
+
+  /* ACCENT (brand color stays the same) */
   --accent: #22abc1;
   --accent-hover: #1e98aa;
-  --icon-color: #666;
-  --icon-color-hover: #4b4b4b;
-  --signup-bg: #f8d7da;
-  --signup-color: #721c24;
-  --upload-success-bg: #e8f5e9;
-  --upload-error: #f44336;
-  --upload-error-bg: #ffebee;
+
+  /* ICONS */
+  --icon-color: rgb(170, 174, 178);
+  --icon-color-hover: rgb(220, 223, 226);
+
+  /* NAV / HOVER BACKGROUNDS */
+  --nav-item-hover: rgb(42, 44, 47);
+
+  /* SCROLLBARS */
+  --webkit-scrollbar-track-bg: rgb(32, 34, 36);
+  --webkit-scrollbar-thumb-bg: rgb(95, 100, 105);
+
+  /* FEEDBACK COLORS */
   --logout-button: rgb(255, 113, 19);
   --logout-button-hover: rgb(237, 95, 0);
-  --heart: rgb(255, 0, 0);
-  --form-group-hover: #c9f9ff;
-  --txt: #000000;
-  --nav-item-hover: rgb(238, 238, 238);
+  --heart: rgb(255, 80, 80);
+
+  /* MISC */
+  --form-group-hover: rgba(34, 171, 193, 0.12);
 }
+
+
 
 /* APPLY GLOBAL VARIABLES */
 body {

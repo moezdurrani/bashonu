@@ -256,6 +256,7 @@ button:last-child {
   font-size: clamp(1.4rem, 4vw, 2rem);
   font-weight: 700;
   margin: 0;
+  color: var(--txt);
 }
 
 .song-writer {
@@ -263,6 +264,7 @@ button:last-child {
   color: var(--light-txt);
   margin-top: 4px;
 }
+
 .song-header-right {
   display: flex;
   flex-direction: column;
@@ -278,11 +280,20 @@ button:last-child {
   padding: 6px;
 }
 
+.uploader-name {
+  margin-top: 10px;
+  color: var(--txt);
+}
+
 .youtube-section {
   margin-top: 3rem;
   text-align: center;
   width: 100%;
   max-width: 900px;
+}
+
+.youtube-section h3 {
+  color: var(--light-txt);
 }
 
 .youtube-embed {
