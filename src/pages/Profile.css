@@ -451,3 +451,14 @@
   text-align: left;
   color: red;
 }
+
+/* FORCE DARK INPUT STYLE FOR APPLE / SAFARI PASSWORD AUTOFILL */
+.profile-form input:-webkit-autofill,
+.profile-form input:-webkit-autofill:hover,
+.profile-form input:-webkit-autofill:focus,
+.profile-form input:-webkit-autofill:active {
+  -webkit-box-shadow: 0 0 0 1000px var(--bg) inset !important;
+  -webkit-text-fill-color: var(--txt) !important;
+  caret-color: var(--txt);
+  transition: background-color 9999s ease-in-out 0s;
+}
