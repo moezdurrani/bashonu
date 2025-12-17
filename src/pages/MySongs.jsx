@@ -52,12 +52,18 @@ const MySongs = () => {
     }
   };
 
-  const filteredSongs = songs.filter(
-    (song) =>
-      song.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
+  const filteredSongs = songs.filter((song) => {
+    const term = searchTerm.toLowerCase();
+
+    return (
+      song.title.toLowerCase().includes(term) ||
       (song.writers &&
-        song.writers.name.toLowerCase().includes(searchTerm.toLowerCase()))
-  );
+        song.writers.name.toLowerCase().includes(term)) ||
+      (song.language && song.language.toLowerCase().includes(term)) ||
+      (song.display_language &&
+        song.display_language.toLowerCase().includes(term))
+    );
+  });
 
   const handleSongClick = (songId) => {
     navigate(`/song/${songId}`);
