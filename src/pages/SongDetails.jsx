@@ -18,7 +18,6 @@ const SongDetails = () => {
   const [error, setError] = useState(null);
   const [writerOption, setWriterOption] = useState("existing");
   const [hasLiked, setHasLiked] = useState(false);
-  const [lyricsType, setLyricsType] = useState("khowar");
   const [showLoginMessage, setShowLoginMessage] = useState(false);
 
   const [editForm, setEditForm] = useState({
@@ -86,8 +85,7 @@ const SongDetails = () => {
       setSong(songData);
       setEditForm({
         title: songData.title,
-        english_lyrics: songData.english_lyrics,
-        khowar_lyrics: songData.khowar_lyrics,
+        lyrics: songData.lyrics,
         writer_id: songData.writer_id,
       });
     } catch (error) {
@@ -304,43 +302,24 @@ const SongDetails = () => {
                 <FontAwesomeIcon icon={faPenToSquare} />
               </button>
             )}
-            <div className="lyrics-toggle-buttons">
-              <button
-                onClick={() => setLyricsType("khowar")}
-                className={lyricsType === "khowar" ? "active" : ""}
-              >
-                {song.display_language}
-              </button>
-              <button
-                onClick={() => setLyricsType("english")}
-                className={lyricsType === "english" ? "active" : ""}
-              >
-                Transliterate
-              </button>
-            </div>
+
             <button className="like-button" onClick={handleLike}>
               <FontAwesomeIcon icon={hasLiked ? solidHeart : outlineHeart} />
             </button>
           </div>
-          {lyricsType === "khowar" ? (
-            <div className="lyrics khowar-lyrics">
-              <pre
-                style={{
-                  fontFamily: song?.display_language === 'urdu'
+          <div className="lyrics">
+            <pre
+              style={{
+                fontFamily:
+                  song?.display_language === "urdu"
                     ? "'Noto Nastaliq Urdu', serif"
-                    : "Comfortaa, Arial, sans-serif, Helvetica, serif"
-                }}
-              >
-                {song?.lyrics}
-              </pre>
-            </div>
-          ) : (
-            <div className="lyrics english-lyrics">
-              <div className="coming-soon">
-                Coming Soon...
-              </div>
-            </div>
-          )}
+                    : "Comfortaa, Arial, sans-serif, Helvetica",
+              }}
+            >
+              {song?.lyrics}
+            </pre>
+          </div>
+
           <p className="writer-name-bottom">
             <strong>Writer:</strong> {song.writers?.name || "Unknown"}
           </p>

@@ -219,8 +219,8 @@ const Profile = () => {
       <div className="profile-content">
         <div className="welcome-message">
           <h1>
-            Hello, <strong>{profile.username}</strong> — thanks for preserving{" "}
-            <strong>Chitrali music</strong>!
+            Hello, <strong>{profile.username}</strong> — thank you for preserving{" "}
+            <strong>Chitral's and Gilgit Baltistan's Music</strong>!
           </h1>
         </div>
 
