@@ -30,6 +30,7 @@ const SongDetails = () => {
     display_language: "",
     writer_id: "",
     new_writer_name: "",
+    youtube_url: "",
   });
 
 
@@ -39,6 +40,34 @@ const SongDetails = () => {
     fetchWriters();
     fetchLanguageEnums();
   }, [id]);
+
+  const getYoutubeEmbedUrl = (url) => {
+    if (!url) return null;
+
+    // youtu.be/VIDEO_ID
+    if (url.includes("youtu.be/")) {
+      return `https://www.youtube.com/embed/${url
+        .split("youtu.be/")[1]
+        .split("?")[0]}`;
+    }
+
+    // youtube.com/watch?v=VIDEO_ID
+    if (url.includes("watch?v=")) {
+      return `https://www.youtube.com/embed/${url
+        .split("watch?v=")[1]
+        .split("&")[0]}`;
+    }
+
+    // already embed format
+    if (url.includes("/embed/")) {
+      return url;
+    }
+
+    return null;
+  };
+
+  const embedUrl = getYoutubeEmbedUrl(song?.youtube_url);
+
 
 
   const fetchLanguageEnums = async () => {
@@ -111,6 +140,7 @@ const SongDetails = () => {
         display_language: songData.display_language,
         writer_id: songData.writer_id,
         new_writer_name: "",
+        youtube_url: songData.youtube_url || "",
       });
 
     } catch (error) {
@@ -158,6 +188,7 @@ const SongDetails = () => {
           language: editForm.language,
           display_language: editForm.display_language,
           writer_id: finalWriterId,
+          youtube_url: editForm.youtube_url || null,
         })
 
         .eq("id", id);
@@ -318,6 +349,18 @@ const SongDetails = () => {
           </div>
 
           <div className="form-group">
+            <label>YouTube Link (optional):</label>
+            <input
+              type="text"
+              name="youtube_url"
+              value={editForm.youtube_url || ""}
+              onChange={handleInputChange}
+              placeholder="Paste YouTube link here"
+            />
+          </div>
+
+
+          <div className="form-group">
             <label>Lyrics:</label>
             <textarea
               name="lyrics"
@@ -382,6 +425,27 @@ const SongDetails = () => {
             <strong>Uploaded by:</strong>{" "}
             {song.profile?.username || "Unknown"}
           </p>
+
+          {embedUrl && (
+            <div className="youtube-section">
+              <h3>Listen on YouTube</h3>
+
+              <div className="youtube-embed">
+                <iframe
+                  src={embedUrl}
+                  title="YouTube video player"
+                  frameBorder="0"
+                  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                  allowFullScreen
+                />
+              </div>
+            </div>
+          )}
+
+
+
+
+
         </>
 
       )}
