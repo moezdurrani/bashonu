@@ -71,6 +71,11 @@
   background-color: var(--bg);
 }
 
+.edit-form h2 {
+  color: var(--accent);
+  margin-bottom: 10px;
+}
+
 /* Button styles */
 button {
   background-color: var(--accent); /* Bootstrap blue */
@@ -197,7 +202,7 @@ button:last-child {
   font-family: "Comfortaa", sans-serif; /* Consistent typography */
   font-size: 1rem; /* Adequate font size for readability */
   appearance: none; /* Removes default system styling */
-  cursor: pointer; /* Indicates the element is interactive */
+  cursor: pointer; /* Indicates the element is interactive */;
 }
 
 /* Specific styles for options to improve visibility */
@@ -223,6 +228,13 @@ button:last-child {
   background-repeat: no-repeat;
   background-position: right 10px center; /* Position the arrow adequately */
   background-size: 12px; /* Appropriate size for the dropdown arrow */
+}
+
+.form-group input[type="text"] {
+  color: var(--txt-dark);
+}
+.form-group textarea {
+  color: var(--txt-dark);
 }
 
 /* Responsive adjustments to maintain usability on smaller screens */

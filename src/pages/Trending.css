@@ -68,6 +68,7 @@
   font-weight: bold;
   white-space: nowrap;
   padding-bottom: 5px; /* Space for scroll bar if visible */
+  color: var(--txt);
 }
 
 .stats-container {
