@@ -5,7 +5,7 @@ import bashonuImage from "../assets/bashonu1.png";
 import "./Header.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCircleUser } from "@fortawesome/free-solid-svg-icons";
-import { FaMoon, FaSun } from "react-icons/fa";
+import { faToggleOn, faToggleOff } from "@fortawesome/free-solid-svg-icons";
 
 const Header = () => {
     const [isOpen, setIsOpen] = useState(false);
@@ -41,9 +41,13 @@ const Header = () => {
 
             <div className="header-right">
 
-                <button className="theme-toggle" onClick={toggleTheme}>
-                    {theme === "light" ? <FaMoon /> : <FaSun />}
+                <button className="theme-toggle" onClick={toggleTheme} aria-label="Toggle theme">
+                    <FontAwesomeIcon
+                        icon={theme === "light" ? faToggleOff : faToggleOn}
+                        size="lg"
+                    />
                 </button>
+
                 <label
                     htmlFor="menu-toggle"
                     className="menuToggleBtn"

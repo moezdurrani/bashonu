@@ -42,23 +42,42 @@ html {
   --txt: #000000;
 
 
-  --header-bg: #f8f8f8;
+  /* --header-bg: #f8f8f8;
   --card-bg: #ffffff;
   --text: #000000;
   --text-light: #444;
   
-  --outline: #f3f4f7;
+  --outline: #f3f4f7; */
 }
 
 /* DARK THEME */
 [data-theme="dark"] {
-  --bg: #0e0e0e;
-  --header-bg: #111;
-  --card-bg: #181818;
-  --text: #ffffff;
-  --text-light: #dddddd;
-  --accent: #53a9be;
-  --outline: #181818;
+  --bg: rgb(58, 58, 58);
+  --bg-white: rgb(255, 255, 255);
+  --txt-white: rgb(255, 255, 255);
+  --txt-dark: #333;
+  --light-txt: #555;
+  --border: #ccc;
+  --border-2: #ccc;
+  --song-item: rgba(0, 0, 0, 0.125);
+  --song-item-hover: rgba(0, 0, 0, 0.325);
+  --poet: #424242;
+  --webkit-scrollbar-track-bg: #f1f1f1;
+  --webkit-scrollbar-thumb-bg: #888;
+  --accent: #22abc1;
+  --accent-hover: #1e98aa;
+  --icon-color: #666;
+  --icon-color-hover: #4b4b4b;
+  --signup-bg: #f8d7da;
+  --signup-color: #721c24;
+  --upload-success-bg: #e8f5e9;
+  --upload-error: #f44336;
+  --upload-error-bg: #ffebee;
+  --logout-button: rgb(255, 113, 19);
+  --logout-button-hover: rgb(237, 95, 0);
+  --heart: rgb(255, 0, 0);
+  --form-group-hover: #c9f9ff;
+  --txt: #000000;
 }
 
 /* APPLY GLOBAL VARIABLES */

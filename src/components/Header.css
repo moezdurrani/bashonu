@@ -7,11 +7,11 @@
   justify-content: space-between;
   position: fixed;
   top: 0;
-  left: 0;
-  background-color: white; /* Ensure the header has a background */
-  z-index: 1000; /* High z-index to stay on top */
-  height: 60px; /* Fixed height to prevent resizing */
+  background-color: var(--bg-white);
+  z-index: 1000;
+  height: 60px;
 }
+
 
 /* Styles for the logo and logo link */
 .nav_logo {
@@ -118,4 +118,76 @@
 
 .profile-link {
   font-size: 24px;
+}
+
+.header-right {
+  display: flex;
+  align-items: center;
+  gap: 20px; /* Increased from 14px */
+  padding-right: 10px; /* Add some padding on the right */
+}
+
+.theme-toggle {
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-size: 20px;
+  color: var(--icon-color);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 8px; /* Add padding for better click area */
+  margin: 0; /* Remove the margin-right */
+}
+
+.theme-toggle:hover {
+  color: var(--icon-color-hover);
+}
+
+.menuToggleBtn {
+  cursor: pointer;
+  color: black;
+  font-size: 24px;
+  display: none;
+  position: static; /* Change from absolute to static */
+  padding: 8px; /* Add padding for better click area */
+}
+
+/* Responsive styles for mobile screens */
+@media screen and (max-width: 768px) {
+  .menuToggleBtn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  
+  .header-right {
+    gap: 15px;
+  }
+}
+
+.theme-toggle {
+  background: none;
+  border: none;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--icon-color);
+}
+
+.theme-toggle:hover {
+  color: var(--icon-color-hover);
+}
+
+.theme-toggle {
+  color: var(--icon-color);
+}
+
+[data-theme="light"] .theme-toggle {
+  color: #f5b700; /* warm energy */
+}
+
+[data-theme="dark"] .theme-toggle {
+  color: #9aa0a6; /* calm moon */
 }
