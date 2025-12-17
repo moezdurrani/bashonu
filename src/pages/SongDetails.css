@@ -29,7 +29,7 @@
   width: 100%;
   padding: 12px;
   margin-bottom: 10px;
-  border: 2px solid #dee2e6; /* Light grey border */
+  border: 2px solid var(--border); /* Light grey border */
   border-radius: 5px;
   font-size: 1rem;
 }
@@ -48,7 +48,7 @@
 
 .radio-group label {
   cursor: pointer;
-  color: #495057; /* Dark grey for text */
+  color: var(--light-txt); /* Dark grey for text */
 }
 
 .radio-group input[type="radio"] {
@@ -57,24 +57,24 @@
 
 .edit-form {
   width: 100%; /* Adjust this as needed, up to 100% of the container */
-  background-color: #fff; /* White background for the form */
+  background-color: var(--bg-white); /* White background for the form */
   padding: 20px;
   border-radius: 8px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Subtle shadow for depth */
 }
 
 .edit-form input {
-  background-color: rgb(242, 244, 247);
+  background-color: var(--bg);
 }
 
 .edit-form textarea {
-  background-color: rgb(242, 244, 247);
+  background-color: var(--bg);
 }
 
 /* Button styles */
 button {
-  background-color: #22abc1; /* Bootstrap blue */
-  color: white;
+  background-color: var(--accent); /* Bootstrap blue */
+  color: var(--txt-white);
   border: none;
   padding: 10px 20px;
   border-radius: 5px;
@@ -101,18 +101,18 @@ button:last-child {
 
 /* Icons for like and edit buttons */
 .like-button .fa-heart {
-  color: red; /* Red for liked */
+  color: var(--heart); /* Red for liked */
 }
 
-.like-button .fa-heart-o {
-  color: black; /* Black for not liked */
-}
+/* .like-button .fa-heart-o {
+  color: black; 
+} */
 
 
 .lyrics {
   margin-top: 20px;
-  background-color: #fff;
-  border: 1px solid #ced4da;
+  background-color: var(--bg-white);
+  border: 1px solid var(--border);
   border-radius: 5px;
   padding: 20px;
 
@@ -122,7 +122,7 @@ button:last-child {
   min-height: 30vh;
 
   font-size: 16px;
-  color: #212529;
+  color: var(--txt-dark);
 
   text-align: center;
 
@@ -139,12 +139,12 @@ button:last-child {
 }
 
 .edit-button {
-  color: rgb(81, 81, 81);
+  color: var(--icon-color);
   font-size: 24px;
 }
 
 .edit-button:hover {
-  color: rgb(42, 42, 42);
+  color: var(--icon-color-hover);
 }
 
 .khowar-lyrics-textarea {
@@ -157,8 +157,8 @@ button:last-child {
   top: 20px;
   left: 50%;
   transform: translateX(-50%);
-  background-color: #f8d7da;
-  color: #721c24;
+  background-color: var(--signup-bg);
+  color: var(--signup-color);
   padding: 12px 24px;
   border-radius: 8px;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
@@ -190,10 +190,10 @@ button:last-child {
 .form-group select {
   width: 100%; /* Full width to match other form elements */
   padding: 12px;
-  border: 2px solid #ccc; /* Subtle border matching other inputs */
+  border: 2px solid var(--border); /* Subtle border matching other inputs */
   border-radius: 4px; /* Consistent rounded corners */
-  background-color: #fff; /* White background */
-  color: #333; /* Dark text for better readability */
+  background-color: var(--bg-white); /* White background */
+  color: var(--txt-dark); /* Dark text for better readability */
   font-family: "Comfortaa", sans-serif; /* Consistent typography */
   font-size: 1rem; /* Adequate font size for readability */
   appearance: none; /* Removes default system styling */
@@ -203,18 +203,18 @@ button:last-child {
 /* Specific styles for options to improve visibility */
 .form-group option {
   padding: 8px; /* Padding for better handling */
-  background-color: #f7f7f7; /* Slightly off-white background for options */
-  color: #333; /* Dark color for readability */
+  background-color: var(--bg); /* Slightly off-white background for options */
+  color: var(--txt-dark); /* Dark color for readability */
 }
 
 /* Styling for focus and hover states to enhance user interaction feedback */
 .form-group select:focus {
-  border-color: #22abc1; /* Highlight color when focused */
+  border-color: var(--accent); /* Highlight color when focused */
   outline: none; /* Remove default outline to use custom border color */
 }
 
 .form-group select:hover {
-  background-color: #e6f7ff; /* Light blue background on hover */
+  background-color: var(--form-group-hover); /* Light blue background on hover */
 }
 
 /* Custom arrow using background-image for select elements */
@@ -240,19 +240,6 @@ button:last-child {
   margin: 5px 0;
 }
 
-.coming-soon {
-  font-family: "Comfortaa", Arial, sans-serif, Helvetica, serif;
-  color: #22abc1;
-  font-size: 1.2em;
-  font-weight: 600;
-  text-align: center;
-  padding: 40px 20px;
-  background: rgba(34, 171, 193, 0.05);
-  border-radius: 10px;
-  border: 2px dashed rgba(34, 171, 193, 0.3);
-}
-
-
 .song-header {
   display: flex;
   justify-content: space-between;
@@ -273,7 +260,7 @@ button:last-child {
 
 .song-writer {
   font-size: 0.95rem;
-  color: #6c757d;
+  color: var(--light-txt);
   margin-top: 4px;
 }
 .song-header-right {
