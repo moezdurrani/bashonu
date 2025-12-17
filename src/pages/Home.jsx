@@ -61,9 +61,12 @@ const Home = () => {
             className="song-item"
             onClick={() => navigate(`/song/${song.id}`)}
           >
-            <div className="song-corner-card">
-              <p className="song-corner-card-text">{song.language}</p>
+            <div className="song-sooner-card-outer">
+              <div className="song-corner-card">
+                <p className="song-corner-card-text">{song.language}</p>
+              </div>
             </div>
+
             <div className="song-content">
               <div className="text-container">
                 <div className="scrollable">

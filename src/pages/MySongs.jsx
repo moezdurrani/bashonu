@@ -35,7 +35,7 @@ const MySongs = () => {
 
       const { data: songsData, error: songsError } = await supabase
         .from("songs")
-        .select("id, title, writers (name)")
+        .select("id, title, language, display_language, writers (name)")
         .order("title", { ascending: true })
         .eq("user_id", user.id);
 
@@ -104,6 +104,11 @@ const MySongs = () => {
             className="song-item"
             onClick={() => handleSongClick(song.id)}
           >
+            <div className="song-sooner-card-outer">
+              <div className="song-corner-card">
+                <p className="song-corner-card-text">{song.language}</p>
+              </div>
+            </div>
             <div className="song-content">
               <div className="text-container">
                 <div className="scrollable">
