@@ -146,6 +146,7 @@
   align-items: center;
   justify-content: center;
   height: 100vh;
+  color: var(--txt);
 }
 
 /* Upload Form Styling */
@@ -266,7 +267,32 @@
   width: 100%; /* Increases the width to take up 100% of their container */
   border: 2px solid var(--border);
   border-radius: 4px;
+  background: var(--bg);
+  color: var(--txt);
 }
+
+.profile-form input:focus,
+.profile-form textarea:focus,
+.profile-form select:focus {
+  outline: none;
+  border-color: var(--accent);
+  box-shadow: 0 0 8px var(--accent);
+}
+
+.profile-form input,
+.profile-form input:focus,
+.profile-form input:active,
+.profile-form input:focus-visible {
+  background-color: var(--bg);
+  color: var(--txt);
+}
+
+
+.profile-form h1 {
+  margin-bottom: 20px;
+  color: var(--accent);
+}
+
 
 /* Specific adjustments for the song upload form to handle layout more gracefully */
 .song-upload-section input[type="text"],

@@ -110,7 +110,7 @@ const MySongs = () => {
           <input
             type="text"
             className="search-bar"
-            placeholder="Search songs or poets..."
+            placeholder="Search songs, poets, or by language"
             value={searchTerm}
             onChange={(e) => setSearchTerm(e.target.value)}
           />

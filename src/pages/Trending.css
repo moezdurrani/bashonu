@@ -4,6 +4,7 @@
   flex-direction: column;
   align-items: center;
   min-height: 80vh;
+  color: var(--txt);
 }
 
 .section {
