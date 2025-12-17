@@ -194,48 +194,50 @@
   font-size: 12px;
   color: var(--txt-white);
 }
-.language-filter {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  gap: 5px;
-  padding: 10px 20px;
-  margin: 0 auto;
+
+.language-filter-wrapper {
   width: 100%;
-  max-width: 1200px;
+  max-width: 900px;
+  margin: 0 auto;
   overflow-x: auto;
   overflow-y: hidden;
+  padding: 10px 0;
   
-  /* Optional: Hide scrollbar for cleaner look */
+  /* Scrollbar styling */
   scrollbar-width: thin;
   scrollbar-color: var(--accent) var(--bg-white);
 }
 
-/* Webkit browsers (Chrome, Safari) */
-.language-filter::-webkit-scrollbar {
+.language-filter-wrapper::-webkit-scrollbar {
   height: 6px;
 }
 
-.language-filter::-webkit-scrollbar-track {
+.language-filter-wrapper::-webkit-scrollbar-track {
   background: var(--bg-white);
   border-radius: 10px;
 }
 
-.language-filter::-webkit-scrollbar-thumb {
+.language-filter-wrapper::-webkit-scrollbar-thumb {
   background: var(--accent);
   border-radius: 10px;
 }
 
-.language-filter::-webkit-scrollbar-thumb:hover {
+.language-filter-wrapper::-webkit-scrollbar-thumb:hover {
   background: var(--accent-hover);
 }
 
-.language-chip {
-  flex-shrink: 0;
+.language-filter {
+  display: flex;
+  gap: 5px;
+  padding: 0 20px;
+  justify-content: center;
+  min-width: 100%; /* Forces it to take full width for centering */
+  width: max-content; /* But expands if content is wider */
 }
 
+/* Keep your existing .language-chip styles */
 .language-chip {
-  flex: 0 0 auto; /* VERY IMPORTANT */
+  flex: 0 0 auto;
   padding: 6px 14px;
   border-radius: 10px;
   border: 1px solid var(--border);
@@ -244,9 +246,8 @@
   font-size: 14px;
   transition: all 0.2s ease;
   white-space: nowrap;
-  color: black;
+  color: var(--txt);
 }
-
 
 .language-chip:hover {
   background: var(--accent);

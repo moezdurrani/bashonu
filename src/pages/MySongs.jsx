@@ -12,6 +12,7 @@ const MySongs = () => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
   const [searchTerm, setSearchTerm] = useState(""); // Added for search functionality
+  const [selectedLanguage, setSelectedLanguage] = useState("all");
 
   useEffect(() => {
     fetchMySongs();
@@ -55,15 +56,27 @@ const MySongs = () => {
   const filteredSongs = songs.filter((song) => {
     const term = searchTerm.toLowerCase();
 
-    return (
+    const matchesSearch =
       song.title.toLowerCase().includes(term) ||
       (song.writers &&
         song.writers.name.toLowerCase().includes(term)) ||
       (song.language && song.language.toLowerCase().includes(term)) ||
       (song.display_language &&
-        song.display_language.toLowerCase().includes(term))
-    );
+        song.display_language.toLowerCase().includes(term));
+
+    const matchesLanguage =
+      selectedLanguage === "all" || song.language === selectedLanguage;
+
+    return matchesSearch && matchesLanguage;
   });
+
+
+  const languages = [
+    "all",
+    ...Array.from(
+      new Set(songs.map((s) => s.language).filter(Boolean))
+    ),
+  ];
 
   const handleSongClick = (songId) => {
     navigate(`/song/${songId}`);
@@ -101,6 +114,19 @@ const MySongs = () => {
             value={searchTerm}
             onChange={(e) => setSearchTerm(e.target.value)}
           />
+        </div>
+      </div>
+      <div className="language-filter-wrapper">
+        <div className="language-filter">
+          {languages.map((lang) => (
+            <button
+              key={lang}
+              className={`language-chip ${selectedLanguage === lang ? "active" : ""}`}
+              onClick={() => setSelectedLanguage(lang)}
+            >
+              {lang}
+            </button>
+          ))}
         </div>
       </div>
       <div className="list-container">

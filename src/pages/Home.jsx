@@ -76,17 +76,18 @@ const Home = () => {
         </div>
       </div>
 
-      <div className="language-filter">
-        {languages.map((lang) => (
-          <button
-            key={lang}
-            className={`language-chip ${selectedLanguage === lang ? "active" : ""
-              }`}
-            onClick={() => setSelectedLanguage(lang)}
-          >
-            {lang}
-          </button>
-        ))}
+      <div className="language-filter-wrapper">
+        <div className="language-filter">
+          {languages.map((lang) => (
+            <button
+              key={lang}
+              className={`language-chip ${selectedLanguage === lang ? "active" : ""}`}
+              onClick={() => setSelectedLanguage(lang)}
+            >
+              {lang}
+            </button>
+          ))}
+        </div>
       </div>
 
       <div className="list-container">
