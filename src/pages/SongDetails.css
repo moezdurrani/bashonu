@@ -9,6 +9,7 @@
   align-items: center; /* Center items horizontally */
   text-align: center; /* Center text */
   /* padding-top: 60px; */
+  color: var(--txt);
 }
 
 /* Styling for form elements */

@@ -421,10 +421,10 @@ const SongDetails = () => {
             </pre>
           </div>
 
-          <p className="uploader-name">
+          {/* <p className="uploader-name">
             <strong>Uploaded by:</strong>{" "}
             {song.profile?.username || "Unknown"}
-          </p>
+          </p> */}
 
           {embedUrl && (
             <div className="youtube-section">
