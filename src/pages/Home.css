@@ -194,3 +194,67 @@
   font-size: 12px;
   color: var(--txt-white);
 }
+.language-filter {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 5px;
+  padding: 10px 20px;
+  margin: 0 auto;
+  width: 100%;
+  max-width: 1200px;
+  overflow-x: auto;
+  overflow-y: hidden;
+  
+  /* Optional: Hide scrollbar for cleaner look */
+  scrollbar-width: thin;
+  scrollbar-color: var(--accent) var(--bg-white);
+}
+
+/* Webkit browsers (Chrome, Safari) */
+.language-filter::-webkit-scrollbar {
+  height: 6px;
+}
+
+.language-filter::-webkit-scrollbar-track {
+  background: var(--bg-white);
+  border-radius: 10px;
+}
+
+.language-filter::-webkit-scrollbar-thumb {
+  background: var(--accent);
+  border-radius: 10px;
+}
+
+.language-filter::-webkit-scrollbar-thumb:hover {
+  background: var(--accent-hover);
+}
+
+.language-chip {
+  flex-shrink: 0;
+}
+
+.language-chip {
+  flex: 0 0 auto; /* VERY IMPORTANT */
+  padding: 6px 14px;
+  border-radius: 10px;
+  border: 1px solid var(--border);
+  background: var(--bg-white);
+  cursor: pointer;
+  font-size: 14px;
+  transition: all 0.2s ease;
+  white-space: nowrap;
+  color: black;
+}
+
+
+.language-chip:hover {
+  background: var(--accent);
+  color: var(--txt);
+}
+
+.language-chip.active {
+  background: var(--accent);
+  color: var(--txt-white);
+  border-color: var(--accent);
+}

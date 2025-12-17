@@ -10,6 +10,8 @@ const Home = () => {
   const [songs, setSongs] = useState([]);
   const [searchTerm, setSearchTerm] = useState("");
   const navigate = useNavigate();
+  const [selectedLanguage, setSelectedLanguage] = useState("all");
+
 
   useEffect(() => {
     fetchSongs();
@@ -32,19 +34,33 @@ const Home = () => {
   const filteredSongs = songs.filter((song) => {
     const term = searchTerm.toLowerCase();
 
-    return (
+    const matchesSearch =
       song.title.toLowerCase().includes(term) ||
       (song.writers &&
         song.writers.name.toLowerCase().includes(term)) ||
       (song.language && song.language.toLowerCase().includes(term)) ||
       (song.display_language &&
-        song.display_language.toLowerCase().includes(term))
-    );
+        song.display_language.toLowerCase().includes(term));
+
+    const matchesLanguage =
+      selectedLanguage === "all" || song.language === selectedLanguage;
+
+    return matchesSearch && matchesLanguage;
   });
+
+
+  const languages = [
+    "all",
+    ...Array.from(
+      new Set(songs.map((s) => s.language).filter(Boolean))
+    ),
+  ];
+
 
 
   console.log(songs);
   return (
+
     <div className="wrapper">
 
       <div className="search-bar-container">
@@ -58,6 +74,19 @@ const Home = () => {
             onChange={(e) => setSearchTerm(e.target.value)}
           />
         </div>
+      </div>
+
+      <div className="language-filter">
+        {languages.map((lang) => (
+          <button
+            key={lang}
+            className={`language-chip ${selectedLanguage === lang ? "active" : ""
+              }`}
+            onClick={() => setSelectedLanguage(lang)}
+          >
+            {lang}
+          </button>
+        ))}
       </div>
 
       <div className="list-container">
