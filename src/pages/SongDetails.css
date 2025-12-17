@@ -60,7 +60,7 @@
   background-color: var(--bg-white); /* White background for the form */
   padding: 20px;
   border-radius: 8px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Subtle shadow for depth */
+  box-shadow: 0 4px 8px var(--song-item); /* Subtle shadow for depth */
 }
 
 .edit-form input {
@@ -161,7 +161,7 @@ button:last-child {
   color: var(--signup-color);
   padding: 12px 24px;
   border-radius: 8px;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 2px 4px var(--song-item);
   z-index: 1000;
   animation: slideDown 0.3s ease-out, fadeOut 0.3s ease-in 2.7s;
 }

@@ -10,6 +10,7 @@
   background-color: var(--bg-white);
   z-index: 1000;
   height: 60px;
+  border-bottom: 0.5px solid var(--border);
 }
 
 
@@ -28,7 +29,7 @@
 
 .nav-logo-link {
   text-decoration: none;
-  color: #22abc1;
+  color: var(--accent);
   font-weight: bold;
   display: flex;
   align-items: center;
@@ -48,21 +49,22 @@
 
 .nav-menu-list {
   text-decoration: none;
-  color: rgb(26, 26, 26);
+  color: var(--txt);
+  color: var(--icon-color);
   padding: 10px 20px;
   display: block;
 }
 
 .nav-menu li:hover {
   cursor: pointer;
-  background-color: rgb(238, 238, 238);
+  background-color: var(--nav-item-hover);
   border-radius: 4px;
 }
 
 /* Styles for the menu toggle button (hamburger and close icon) */
 .menuToggleBtn {
   cursor: pointer;
-  color: black;
+  color: var(--icon-color);
   font-size: 24px;
   display: none;
   position: absolute;
@@ -87,18 +89,12 @@
     flex-direction: column;
     align-items: center; /* Center all items horizontally */
     justify-content: center; /* Center all items vertically */
-    background-color: rgba(
-      235,
-      235,
-      235,
-      0.6
-    ); /* Ensure readability with solid background */
-    background-color: white;
+    background-color: var(--bg-white);
     backdrop-filter: blur(10px); /* Blur effect for the background content */
     border-radius: 10px; /* Rounded corners for a softer look */
     z-index: 1500;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Subtle shadow for depth */
-    border: 1px solid rgba(255, 255, 255, 0.3); /* Light border for better edge definition */
+    box-shadow: 0 4px 6px var(--song-item); /* Subtle shadow for depth */
+    border: 0.5px solid var(--border);
   }
 
   .nav-menu.open {
@@ -146,7 +142,7 @@
 
 .menuToggleBtn {
   cursor: pointer;
-  color: black;
+  color: var(--icon-color);
   font-size: 24px;
   display: none;
   position: static; /* Change from absolute to static */
@@ -184,10 +180,14 @@
   color: var(--icon-color);
 }
 
-[data-theme="light"] .theme-toggle {
-  color: #f5b700; /* warm energy */
+.theme-toggle {
+  color: var(--icon-color);
+}
+
+/* [data-theme="light"] .theme-toggle {
+  color: var(--icon-color);
 }
 
 [data-theme="dark"] .theme-toggle {
-  color: #9aa0a6; /* calm moon */
-}
+  color: #9aa0a6; 
+} */

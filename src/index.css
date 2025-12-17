@@ -40,6 +40,7 @@ html {
   --heart: rgb(255, 0, 0);
   --form-group-hover: #c9f9ff;
   --txt: #000000;
+  --nav-item-hover: rgb(238, 238, 238);
 
 
   /* --header-bg: #f8f8f8;
@@ -78,6 +79,7 @@ html {
   --heart: rgb(255, 0, 0);
   --form-group-hover: #c9f9ff;
   --txt: #000000;
+  --nav-item-hover: rgb(238, 238, 238);
 }
 
 /* APPLY GLOBAL VARIABLES */
