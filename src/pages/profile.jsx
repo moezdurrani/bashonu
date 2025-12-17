@@ -4,6 +4,8 @@ import { useNavigate } from "react-router-dom";
 import "./Profile.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faUserPen } from "@fortawesome/free-solid-svg-icons";
+import kidImage from "../assets/kid1.png";
+
 
 const Profile = () => {
   // AUTH + PROFILE STATE
@@ -223,9 +225,16 @@ const Profile = () => {
     return (
       <div className="profile-content">
         <div className="welcome-message">
+          <div className="profile-hero-image">
+            <img src={kidImage} alt="Traditional music of Chitral and Gilgit Baltistan" />
+          </div>
+
           <h1>
-            Hello, <strong>{profile.username}</strong> — thank you for preserving{" "}
-            <strong>Chitral's and Gilgit Baltistan's Music</strong>!
+            Hello, <strong>{profile.username}</strong>
+          </h1>
+          <h1>
+            Thank you for preserving{" "}
+            <strong>Chitral's</strong> and <strong>Gilgit Baltistan's</strong> Music!
           </h1>
         </div>
 
