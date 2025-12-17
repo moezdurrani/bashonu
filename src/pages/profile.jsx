@@ -29,6 +29,8 @@ const Profile = () => {
   const [selectedWriterId, setSelectedWriterId] = useState("");
   const [newWriterName, setNewWriterName] = useState("");
 
+  const [youtubeUrl, setYoutubeUrl] = useState("");
+
   const [uploadError, setUploadError] = useState("");
   const [uploadSuccess, setUploadSuccess] = useState("");
   const [showUploadForm, setShowUploadForm] = useState(false);
@@ -188,6 +190,7 @@ const Profile = () => {
           display_language: displayLanguage,
           writer_id: finalWriterId,
           user_id: user.id,
+          youtube_url: youtubeUrl || null,
         },
       ]);
 
@@ -203,6 +206,8 @@ const Profile = () => {
       setWriterOption("existing");
       setSelectedWriterId("");
       setNewWriterName("");
+      setYoutubeUrl("");
+
 
       setTimeout(() => setUploadSuccess(""), 4000);
     } catch (err) {
@@ -367,6 +372,18 @@ const Profile = () => {
                 ))}
               </select>
             </div>
+
+            {/* YOUTUBE LINK (OPTIONAL) */}
+            <div className="form-group">
+              <label>YouTube Link (optional):</label>
+              <input
+                type="text"
+                value={youtubeUrl}
+                onChange={(e) => setYoutubeUrl(e.target.value)}
+                placeholder="Paste YouTube link here"
+              />
+            </div>
+
 
             {/* LYRICS FIELD */}
             <div className="form-group">
