@@ -83,13 +83,21 @@ button {
   margin-right: 10px; /* Add right margin to the button */
 }
 
+.song-header-right button {
+  margin: 0;
+  padding: 6px;
+  background: none;
+  border: none;
+}
+
+
 button:last-child {
   margin-right: 0; /* Remove margin for the last button */
 }
 
-.like-button {
+/* .like-button {
   font-size: 24px;
-}
+} */
 
 /* Icons for like and edit buttons */
 .like-button .fa-heart {
@@ -100,73 +108,27 @@ button:last-child {
   color: black; /* Black for not liked */
 }
 
-.edit-button,
-.like-button {
-  background: none;
-  border: none;
-  cursor: pointer;
-  padding: 10px 20px;
-  min-width: 48px; /* Ensure space is reserved */
-}
 
-/* Styling for active toggle button */
-.lyrics-toggle-buttons {
-  display: flex;
-  justify-content: center;
-  margin-top: 20px;
-  background-color: white;
-  padding: 5px;
-  border-radius: 10px;
-  border: 1px solid #ced4da;
-  flex: 2; /* Double the space relative to side buttons */
-  max-width: 400px; /* Limit the width to prevent stretching */
-  margin: auto; /* Centers the toggle buttons horizontally */
-}
-
-.lyrics-toggle-buttons button {
-  padding: 10px 20px; /* Comfortable touch target */
-  flex-grow: 1;
-  background-color: white; /* Light gray background */
-  color: #495057; /* Dark gray text */
-  border-radius: 10px;
-  border: 2px solid transparent;
-  font-size: 1rem;
-}
-
-.lyrics-toggle-buttons button.active {
-  background-color: #22abc1; /* Active button color */
-  color: white;
-  border-color: #22acc1c2;
-}
-
-.lyrics-toggle-buttons button:not(.active):hover {
-  color: #22abc1; /* Change to desired hover text color */
-  background-color: #e5e5e5;
-}
-
-/* Style for lyrics display */
 .lyrics {
   margin-top: 20px;
-  background-color: #fff; /* White background for readability */
-  border: 1px solid #ced4da; /* Light gray border */
+  background-color: #fff;
+  border: 1px solid #ced4da;
   border-radius: 5px;
-  padding: 15px;
-  font-family: Arial, sans-serif;
-  font-size: 16px;
-  color: #212529; /* Bootstrap default text color */
-  text-align: left; /* Align text to the left for lyrics */
-  height: calc(100vh - 60px - 20px - 20px - 15px - 15px - 150px);
-  overflow-y: auto; /* Enable scrolling on y-axis when content overflows */
-  width: 90vw;
+  padding: 20px;
+
+  width: 100%;
   max-width: 900px;
-  align-items: center; /* Center items horizontally */
-  text-align: center; /* Center text */
+
+  min-height: 30vh;
+
+  font-size: 16px;
+  color: #212529;
+
+  text-align: center;
 
   user-select: none;
-  -webkit-user-select: none;
-  -moz-user-select: none;
-  -ms-user-select: none;
 }
+
 
 .controls-container {
   display: flex;
@@ -288,4 +250,43 @@ button:last-child {
   background: rgba(34, 171, 193, 0.05);
   border-radius: 10px;
   border: 2px dashed rgba(34, 171, 193, 0.3);
+}
+
+
+.song-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  width: 100%;
+  max-width: 900px;
+  margin-bottom: 15px;
+}
+.song-header-left {
+  text-align: left;
+}
+
+.song-title {
+  font-size: clamp(1.4rem, 4vw, 2rem);
+  font-weight: 700;
+  margin: 0;
+}
+
+.song-writer {
+  font-size: 0.95rem;
+  color: #6c757d;
+  margin-top: 4px;
+}
+.song-header-right {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0px;
+}
+.like-button,
+.edit-button {
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-size: 22px;
+  padding: 6px;
 }

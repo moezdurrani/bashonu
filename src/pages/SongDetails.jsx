@@ -19,20 +19,41 @@ const SongDetails = () => {
   const [writerOption, setWriterOption] = useState("existing");
   const [hasLiked, setHasLiked] = useState(false);
   const [showLoginMessage, setShowLoginMessage] = useState(false);
+  const [languageOptions, setLanguageOptions] = useState([]);
+  const [displayLanguageOptions, setDisplayLanguageOptions] = useState([]);
+
 
   const [editForm, setEditForm] = useState({
     title: "",
-    english_lyrics: "",
-    khowar_lyrics: "",
+    lyrics: "",
+    language: "",
+    display_language: "",
     writer_id: "",
     new_writer_name: "",
   });
 
+
   useEffect(() => {
     fetchCurrentUser();
-    fetchSongDetails(); // Fetch song details immediately, regardless of user status
+    fetchSongDetails();
     fetchWriters();
+    fetchLanguageEnums();
   }, [id]);
+
+
+  const fetchLanguageEnums = async () => {
+    const { data: langList } = await supabase.rpc("get_enum_values", {
+      enum_name: "language_enum",
+    });
+
+    const { data: dispList } = await supabase.rpc("get_enum_values", {
+      enum_name: "display_language_enum",
+    });
+
+    setLanguageOptions(langList || []);
+    setDisplayLanguageOptions(dispList || []);
+  };
+
 
   const fetchCurrentUser = async () => {
     const {
@@ -47,7 +68,7 @@ const SongDetails = () => {
         .select("id")
         .eq("song_id", id)
         .eq("user_id", user.id)
-        .single();
+        .maybeSingle();
 
       if (!likeError || likeError.code === "PGRST116") {
         setHasLiked(!!likeData);
@@ -86,8 +107,12 @@ const SongDetails = () => {
       setEditForm({
         title: songData.title,
         lyrics: songData.lyrics,
+        language: songData.language,
+        display_language: songData.display_language,
         writer_id: songData.writer_id,
+        new_writer_name: "",
       });
+
     } catch (error) {
       console.error("Error fetching song details:", error);
       setError(error.message);
@@ -129,10 +154,12 @@ const SongDetails = () => {
         .from("songs")
         .update({
           title: editForm.title,
-          english_lyrics: editForm.english_lyrics,
-          khowar_lyrics: editForm.khowar_lyrics,
+          lyrics: editForm.lyrics,
+          language: editForm.language,
+          display_language: editForm.display_language,
           writer_id: finalWriterId,
         })
+
         .eq("id", id);
 
       if (error) throw error;
@@ -179,6 +206,7 @@ const SongDetails = () => {
       setHasLiked(!hasLiked);
     }
   };
+
 
   if (loading) return <div className="container">Loading...</div>;
   if (error) return <div className="container">Error: {error}</div>;
@@ -258,32 +286,53 @@ const SongDetails = () => {
           </div>
 
           <div className="form-group">
-            <label>English Lyrics:</label>
-            <textarea
-              name="english_lyrics"
-              value={editForm.english_lyrics}
+            <label>Song Language:</label>
+            <select
+              name="language"
+              value={editForm.language}
               onChange={handleInputChange}
-              required
+            >
+              <option value="">Select Language</option>
+              {languageOptions.map((lang) => (
+                <option key={lang} value={lang}>
+                  {lang}
+                </option>
+              ))}
+            </select>
+          </div>
+
+          <div className="form-group">
+            <label>Lyrics Script:</label>
+            <select
+              name="display_language"
+              value={editForm.display_language}
+              onChange={handleInputChange}
+            >
+              <option value="">Select Display Language</option>
+              {displayLanguageOptions.map((lang) => (
+                <option key={lang} value={lang}>
+                  {lang}
+                </option>
+              ))}
+            </select>
+          </div>
+
+          <div className="form-group">
+            <label>Lyrics:</label>
+            <textarea
+              name="lyrics"
+              value={editForm.lyrics}
+              onChange={handleInputChange}
               style={{
-                fontFamily: "Comfortaa, Arial, sans-serif, Helvetica",
+                fontFamily:
+                  editForm.display_language === "urdu"
+                    ? "'Noto Nastaliq Urdu', serif"
+                    : "Comfortaa, Arial, sans-serif, Helvetica",
                 textAlign: "center",
               }}
             />
           </div>
 
-          <div className="form-group">
-            <label>Khowar Lyrics:</label>
-            <textarea
-              name="khowar_lyrics"
-              value={editForm.khowar_lyrics}
-              onChange={handleInputChange}
-              required
-              style={{
-                fontFamily: "'Noto Nastaliq Urdu', serif",
-                textAlign: "center",
-              }}
-            />
-          </div>
 
           <button type="submit">Save Changes</button>
           <button type="button" onClick={() => setIsEditing(false)}>
@@ -292,21 +341,30 @@ const SongDetails = () => {
         </form>
       ) : (
         <>
-          <h1>{song?.title}</h1>
-          <div className="controls-container">
-            {canEdit && (
-              <button
-                className="edit-button"
-                onClick={() => setIsEditing(true)}
-              >
-                <FontAwesomeIcon icon={faPenToSquare} />
-              </button>
-            )}
+          <div className="song-header">
+            <div className="song-header-left">
+              <h1 className="song-title">{song?.title}</h1>
+              <p className="song-writer">
+                Poet: {song.writers?.name || "Unknown"}
+              </p>
+            </div>
 
-            <button className="like-button" onClick={handleLike}>
-              <FontAwesomeIcon icon={hasLiked ? solidHeart : outlineHeart} />
-            </button>
+            <div className="song-header-right">
+              <button className="like-button" onClick={handleLike}>
+                <FontAwesomeIcon icon={hasLiked ? solidHeart : outlineHeart} />
+              </button>
+
+              {canEdit && (
+                <button
+                  className="edit-button"
+                  onClick={() => setIsEditing(true)}
+                >
+                  <FontAwesomeIcon icon={faPenToSquare} />
+                </button>
+              )}
+            </div>
           </div>
+
           <div className="lyrics">
             <pre
               style={{
@@ -320,14 +378,12 @@ const SongDetails = () => {
             </pre>
           </div>
 
-          <p className="writer-name-bottom">
-            <strong>Writer:</strong> {song.writers?.name || "Unknown"}
-          </p>
-          <p>
-            <strong className="user-name-bottom">Uploaded by:</strong>{" "}
+          <p className="uploader-name">
+            <strong>Uploaded by:</strong>{" "}
             {song.profile?.username || "Unknown"}
           </p>
         </>
+
       )}
     </div>
   );

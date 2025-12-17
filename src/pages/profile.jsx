@@ -354,7 +354,7 @@ const Profile = () => {
 
             {/* DISPLAY LANGUAGE */}
             <div className="form-group">
-              <label>Display Language:</label>
+              <label>Lyrics Script:</label>
               <select
                 value={displayLanguage}
                 onChange={(e) => setDisplayLanguage(e.target.value)}
