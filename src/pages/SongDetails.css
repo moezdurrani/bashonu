@@ -140,6 +140,7 @@ button:last-child {
   text-align: center;
 
   user-select: none;
+  line-height: 2;
   
 }
 
