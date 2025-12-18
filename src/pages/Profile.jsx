@@ -5,6 +5,7 @@ import "./Profile.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faUserPen } from "@fortawesome/free-solid-svg-icons";
 import kidImage from "../assets/kid1.png";
+import avatar from "../assets/avatar.png";
 
 
 const Profile = () => {
@@ -249,47 +250,65 @@ const Profile = () => {
   if (user && profile) {
     return (
       <div className="profile-content">
+
+
         <div className="welcome-message">
-          <div className="profile-hero-image">
-            <img src={kidImage} alt="Traditional music of Chitral and Gilgit Baltistan" />
+          <div className="welcome-header">
+            <img
+              src={avatar}
+              alt="Profile avatar"
+              className="welcome-avatar"
+            />
+
+            <h1 className="welcome-text">
+              Hello, <strong>{profile.username}</strong>
+            </h1>
           </div>
 
-          <h1>
-            Hello, <strong>{profile.username}</strong>
-          </h1>
-          <h1>
+          <h1 className="welcome-subtext">
             Thank you for preserving{" "}
             <strong>Chitral's</strong> and <strong>Gilgit Baltistan's</strong> Music!
           </h1>
         </div>
 
+
+
         {/* USERNAME EDIT */}
         <div className="profile-info">
           {isEditing ? (
-            <>
-              <label>Username:</label>
+            <div className="form-group edit-username-group">
+              <label>Username: </label>
+
               <input
                 type="text"
+                className="nice-input"
                 value={username}
                 onChange={(e) => setUsername(e.target.value)}
               />
-              <button onClick={updateUsername} className="save-button">
-                Save
-              </button>
-              <button onClick={() => setIsEditing(false)}>Cancel</button>
-            </>
-          ) : (
-            <div className="profileDetails">
-              <div className="profileDetailsText">
-                <label>Username:</label>
-                <span>{profile.username}</span>
+
+              <div className="edit-username-actions">
+                <button onClick={updateUsername} className="auth-button">
+                  Save
+                </button>
+                <button
+                  type="button"
+                  className="auth-button cancel-button"
+                  onClick={() => setIsEditing(false)}
+                >
+                  Cancel
+                </button>
               </div>
-              <button onClick={() => setIsEditing(true)} className="editUserName">
-                <FontAwesomeIcon icon={faUserPen} />
-              </button>
             </div>
+          ) : (
+            <button
+              className="edit-username-button"
+              onClick={() => setIsEditing(true)}
+            >
+              Edit username
+            </button>
           )}
         </div>
+
 
         {/* ACTION BUTTONS */}
         <div className="profile-actions">
