@@ -72,6 +72,14 @@
   box-shadow: 0 0 8px var(--accent);
 }
 
+.search-bar:focus {
+  background-color: var(--bg-white);
+  color: var(--txt);
+  outline: none;
+  box-shadow: none;
+}
+
+
 .list-container {
   width: 100%;
   flex-grow: 1; /* Allows container to expand */
