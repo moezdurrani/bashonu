@@ -357,11 +357,11 @@
   text-align: center;
 }
 
-
-
-
 .song-upload-section textarea {
   min-height: 210px;
+  line-height: 1.8;
+  resize: none;
+  overflow: hidden;
 }
 
 .song-upload-section select {

@@ -443,7 +443,11 @@ const Profile = () => {
               <label>Lyrics:</label>
               <textarea
                 value={lyrics}
-                onChange={(e) => setLyrics(e.target.value)}
+                onChange={(e) => {
+                  setLyrics(e.target.value);
+                  e.target.style.height = "auto";
+                  e.target.style.height = e.target.scrollHeight + "px";
+                }}
                 style={{
                   fontFamily:
                     displayLanguage === "urdu"

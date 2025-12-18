@@ -133,8 +133,15 @@ button:last-child {
   text-align: center;
 
   user-select: none;
+  
 }
 
+.lyrics pre {
+  white-space: pre-wrap;      /* preserves newlines + wraps */
+  word-wrap: break-word;      /* legacy support */
+  overflow-wrap: break-word;  /* modern wrapping */
+  max-width: 100%;
+}
 
 .controls-container {
   display: flex;

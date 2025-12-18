@@ -1,520 +1,456 @@
-import React, { useState, useEffect } from "react";
+import React, { useEffect, useState } from "react";
+import { useParams, useNavigate } from "react-router-dom";
 import { supabase } from "../supabaseClient";
-import { useNavigate } from "react-router-dom";
-import "./Profile.css";
+import "./SongDetails.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faUserPen } from "@fortawesome/free-solid-svg-icons";
-import kidImage from "../assets/kid1.png";
-import avatar from "../assets/avatar.png";
+import { faHeart as solidHeart } from "@fortawesome/free-solid-svg-icons";
+import { faHeart as outlineHeart } from "@fortawesome/free-regular-svg-icons";
+import { faPenToSquare } from "@fortawesome/free-solid-svg-icons";
 
-
-const Profile = () => {
-    // AUTH + PROFILE STATE
-    const [user, setUser] = useState(null);
-    const [profile, setProfile] = useState(null);
-    const [loading, setLoading] = useState(true);
-
-    const [email, setEmail] = useState("");
-    const [password, setPassword] = useState("");
-    const [username, setUsername] = useState("");
-    const [isLogin, setIsLogin] = useState(true);
+const SongDetails = () => {
+    const { id } = useParams();
+    const navigate = useNavigate();
+    const [song, setSong] = useState(null);
     const [isEditing, setIsEditing] = useState(false);
-
-    const [signupSuccess, setSignupSuccess] = useState(false);
-    const [loginError, setLoginError] = useState("");
-
-    // SONG UPLOAD STATE
-    const [songTitle, setSongTitle] = useState("");
-    const [lyrics, setLyrics] = useState("");
-
+    const [currentUser, setCurrentUser] = useState(null);
     const [writers, setWriters] = useState([]);
+    const [loading, setLoading] = useState(true);
+    const [error, setError] = useState(null);
     const [writerOption, setWriterOption] = useState("existing");
-    const [selectedWriterId, setSelectedWriterId] = useState("");
-    const [newWriterName, setNewWriterName] = useState("");
-
-    const [youtubeUrl, setYoutubeUrl] = useState("");
-
-    const [uploadError, setUploadError] = useState("");
-    const [uploadSuccess, setUploadSuccess] = useState("");
-    const [showUploadForm, setShowUploadForm] = useState(false);
-
-    // LANGUAGE ENUMS
-    const [language, setLanguage] = useState("");
-    const [displayLanguage, setDisplayLanguage] = useState("");
-
+    const [hasLiked, setHasLiked] = useState(false);
+    const [showLoginMessage, setShowLoginMessage] = useState(false);
     const [languageOptions, setLanguageOptions] = useState([]);
     const [displayLanguageOptions, setDisplayLanguageOptions] = useState([]);
 
-    const [forgotPassword, setForgotPassword] = useState(false);
-    const [resetMessage, setResetMessage] = useState("");
+
+    const [editForm, setEditForm] = useState({
+        title: "",
+        lyrics: "",
+        language: "",
+        display_language: "",
+        writer_id: "",
+        new_writer_name: "",
+        youtube_url: "",
+    });
 
 
-    const navigate = useNavigate();
-
-    // LOAD USER, WRITERS, ENUMS
     useEffect(() => {
-        checkUser();
+        fetchCurrentUser();
+        fetchSongDetails();
         fetchWriters();
         fetchLanguageEnums();
-    }, []);
+    }, [id]);
 
-    useEffect(() => {
-        if (forgotPassword) {
-            setPassword("");
-            setLoginError("");
+    const getYoutubeEmbedUrl = (url) => {
+        if (!url) return null;
+
+        // youtu.be/VIDEO_ID
+        if (url.includes("youtu.be/")) {
+            return `https://www.youtube.com/embed/${url
+                .split("youtu.be/")[1]
+                .split("?")[0]}`;
         }
-    }, [forgotPassword]);
+
+        // youtube.com/watch?v=VIDEO_ID
+        if (url.includes("watch?v=")) {
+            return `https://www.youtube.com/embed/${url
+                .split("watch?v=")[1]
+                .split("&")[0]}`;
+        }
+
+        // already embed format
+        if (url.includes("/embed/")) {
+            return url;
+        }
+
+        return null;
+    };
+
+    const embedUrl = getYoutubeEmbedUrl(song?.youtube_url);
 
 
-    const handleForgotPassword = async () => {
-        const { error } = await supabase.auth.resetPasswordForEmail(email, {
-            redirectTo: `${window.location.origin}/reset-password`,
+
+    const fetchLanguageEnums = async () => {
+        const { data: langList } = await supabase.rpc("get_enum_values", {
+            enum_name: "language_enum",
         });
 
-        if (error) {
-            setResetMessage(error.message);
-        } else {
-            setResetMessage("Password reset email sent. Check your inbox.");
-        }
+        const { data: dispList } = await supabase.rpc("get_enum_values", {
+            enum_name: "display_language_enum",
+        });
+
+        setLanguageOptions(langList || []);
+        setDisplayLanguageOptions(dispList || []);
     };
 
 
-    // FETCH ENUM VALUES
-    const fetchLanguageEnums = async () => {
-        try {
-            const { data: langList } = await supabase.rpc("get_enum_values", {
-                enum_name: "language_enum",
-            });
+    const fetchCurrentUser = async () => {
+        const {
+            data: { user },
+        } = await supabase.auth.getUser();
+        setCurrentUser(user);
 
-            const { data: dispList } = await supabase.rpc("get_enum_values", {
-                enum_name: "display_language_enum",
-            });
+        // If there's a user, check their like status
+        if (user) {
+            const { data: likeData, error: likeError } = await supabase
+                .from("likes")
+                .select("id")
+                .eq("song_id", id)
+                .eq("user_id", user.id)
+                .maybeSingle();
 
-            setLanguageOptions(langList || []);
-            setDisplayLanguageOptions(dispList || []);
-        } catch (err) {
-            console.error("ENUM fetch failed", err);
+            if (!likeError || likeError.code === "PGRST116") {
+                setHasLiked(!!likeData);
+            }
         }
     };
 
-    // FETCH WRITERS
     const fetchWriters = async () => {
         const { data, error } = await supabase
             .from("writers")
             .select("id, name")
             .order("name", { ascending: true });
 
-        if (!error) setWriters(data);
+        if (!error) {
+            setWriters(data);
+        }
     };
 
-    // AUTH CHECK
-    const checkUser = async () => {
-        const {
-            data: { user },
-        } = await supabase.auth.getUser();
-
-        if (user) {
-            setUser(user);
-
-            const { data: profileData } = await supabase
-                .from("profile")
-                .select("*")
-                .eq("id", user.id)
+    const fetchSongDetails = async () => {
+        try {
+            const { data: songData, error: songError } = await supabase
+                .from("songs")
+                .select(
+                    `
+          *,
+          writers (id, name),
+          profile (id, username)
+        `
+                )
+                .eq("id", id)
                 .single();
 
-            if (profileData) {
-                setProfile(profileData);
-                setUsername(profileData.username);
-            }
+            if (songError) throw songError;
 
-            setEmail("");
-            setPassword("");
+            setSong(songData);
+            setEditForm({
+                title: songData.title,
+                lyrics: songData.lyrics,
+                language: songData.language,
+                display_language: songData.display_language,
+                writer_id: songData.writer_id,
+                new_writer_name: "",
+                youtube_url: songData.youtube_url || "",
+            });
+
+        } catch (error) {
+            console.error("Error fetching song details:", error);
+            setError(error.message);
+        } finally {
+            setLoading(false);
         }
-
-        setLoading(false);
     };
 
-    // LOGIN/SIGNUP SUBMIT
-    const handleAuth = async (e) => {
+    const handleInputChange = (e) => {
+        const { name, value } = e.target;
+        setEditForm((prev) => ({
+            ...prev,
+            [name]: value,
+        }));
+    };
+
+    const handleSubmit = async (e) => {
         e.preventDefault();
-        const { error } = isLogin
-            ? await supabase.auth.signInWithPassword({ email, password })
-            : await supabase.auth.signUp({ email, password });
-
-        if (error) {
-            setLoginError(error.message);
-            setSignupSuccess(false);
-        } else {
-            if (!isLogin) {
-                setSignupSuccess(true);
-                setIsLogin(true);
-                setEmail("");
-                setPassword("");
-            } else {
-                checkUser();
-            }
-        }
-    };
-
-    // UPDATE USERNAME
-    const updateUsername = async () => {
-        const { error } = await supabase
-            .from("profile")
-            .update({ username })
-            .eq("id", user.id);
-
-        if (!error) {
-            setProfile((prev) => ({ ...prev, username }));
-            setIsEditing(false);
-        }
-    };
-
-    // LOGOUT
-    const handleLogout = async () => {
-        await supabase.auth.signOut();
-        setUser(null);
-        setProfile(null);
-        setEmail("");
-        setPassword("");
-        setUsername("");
-    };
-
-    // UPLOAD SONG
-    const uploadSong = async () => {
-        setUploadError("");
-        setUploadSuccess("");
-
-        if (
-            !songTitle ||
-            !lyrics ||
-            !language ||
-            !displayLanguage ||
-            (writerOption === "existing" && !selectedWriterId) ||
-            (writerOption === "new" && !newWriterName)
-        ) {
-            setUploadError("All fields are required");
+        if (!currentUser) {
+            alert("Please log in to edit songs");
             return;
         }
 
         try {
-            let finalWriterId = selectedWriterId;
+            let finalWriterId = editForm.writer_id;
 
-            if (writerOption === "new") {
-                const { data: newWriter, error } = await supabase
+            if (writerOption === "new" && editForm.new_writer_name) {
+                const { data: newWriter, error: writerError } = await supabase
                     .from("writers")
-                    .insert([{ name: newWriterName }])
+                    .insert([{ name: editForm.new_writer_name }])
                     .select("id")
                     .single();
 
-                if (error) throw error;
+                if (writerError) throw writerError;
                 finalWriterId = newWriter.id;
             }
 
-            const { error } = await supabase.from("songs").insert([
-                {
-                    title: songTitle,
-                    lyrics,
-                    language,
-                    display_language: displayLanguage,
+            const { error } = await supabase
+                .from("songs")
+                .update({
+                    title: editForm.title,
+                    lyrics: editForm.lyrics,
+                    language: editForm.language,
+                    display_language: editForm.display_language,
                     writer_id: finalWriterId,
-                    user_id: user.id,
-                    youtube_url: youtubeUrl || null,
-                },
-            ]);
+                    youtube_url: editForm.youtube_url || null,
+                })
+
+                .eq("id", id);
 
             if (error) throw error;
 
-            setUploadSuccess(`"${songTitle}" uploaded successfully!`);
-
-            // RESET FORM
-            setSongTitle("");
-            setLyrics("");
-            setLanguage("");
-            setDisplayLanguage("");
-            setWriterOption("existing");
-            setSelectedWriterId("");
-            setNewWriterName("");
-            setYoutubeUrl("");
-
-
-            setTimeout(() => setUploadSuccess(""), 4000);
-        } catch (err) {
-            setUploadError(err.message);
+            await fetchSongDetails();
+            await fetchWriters();
+            setIsEditing(false);
+        } catch (error) {
+            console.error("Error updating song:", error);
+            setError(error.message);
         }
     };
 
-    // LOADING SCREEN
-    if (loading) return <div className="profile-loading">Loading...</div>;
+    const handleLike = async () => {
+        if (!currentUser) {
+            setShowLoginMessage(true);
+            // Automatically hide the message after 3 seconds
+            setTimeout(() => {
+                setShowLoginMessage(false);
+            }, 3000);
+            return;
+        }
 
-    // LOGGED-IN VIEW
-    if (user && profile) {
-        return (
-            <div className="profile-content">
+        try {
+            if (hasLiked) {
+                const { error } = await supabase
+                    .from("likes")
+                    .delete()
+                    .eq("user_id", currentUser.id)
+                    .eq("song_id", id);
 
+                if (error) throw error;
+                setHasLiked(false);
+            } else {
+                const { error } = await supabase
+                    .from("likes")
+                    .insert([{ user_id: currentUser.id, song_id: id }]);
 
-                <div className="welcome-message">
-                    {/* <div className="profile-hero-image">
-            <img src={kidImage} alt="Traditional music of Chitral and Gilgit Baltistan" />
-          </div> */}
-
-                    <h1>
-                        Hello, <strong>{profile.username}</strong>
-                    </h1>
-                    <h1>
-                        Thank you for preserving{" "}
-                        <strong>Chitral's</strong> and <strong>Gilgit Baltistan's</strong> Music!
-                    </h1>
-                </div>
-
-                {/* USERNAME EDIT */}
-                <div className="profile-info">
-                    {isEditing ? (
-                        <>
-                            <label>Username:</label>
-                            <input
-                                type="text"
-                                value={username}
-                                onChange={(e) => setUsername(e.target.value)}
-                            />
-                            <button onClick={updateUsername} className="save-button">
-                                Save
-                            </button>
-                            <button onClick={() => setIsEditing(false)}>Cancel</button>
-                        </>
-                    ) : (
-                        <div className="profileDetails">
-                            <div className="profileDetailsText">
-                                <label>Username:</label>
-                                <span>{profile.username}</span>
-                            </div>
-                            <button onClick={() => setIsEditing(true)} className="editUserName">
-                                <FontAwesomeIcon icon={faUserPen} />
-                            </button>
-                        </div>
-                    )}
-                </div>
-
-                {/* ACTION BUTTONS */}
-                <div className="profile-actions">
-                    <button
-                        onClick={() => setShowUploadForm(!showUploadForm)}
-                        className="toggle-upload-button"
-                    >
-                        {showUploadForm ? "Hide Upload Form" : "Upload Song"}
-                    </button>
-
-                    <button onClick={() => navigate("/my-songs")} className="my-songs">
-                        My Songs
-                    </button>
-
-                    <button className="logout-button" onClick={handleLogout}>
-                        Logout
-                    </button>
-                </div>
-
-                {/* UPLOAD FORM */}
-                {showUploadForm && (
-                    <div className="song-upload-section">
-                        <h2>Upload a Song</h2>
-
-                        {uploadError && <p className="upload-error">{uploadError}</p>}
-                        {uploadSuccess && <p className="upload-success">{uploadSuccess}</p>}
-
-                        <div className="form-group">
-                            <label>Song Title:</label>
-                            <input
-                                type="text"
-                                value={songTitle}
-                                onChange={(e) => setSongTitle(e.target.value)}
-                            />
-                        </div>
-
-                        {/* WRITER SELECTION */}
-                        <div className="form-group">
-                            <label>Writer:</label>
-                            <div className="writer-selection">
-                                <label>
-                                    <input
-                                        type="radio"
-                                        name="writerOption"
-                                        value="existing"
-                                        checked={writerOption === "existing"}
-                                        onChange={() => setWriterOption("existing")}
-                                    />
-                                    <span>Select Existing Poet</span>
-                                </label>
-
-                                <label>
-                                    <input
-                                        type="radio"
-                                        name="writerOption"
-                                        value="new"
-                                        checked={writerOption === "new"}
-                                        onChange={() => setWriterOption("new")}
-                                    />
-                                    <span>Add New Poet</span>
-                                </label>
-                            </div>
-
-                            {writerOption === "existing" ? (
-                                <select
-                                    value={selectedWriterId}
-                                    onChange={(e) => setSelectedWriterId(e.target.value)}
-                                >
-                                    <option value="">Select a Poet</option>
-                                    {writers.map((writer) => (
-                                        <option key={writer.id} value={writer.id}>
-                                            {writer.name}
-                                        </option>
-                                    ))}
-                                </select>
-                            ) : (
-                                <input
-                                    type="text"
-                                    value={newWriterName}
-                                    onChange={(e) => setNewWriterName(e.target.value)}
-                                    placeholder="Enter new Poet name"
-                                />
-                            )}
-                        </div>
-
-                        {/* LANGUAGE */}
-                        <div className="form-group">
-                            <label>Song Language:</label>
-                            <select
-                                value={language}
-                                onChange={(e) => setLanguage(e.target.value)}
-                            >
-                                <option value="">Select Language</option>
-                                {languageOptions.map((lang) => (
-                                    <option key={lang} value={lang}>
-                                        {lang}
-                                    </option>
-                                ))}
-                            </select>
-                        </div>
-
-                        {/* DISPLAY LANGUAGE */}
-                        <div className="form-group">
-                            <label>Lyrics Script:</label>
-                            <select
-                                value={displayLanguage}
-                                onChange={(e) => setDisplayLanguage(e.target.value)}
-                            >
-                                <option value="">Select Display Language</option>
-                                {displayLanguageOptions.map((lang) => (
-                                    <option key={lang} value={lang}>
-                                        {lang}
-                                    </option>
-                                ))}
-                            </select>
-                        </div>
-
-                        {/* YOUTUBE LINK (OPTIONAL) */}
-                        <div className="form-group">
-                            <label>YouTube Link (optional):</label>
-                            <input
-                                type="text"
-                                value={youtubeUrl}
-                                onChange={(e) => setYoutubeUrl(e.target.value)}
-                                placeholder="Paste YouTube link here"
-                            />
-                        </div>
+                if (error) throw error;
+                setHasLiked(true);
+            }
+        } catch (error) {
+            console.error("Error liking song:", error);
+            setHasLiked(!hasLiked);
+        }
+    };
 
 
-                        {/* LYRICS FIELD */}
-                        <div className="form-group">
-                            <label>Lyrics:</label>
-                            <textarea
-                                value={lyrics}
-                                onChange={(e) => setLyrics(e.target.value)}
-                                style={{
-                                    fontFamily:
-                                        displayLanguage === "urdu"
-                                            ? "'Noto Nastaliq Urdu', serif"
-                                            : "Comfortaa, Arial, sans-serif, Helvetica",
-                                    textAlign: "center",
-                                }}
-                            />
-                        </div>
+    if (loading) return <div className="container">Loading...</div>;
+    if (error) return <div className="container">Error: {error}</div>;
+    if (!song) return <div className="container">Song not found</div>;
 
-                        <button onClick={uploadSong} className="upload-button">
-                            Upload Song
-                        </button>
-                    </div>
-                )}
-            </div>
-        );
-    }
+    const canEdit = currentUser && currentUser.id === song.user_id;
 
-    // LOGIN / SIGNUP PAGE
     return (
-        <div className="profile-form">
-            <h1>{isLogin ? "Login" : "Sign Up"}</h1>
-
-            {signupSuccess && (
-                <p className="signup-success">Signup successful! Please log in.</p>
+        <div className="container">
+            {showLoginMessage && (
+                <div className="login-message">Please log in to like songs</div>
             )}
+            {isEditing ? (
+                <form onSubmit={handleSubmit} className="edit-form">
+                    <h2>Edit Song</h2>
 
-            <form onSubmit={handleAuth}>
-                <div className="form-group">
-                    <label>Email:</label>
-                    <input
-                        type="email"
-                        value={email}
-                        onChange={(e) => setEmail(e.target.value)}
-                    />
-                </div>
-
-                {!forgotPassword && (
                     <div className="form-group">
-                        <label>Password:</label>
+                        <label>Title:</label>
                         <input
-                            type="password"
-                            value={password}
-                            onChange={(e) => setPassword(e.target.value)}
+                            type="text"
+                            name="title"
+                            value={editForm.title}
+                            onChange={handleInputChange}
+                            required
                         />
                     </div>
-                )}
+
+                    <div className="form-group">
+                        <label>Poet:</label>
+                        <div className="radio-group">
+                            <label>
+                                <input
+                                    type="radio"
+                                    name="writerOption"
+                                    value="existing"
+                                    checked={writerOption === "existing"}
+                                    onChange={(e) => setWriterOption(e.target.value)}
+                                />
+                                Select Existing Poet
+                            </label>
+                            <label>
+                                <input
+                                    type="radio"
+                                    name="writerOption"
+                                    value="new"
+                                    checked={writerOption === "new"}
+                                    onChange={(e) => setWriterOption(e.target.value)}
+                                />
+                                Add New Poet
+                            </label>
+                        </div>
+
+                        {writerOption === "existing" ? (
+                            <select
+                                name="writer_id"
+                                value={editForm.writer_id}
+                                onChange={handleInputChange}
+                                required={writerOption === "existing"}
+                            >
+                                <option value="">Select a writer</option>
+                                {writers.map((writer) => (
+                                    <option key={writer.id} value={writer.id}>
+                                        {writer.name}
+                                    </option>
+                                ))}
+                            </select>
+                        ) : (
+                            <input
+                                type="text"
+                                name="new_writer_name"
+                                value={editForm.new_writer_name}
+                                onChange={handleInputChange}
+                                placeholder="Enter new writer name"
+                                required={writerOption === "new"}
+                            />
+                        )}
+                    </div>
+
+                    <div className="form-group">
+                        <label>Song Language:</label>
+                        <select
+                            name="language"
+                            value={editForm.language}
+                            onChange={handleInputChange}
+                        >
+                            <option value="">Select Language</option>
+                            {languageOptions.map((lang) => (
+                                <option key={lang} value={lang}>
+                                    {lang}
+                                </option>
+                            ))}
+                        </select>
+                    </div>
+
+                    <div className="form-group">
+                        <label>Lyrics Script:</label>
+                        <select
+                            name="display_language"
+                            value={editForm.display_language}
+                            onChange={handleInputChange}
+                        >
+                            <option value="">Select Display Language</option>
+                            {displayLanguageOptions.map((lang) => (
+                                <option key={lang} value={lang}>
+                                    {lang}
+                                </option>
+                            ))}
+                        </select>
+                    </div>
+
+                    <div className="form-group">
+                        <label>YouTube Link (optional):</label>
+                        <input
+                            type="text"
+                            name="youtube_url"
+                            value={editForm.youtube_url || ""}
+                            onChange={handleInputChange}
+                            placeholder="Paste YouTube link here"
+                        />
+                    </div>
 
 
-                {loginError && <p className="login-error">{loginError}</p>}
+                    <div className="form-group">
+                        <label>Lyrics:</label>
+                        <textarea
+                            name="lyrics"
+                            value={editForm.lyrics}
+                            onChange={handleInputChange}
+                            style={{
+                                fontFamily:
+                                    editForm.display_language === "urdu"
+                                        ? "'Noto Nastaliq Urdu', serif"
+                                        : "Comfortaa, Arial, sans-serif, Helvetica",
+                                textAlign: "center",
+                            }}
+                        />
+                    </div>
 
-                <button
-                    type="button"
-                    className="auth-button"
-                    onClick={forgotPassword ? handleForgotPassword : handleAuth}
-                >
-                    {forgotPassword ? "Send Reset Email" : isLogin ? "Log In" : "Sign Up"}
-                </button>
 
-            </form>
+                    <button type="submit">Save Changes</button>
+                    <button type="button" onClick={() => setIsEditing(false)}>
+                        Cancel
+                    </button>
+                </form>
+            ) : (
+                <>
+                    <div className="song-header">
+                        <div className="song-header-left">
+                            <h1 className="song-title">{song?.title}</h1>
+                            <p className="song-writer">
+                                Poet: {song.writers?.name || "Unknown"}
+                            </p>
+                        </div>
 
-            {isLogin && (
-                <button
-                    className="toggle-button"
-                    onClick={() => {
-                        setForgotPassword(!forgotPassword);
-                        setResetMessage("");
-                    }}
-                >
-                    {forgotPassword ? "Back to Login" : "Forgot password?"}
-                </button>
+                        <div className="song-header-right">
+                            <button className="like-button" onClick={handleLike}>
+                                <FontAwesomeIcon icon={hasLiked ? solidHeart : outlineHeart} />
+                            </button>
+
+                            {canEdit && (
+                                <button
+                                    className="edit-button"
+                                    onClick={() => setIsEditing(true)}
+                                >
+                                    <FontAwesomeIcon icon={faPenToSquare} />
+                                </button>
+                            )}
+                        </div>
+                    </div>
+
+                    <div className="lyrics">
+                        <pre
+                            style={{
+                                fontFamily:
+                                    song?.display_language === "urdu"
+                                        ? "'Noto Nastaliq Urdu', serif"
+                                        : "Comfortaa, Arial, sans-serif, Helvetica",
+                            }}
+                        >
+                            {song?.lyrics}
+                        </pre>
+                    </div>
+
+                    {/* <p className="uploader-name">
+            <strong>Uploaded by:</strong>{" "}
+            {song.profile?.username || "Unknown"}
+          </p> */}
+
+                    {embedUrl && (
+                        <div className="youtube-section">
+                            <h3>Listen on YouTube</h3>
+
+                            <div className="youtube-embed">
+                                <iframe
+                                    src={embedUrl}
+                                    title="YouTube video player"
+                                    frameBorder="0"
+                                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                                    allowFullScreen
+                                />
+                            </div>
+                        </div>
+                    )}
+
+
+
+
+
+                </>
+
             )}
-
-            {resetMessage && (
-                <p className="signup-success">{resetMessage}</p>
-            )}
-
-
-
-
-
-            <button className="toggle-button" onClick={() => setIsLogin(!isLogin)}>
-                {isLogin ? "Need to create an account? Sign Up" : "Already have an account? Log In"}
-            </button>
         </div>
     );
 };
 
-export default Profile;
+export default SongDetails;
