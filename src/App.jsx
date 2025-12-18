@@ -7,6 +7,7 @@ import Profile from "./pages/Profile";
 import Trending from "./pages/Trending";
 import SongDetails from "./pages/SongDetails";
 import MySongs from "./pages/MySongs";
+import ResetPassword from "./pages/ResetPassword";
 import "./App.css";
 
 export default function App() {
@@ -22,6 +23,7 @@ export default function App() {
             <Route path="/trending" element={<Trending />} />
             <Route path="/song/:id" element={<SongDetails />} />
             <Route path="/my-songs" element={<MySongs />} />
+            <Route path="/reset-password" element={<ResetPassword />} />
           </Routes>
         </div>
       </div>

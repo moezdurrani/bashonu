@@ -44,6 +44,10 @@ const Profile = () => {
   const [languageOptions, setLanguageOptions] = useState([]);
   const [displayLanguageOptions, setDisplayLanguageOptions] = useState([]);
 
+  const [forgotPassword, setForgotPassword] = useState(false);
+  const [resetMessage, setResetMessage] = useState("");
+
+
   const navigate = useNavigate();
 
   // LOAD USER, WRITERS, ENUMS
@@ -52,6 +56,27 @@ const Profile = () => {
     fetchWriters();
     fetchLanguageEnums();
   }, []);
+
+  useEffect(() => {
+    if (forgotPassword) {
+      setPassword("");
+      setLoginError("");
+    }
+  }, [forgotPassword]);
+
+
+  const handleForgotPassword = async () => {
+    const { error } = await supabase.auth.resetPasswordForEmail(email, {
+      redirectTo: `${window.location.origin}/reset-password`,
+    });
+
+    if (error) {
+      setResetMessage(error.message);
+    } else {
+      setResetMessage("Password reset email sent. Check your inbox.");
+    }
+  };
+
 
   // FETCH ENUM VALUES
   const fetchLanguageEnums = async () => {
@@ -438,21 +463,49 @@ const Profile = () => {
           />
         </div>
 
-        <div className="form-group">
-          <label>Password:</label>
-          <input
-            type="password"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-          />
-        </div>
+        {!forgotPassword && (
+          <div className="form-group">
+            <label>Password:</label>
+            <input
+              type="password"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+            />
+          </div>
+        )}
+
 
         {loginError && <p className="login-error">{loginError}</p>}
 
-        <button type="submit" className="auth-button">
-          {isLogin ? "Log In" : "Sign Up"}
+        <button
+          type="button"
+          className="auth-button"
+          onClick={forgotPassword ? handleForgotPassword : handleAuth}
+        >
+          {forgotPassword ? "Send Reset Email" : isLogin ? "Log In" : "Sign Up"}
         </button>
+
       </form>
+
+      {isLogin && (
+        <button
+          className="toggle-button"
+          onClick={() => {
+            setForgotPassword(!forgotPassword);
+            setResetMessage("");
+          }}
+        >
+          {forgotPassword ? "Back to Login" : "Forgot password?"}
+        </button>
+      )}
+
+      {resetMessage && (
+        <p className="signup-success">{resetMessage}</p>
+      )}
+
+
+
+
 
       <button className="toggle-button" onClick={() => setIsLogin(!isLogin)}>
         {isLogin ? "Need to create an account? Sign Up" : "Already have an account? Log In"}
