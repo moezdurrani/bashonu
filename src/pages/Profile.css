@@ -449,7 +449,6 @@
 
 .song-upload-section .form-group input {
   text-align: left;
-  color: red;
 }
 
 /* FORCE DARK INPUT STYLE FOR APPLE / SAFARI PASSWORD AUTOFILL */
@@ -461,4 +460,15 @@
   -webkit-text-fill-color: var(--txt) !important;
   caret-color: var(--txt);
   transition: background-color 9999s ease-in-out 0s;
+}
+
+.login-error {
+  background-color: var(--signup-bg);
+  color: var(--signup-color);
+  padding: 12px 16px;
+  border-radius: 8px;
+  margin-top: 12px;
+  font-size: 14px;
+  text-align: center;
+  margin-bottom: 12px;
 }
