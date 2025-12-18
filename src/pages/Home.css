@@ -137,6 +137,7 @@
 
 .song-item .scrollable strong {
   color: var(--txt);
+  margin-right: 95px;
 }
 /* .song-item .text-container .scrollable span {
   color: blue;
