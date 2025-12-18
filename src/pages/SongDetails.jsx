@@ -21,6 +21,8 @@ const SongDetails = () => {
   const [showLoginMessage, setShowLoginMessage] = useState(false);
   const [languageOptions, setLanguageOptions] = useState([]);
   const [displayLanguageOptions, setDisplayLanguageOptions] = useState([]);
+  const lyricsRef = React.useRef(null);
+
 
 
   const [editForm, setEditForm] = useState({
@@ -40,6 +42,15 @@ const SongDetails = () => {
     fetchWriters();
     fetchLanguageEnums();
   }, [id]);
+
+  useEffect(() => {
+    if (isEditing && lyricsRef.current) {
+      lyricsRef.current.style.height = "auto";
+      lyricsRef.current.style.height =
+        lyricsRef.current.scrollHeight + "px";
+    }
+  }, [isEditing, editForm.lyrics]);
+
 
   const getYoutubeEmbedUrl = (url) => {
     if (!url) return null;
@@ -363,9 +374,14 @@ const SongDetails = () => {
           <div className="form-group">
             <label>Lyrics:</label>
             <textarea
+              ref={lyricsRef}
               name="lyrics"
               value={editForm.lyrics}
-              onChange={handleInputChange}
+              onChange={(e) => {
+                handleInputChange(e);
+                e.target.style.height = "auto";
+                e.target.style.height = e.target.scrollHeight + "px";
+              }}
               style={{
                 fontFamily:
                   editForm.display_language === "urdu"

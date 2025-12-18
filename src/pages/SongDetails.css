@@ -35,6 +35,13 @@
   font-size: 1rem;
 }
 
+.edit-form textarea {
+  min-height: 210px;
+  line-height: 1.8;
+  resize: none;
+  overflow: hidden;
+}
+
 .form-group textarea {
   min-height: 210px;
 }
