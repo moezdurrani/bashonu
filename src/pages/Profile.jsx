@@ -225,6 +225,10 @@ const Profile = () => {
       if (error) throw error;
 
       setUploadSuccess(`"${songTitle}" uploaded successfully!`);
+      setShowUploadForm(false);
+      // setTimeout(() => {
+      //   setShowUploadForm(false);
+      // }, 1200);
 
       // RESET FORM
       setSongTitle("");
@@ -251,7 +255,6 @@ const Profile = () => {
     return (
       <div className="profile-content">
 
-
         <div className="welcome-message">
           <div className="welcome-header">
             <img
@@ -271,7 +274,9 @@ const Profile = () => {
           </h1>
         </div>
 
-
+        {uploadSuccess && (
+          <p className="upload-success">{uploadSuccess}</p>
+        )}
 
         {/* USERNAME EDIT */}
         <div className="profile-info">
@@ -334,7 +339,7 @@ const Profile = () => {
             <h2>Upload a Song</h2>
 
             {uploadError && <p className="upload-error">{uploadError}</p>}
-            {uploadSuccess && <p className="upload-success">{uploadSuccess}</p>}
+            {/* {uploadSuccess && <p className="upload-success">{uploadSuccess}</p>} */}
 
             <div className="form-group">
               <label>Song Title:</label>
