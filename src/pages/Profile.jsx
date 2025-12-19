@@ -6,6 +6,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faUserPen } from "@fortawesome/free-solid-svg-icons";
 import kidImage from "../assets/kid1.png";
 import avatar from "../assets/avatar.png";
+import { useLocation } from "react-router-dom";
 
 
 const Profile = () => {
@@ -48,7 +49,7 @@ const Profile = () => {
   const [forgotPassword, setForgotPassword] = useState(false);
   const [resetMessage, setResetMessage] = useState("");
 
-
+  const location = useLocation();
   const navigate = useNavigate();
 
   // LOAD USER, WRITERS, ENUMS
@@ -64,6 +65,13 @@ const Profile = () => {
       setLoginError("");
     }
   }, [forgotPassword]);
+
+  useEffect(() => {
+    if (location.state?.openUpload) {
+      setShowUploadForm(true);
+    }
+  }, [location.state]);
+
 
 
   const handleForgotPassword = async () => {

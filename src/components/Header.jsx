@@ -94,6 +94,17 @@ const Header = () => {
           <li>
             <Link
               to="/Profile"
+              state={{ openUpload: true }}
+              className="nav-menu-list upload-link"
+              onClick={() => setIsOpen(false)}
+            >
+              Upload Song
+            </Link>
+          </li>
+
+          <li>
+            <Link
+              to="/Profile"
               className="nav-menu-list profile-link"
               onClick={() => setIsOpen(false)}
             >
