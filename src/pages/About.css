@@ -57,3 +57,24 @@
   font-weight: 700; /* Ensures boldness */
   color: var(--accent);
 }
+
+.about-domains {
+  margin-top: 10px;
+  text-align: center;
+}
+
+.about-domains a {
+  display: inline-block;
+  margin: 6px 0;
+  font-size: 1.05rem;
+  font-weight: 600;
+  color: var(--accent);
+  text-decoration: none;
+  transition: color 0.2s ease, transform 0.2s ease;
+}
+
+.about-domains a:hover {
+  color: var(--accent-hover);
+  transform: translateY(-1px);
+  text-decoration: underline;
+}

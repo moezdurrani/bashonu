@@ -34,6 +34,33 @@ function About() {
         of our northern regions continue to be heard, remembered, and
         celebrated.
       </p>
+      <h2>Our Website Domains</h2>
+
+      <p>
+        Bashonu is accessible through multiple domain names to make it easier for
+        people to discover and contribute to our platform.
+      </p>
+
+      <p className="about-domains">
+        <a href="https://bashonu.com" target="_blank" rel="noreferrer">
+          bashonu.com
+        </a>
+        <br />
+        <a href="https://chitralisongs.com" target="_blank" rel="noreferrer">
+          chitralisongs.com
+        </a>
+        <br />
+        <a href="https://gbsongs.com" target="_blank" rel="noreferrer">
+          gbsongs.com
+        </a>
+      </p>
+
+
+
+      <p>
+        All three domains lead to the same website and share the same content.
+      </p>
+
       <p>
         Stay connected and involved—follow us on social media and YouTube for
         regular updates, feature releases, and community events.
