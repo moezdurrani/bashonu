@@ -1,3 +1,6 @@
+/* GLOBAL FONTS */
+@import url("https://fonts.googleapis.com/css2?family=Comfortaa:wght@300..700&family=Exo+2:ital,wght@0,100..900;1,100..900&family=Noto+Nastaliq+Urdu:wght@400..700&display=swap");
+
 /* GLOBAL RESET */
 * {
   margin: 0;
@@ -9,8 +12,6 @@ html {
   scroll-behavior: smooth;
 }
 
-/* GLOBAL FONTS */
-@import url("https://fonts.googleapis.com/css2?family=Comfortaa:wght@300..700&family=Exo+2:ital,wght@0,100..900;1,100..900&family=Noto+Nastaliq+Urdu:wght@400..700&display=swap");
 
 /* THEME VARIABLES (LIGHT MODE DEFAULT) */
 :root {
