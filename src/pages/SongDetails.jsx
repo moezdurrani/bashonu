@@ -385,7 +385,7 @@ const SongDetails = () => {
               style={{
                 fontFamily:
                   editForm.display_language === "urdu"
-                    ? "'Noto Nastaliq Urdu', serif"
+                    ? "'NafeesNastaleeq','Noto Nastaliq Urdu', serif"
                     : "Comfortaa, Arial, sans-serif, Helvetica",
                 textAlign: "center",
               }}
@@ -429,7 +429,7 @@ const SongDetails = () => {
               style={{
                 fontFamily:
                   song?.display_language === "urdu"
-                    ? "'Noto Nastaliq Urdu', serif"
+                    ? "'NafeesNastaleeq','Noto Nastaliq Urdu', serif"
                     : "Comfortaa, Arial, sans-serif, Helvetica",
               }}
             >
