@@ -1,6 +1,22 @@
 /* GLOBAL FONTS */
 @import url("https://fonts.googleapis.com/css2?family=Comfortaa:wght@300..700&family=Exo+2:ital,wght@0,100..900;1,100..900&family=Noto+Nastaliq+Urdu:wght@400..700&display=swap");
 
+@font-face {
+  font-family: "KhowarFont";
+  src: url("/fonts/khowar.ttf") format("truetype");
+  font-weight: normal;
+  font-style: normal;
+}
+/* 'KhowarFont', */
+/* 'NafeesNastaleeq', */
+
+@font-face {
+  font-family: "NafeesNastaleeq";
+  src: url("/fonts/nafees-nastaleeq.ttf") format("truetype");
+  font-weight: normal;
+  font-style: normal;
+}
+
 /* GLOBAL RESET */
 * {
   margin: 0;

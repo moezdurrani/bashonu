@@ -464,7 +464,7 @@ const Profile = () => {
                 style={{
                   fontFamily:
                     displayLanguage === "urdu"
-                      ? "'Noto Nastaliq Urdu', serif"
+                      ? "'NafeesNastaleeq','Noto Nastaliq Urdu', serif"
                       : "Comfortaa, Arial, sans-serif, Helvetica",
                   textAlign: "center",
                 }}
