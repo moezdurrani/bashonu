@@ -167,17 +167,18 @@
 .song-sooner-card-outer {
   position: absolute;
   z-index: 10;
-  top: -0px;
+  /* top: -0px; */
+  bottom: 0px;
   right: -0px;
   background: var(--bg);
 
   width: 95px;
   height: 30px;
-  border-bottom-left-radius: 4px;
+  border-top-left-radius: 4px;
   /* border-top-left-radius: 4px; */
   box-shadow:
-    inset 3px 0 3px -3px var(--song-item-hover),   /* left */
-    inset 0 -3px 3px -3px var(--song-item-hover); /* bottom */
+    inset 3px 0 3px -3px var(--song-item-hover),   /* left edge */
+    inset 0 3px 3px -3px var(--song-item-hover);   /* top edge */
     
 }
 
@@ -185,7 +186,8 @@
 .song-corner-card {
   position: absolute;
   z-index: 10;
-  top: -0px;
+  /* top: -0px; */
+  bottom: 0px;
   right: -0px;
 
   width: 90px;
