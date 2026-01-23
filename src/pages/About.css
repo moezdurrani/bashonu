@@ -78,3 +78,60 @@
   transform: translateY(-1px);
   text-decoration: underline;
 }
+
+
+/* SOCIAL LINKS SECTION */
+.about-socials {
+  display: flex;
+  justify-content: center;
+  gap: 28px;
+  margin: 30px 0 40px;
+  flex-wrap: wrap;
+}
+
+.about-socials .social-link {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 1.05rem;
+  font-weight: 600;
+  color: var(--accent);
+  text-decoration: none;
+  padding: 10px 16px;
+  border-radius: 999px;
+  background: var(--bg-white);
+  box-shadow: 0 4px 10px var(--song-item);
+  transition: transform 0.2s ease, box-shadow 0.2s ease, color 0.2s ease;
+}
+
+.about-socials .social-link:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 14px var(--song-item);
+  color: var(--accent-hover);
+}
+
+/* ICON SIZE */
+.about-socials .social-link svg {
+  font-size: 1.5rem;
+}
+
+/* OPTIONAL: platform-specific subtle hover colors */
+.about-socials .social-link:hover svg {
+  filter: brightness(1.1);
+}
+
+/* MOBILE TWEAKS */
+@media (max-width: 600px) {
+  .about-socials {
+    gap: 16px;
+  }
+
+  .about-socials .social-link {
+    font-size: 0.95rem;
+    padding: 8px 14px;
+  }
+
+  .about-socials .social-link svg {
+    font-size: 1.35rem;
+  }
+}

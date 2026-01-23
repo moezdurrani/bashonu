@@ -1,6 +1,15 @@
 import styled from "styled-components";
 import React from "react";
 import { Link } from "react-router-dom";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import {
+  faTiktok,
+  faInstagram,
+  faFacebook,
+} from "@fortawesome/free-brands-svg-icons";
+
+import { faCircleUser, faF, faT } from "@fortawesome/free-solid-svg-icons";
+
 import "./About.css";
 
 function About() {
@@ -34,6 +43,41 @@ function About() {
         of our northern regions continue to be heard, remembered, and
         celebrated.
       </p>
+
+      <h2>Follow Us</h2>
+
+      <div className="about-socials">
+        <a
+          href="https://www.tiktok.com/@bashonu.music"
+          target="_blank"
+          rel="noreferrer"
+          className="social-link"
+        >
+          <FontAwesomeIcon icon={faTiktok} />
+          <span>@bashonu.music</span>
+        </a>
+
+        <a
+          href="https://www.instagram.com/bashonu.music"
+          target="_blank"
+          rel="noreferrer"
+          className="social-link"
+        >
+          <FontAwesomeIcon icon={faInstagram} />
+          <span>@bashonu.music</span>
+        </a>
+
+        <a
+          href="https://www.facebook.com/bashonu.music"
+          target="_blank"
+          rel="noreferrer"
+          className="social-link"
+        >
+          <FontAwesomeIcon icon={faFacebook} />
+          <span>@bashonu.music</span>
+        </a>
+      </div>
+
       <h2>Our Website Domains</h2>
 
       <p>
@@ -41,19 +85,35 @@ function About() {
         people to discover and contribute to our platform.
       </p>
 
-      <p className="about-domains">
-        <a href="https://bashonu.com" target="_blank" rel="noreferrer">
+      <div className="about-socials about-domains-horizontal">
+        <a
+          href="https://bashonu.com"
+          target="_blank"
+          rel="noreferrer"
+          className="social-link"
+        >
           bashonu.com
         </a>
-        <br />
-        <a href="https://chitralisongs.com" target="_blank" rel="noreferrer">
+
+        <a
+          href="https://chitralisongs.com"
+          target="_blank"
+          rel="noreferrer"
+          className="social-link"
+        >
           chitralisongs.com
         </a>
-        <br />
-        <a href="https://gbsongs.com" target="_blank" rel="noreferrer">
+
+        <a
+          href="https://gbsongs.com"
+          target="_blank"
+          rel="noreferrer"
+          className="social-link"
+        >
           gbsongs.com
         </a>
-      </p>
+      </div>
+
 
 
 
