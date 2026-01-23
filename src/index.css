@@ -58,6 +58,8 @@ html {
   --form-group-hover: #c9f9ff;
   --txt: #000000;
   --nav-item-hover: rgb(238, 238, 238);
+  --txt-toggle: rgb(0, 0, 0);
+  --toggle-border: rgba(0, 0, 0, 0.125);
 
 
   /* --header-bg: #f8f8f8;
@@ -114,6 +116,9 @@ html {
 
   /* MISC */
   --form-group-hover: rgba(34, 171, 193, 0.12);
+
+  --txt-toggle: rgb(255, 255, 255);
+  --toggle-border: rgba(0, 0, 0, 0.5);
 }
 
 

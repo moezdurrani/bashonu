@@ -22,8 +22,7 @@ const SongDetails = () => {
   const [languageOptions, setLanguageOptions] = useState([]);
   const [displayLanguageOptions, setDisplayLanguageOptions] = useState([]);
   const lyricsRef = React.useRef(null);
-
-
+  const [activeScript, setActiveScript] = useState(null);
 
   const [editForm, setEditForm] = useState({
     title: "",
@@ -144,6 +143,18 @@ const SongDetails = () => {
       if (songError) throw songError;
 
       setSong(songData);
+
+      const hasRoman = !!songData.lyrics_roman;
+      const hasArabic = !!songData.lyrics_arabic;
+
+      if (hasRoman && hasArabic) {
+        setActiveScript("roman"); // default preference
+      } else if (hasArabic) {
+        setActiveScript("arabic");
+      } else {
+        setActiveScript("roman");
+      }
+
       setEditForm({
         title: songData.title,
         lyrics: songData.lyrics,
@@ -255,6 +266,22 @@ const SongDetails = () => {
   if (!song) return <div className="container">Song not found</div>;
 
   const canEdit = currentUser && currentUser.id === song.user_id;
+
+  const hasRoman = !!song.lyrics_roman;
+  const hasArabic = !!song.lyrics_arabic;
+
+  const showToggle = hasRoman && hasArabic;
+
+  const displayedLyrics =
+    activeScript === "arabic"
+      ? song.lyrics_arabic
+      : song.lyrics_roman;
+
+  const lyricsFont =
+    activeScript === "arabic"
+      ? "'NafeesNastaleeq','Noto Nastaliq Urdu', serif"
+      : "Comfortaa, Arial, sans-serif, Helvetica";
+
 
   return (
     <div className="container">
@@ -424,17 +451,34 @@ const SongDetails = () => {
             </div>
           </div>
 
+          {showToggle && (
+            <div className="script-toggle">
+              <div
+                className={`script-option ${activeScript === "roman" ? "active" : ""
+                  }`}
+                onClick={() => setActiveScript("roman")}
+              >
+                Roman
+              </div>
+
+              <div
+                className={`script-option ${activeScript === "arabic" ? "active" : ""
+                  }`}
+                onClick={() => setActiveScript("arabic")}
+              >
+                Arabic
+              </div>
+            </div>
+          )}
+
+
+
+
           <div className="lyrics">
-            <pre
-              style={{
-                fontFamily:
-                  song?.display_language === "urdu"
-                    ? "'NafeesNastaleeq','Noto Nastaliq Urdu', serif"
-                    : "Comfortaa, Arial, sans-serif, Helvetica",
-              }}
-            >
-              {song?.lyrics}
+            <pre style={{ fontFamily: lyricsFont }}>
+              {displayedLyrics}
             </pre>
+
           </div>
 
           {/* <p className="uploader-name">
