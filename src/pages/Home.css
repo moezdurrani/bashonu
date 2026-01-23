@@ -137,11 +137,11 @@
 
 .song-item .scrollable strong {
   color: var(--txt);
+  /* margin-right: 95px; */
+}
+.song-item .text-container .scrollable span {
   margin-right: 95px;
 }
-/* .song-item .text-container .scrollable span {
-  color: blue;
-} */
 
 
 /* Hide scrollbar for Chrome, Safari and Opera */
@@ -279,4 +279,28 @@
   background: var(--accent);
   color: var(--txt-white);
   border-color: var(--accent);
+}
+
+.scrollable::-webkit-scrollbar {
+  height: 4px;
+}
+
+.scrollable::-webkit-scrollbar-track {
+  background: transparent; /* cleaner, modern */
+}
+
+.scrollable::-webkit-scrollbar-thumb {
+  background-color: var(--webkit-scrollbar-thumb-bg);
+  border-radius: 999px;
+}
+
+.scrollable::-webkit-scrollbar-thumb:hover {
+  background-color: var(--webkit-scrollbar-thumb-bg-hover);
+}
+.scrollable {
+  scrollbar-width: thin;
+  scrollbar-color: var(--webkit-scrollbar-thumb-bg) transparent;
+}
+.scrollable:hover {
+  scrollbar-color: var(--webkit-scrollbar-thumb-bg-hover) transparent;
 }
