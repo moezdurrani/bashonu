@@ -151,6 +151,10 @@ button:last-child {
   max-width: 100%;
 }
 
+.lyrics-label {
+  margin-top: 10px;
+}
+
 .controls-container {
   display: flex;
   justify-content: space-between; /* Distributes space between items */
@@ -370,3 +374,4 @@ button:last-child {
   font-weight: 500;
   color: white;
 }
+

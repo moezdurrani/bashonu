@@ -26,13 +26,14 @@ const SongDetails = () => {
 
   const [editForm, setEditForm] = useState({
     title: "",
-    lyrics: "",
+    lyrics_roman: "",
+    lyrics_arabic: "",
     language: "",
-    display_language: "",
     writer_id: "",
     new_writer_name: "",
     youtube_url: "",
   });
+
 
 
   useEffect(() => {
@@ -157,13 +158,14 @@ const SongDetails = () => {
 
       setEditForm({
         title: songData.title,
-        lyrics: songData.lyrics,
+        lyrics_roman: songData.lyrics_roman || "",
+        lyrics_arabic: songData.lyrics_arabic || "",
         language: songData.language,
-        display_language: songData.display_language,
         writer_id: songData.writer_id,
         new_writer_name: "",
         youtube_url: songData.youtube_url || "",
       });
+
 
     } catch (error) {
       console.error("Error fetching song details:", error);
@@ -187,6 +189,14 @@ const SongDetails = () => {
       alert("Please log in to edit songs");
       return;
     }
+    if (
+      !editForm.lyrics_roman.trim() &&
+      !editForm.lyrics_arabic.trim()
+    ) {
+      alert("Please add lyrics in at least one script (Roman or Arabic).");
+      return;
+    }
+
 
     try {
       let finalWriterId = editForm.writer_id;
@@ -206,12 +216,13 @@ const SongDetails = () => {
         .from("songs")
         .update({
           title: editForm.title,
-          lyrics: editForm.lyrics,
+          lyrics_roman: editForm.lyrics_roman || null,
+          lyrics_arabic: editForm.lyrics_arabic || null,
           language: editForm.language,
-          display_language: editForm.display_language,
           writer_id: finalWriterId,
           youtube_url: editForm.youtube_url || null,
         })
+
 
         .eq("id", id);
 
@@ -371,22 +382,6 @@ const SongDetails = () => {
           </div>
 
           <div className="form-group">
-            <label>Lyrics Script:</label>
-            <select
-              name="display_language"
-              value={editForm.display_language}
-              onChange={handleInputChange}
-            >
-              <option value="">Select Display Language</option>
-              {displayLanguageOptions.map((lang) => (
-                <option key={lang} value={lang}>
-                  {lang}
-                </option>
-              ))}
-            </select>
-          </div>
-
-          <div className="form-group">
             <label>YouTube Link (optional):</label>
             <input
               type="text"
@@ -397,27 +392,65 @@ const SongDetails = () => {
             />
           </div>
 
+          <div className="form-group">
+            <p className="lyrics-help-text">
+              You can upload the song in Roman script, Arabic script, or both.
+              Use the toggle below to switch between scripts while editing.
+            </p>
+          </div>
+
+          <div className="script-toggle">
+            <div
+              className={`script-option ${activeScript === "roman" ? "active" : ""
+                }`}
+              onClick={() => setActiveScript("roman")}
+            >
+              Roman
+            </div>
+
+            <div
+              className={`script-option ${activeScript === "arabic" ? "active" : ""
+                }`}
+              onClick={() => setActiveScript("arabic")}
+            >
+              Arabic
+            </div>
+          </div>
 
           <div className="form-group">
-            <label>Lyrics:</label>
+            <label className="lyrics-label">
+              Lyrics ({activeScript === "arabic" ? "Arabic Script" : "Roman Script"}):
+            </label>
+
             <textarea
               ref={lyricsRef}
-              name="lyrics"
-              value={editForm.lyrics}
+              name={activeScript === "arabic" ? "lyrics_arabic" : "lyrics_roman"}
+              value={
+                activeScript === "arabic"
+                  ? editForm.lyrics_arabic
+                  : editForm.lyrics_roman
+              }
               onChange={(e) => {
-                handleInputChange(e);
+                const { name, value } = e.target;
+                setEditForm((prev) => ({
+                  ...prev,
+                  [name]: value,
+                }));
+
                 e.target.style.height = "auto";
                 e.target.style.height = e.target.scrollHeight + "px";
               }}
               style={{
                 fontFamily:
-                  editForm.display_language === "urdu"
+                  activeScript === "arabic"
                     ? "'NafeesNastaleeq','Noto Nastaliq Urdu', serif"
                     : "Comfortaa, Arial, sans-serif, Helvetica",
                 textAlign: "center",
+                lineHeight: activeScript === "arabic" ? "2.4" : "1.8",
               }}
             />
           </div>
+
 
 
           <button type="submit">Save Changes</button>
@@ -443,8 +476,22 @@ const SongDetails = () => {
               {canEdit && (
                 <button
                   className="edit-button"
-                  onClick={() => setIsEditing(true)}
+                  onClick={() => {
+                    const hasRoman = !!editForm.lyrics_roman;
+                    const hasArabic = !!editForm.lyrics_arabic;
+
+                    if (hasRoman && hasArabic) {
+                      setActiveScript("roman");
+                    } else if (hasArabic) {
+                      setActiveScript("arabic");
+                    } else {
+                      setActiveScript("roman");
+                    }
+
+                    setIsEditing(true);
+                  }}
                 >
+
                   <FontAwesomeIcon icon={faPenToSquare} />
                 </button>
               )}
