@@ -60,6 +60,7 @@ html {
   --nav-item-hover: rgb(238, 238, 238);
   --txt-toggle: rgb(0, 0, 0);
   --toggle-border: rgba(0, 0, 0, 0.125);
+  --lyrics-help-text: black;
 
 
   /* --header-bg: #f8f8f8;
@@ -119,6 +120,7 @@ html {
 
   --txt-toggle: rgb(255, 255, 255);
   --toggle-border: rgba(0, 0, 0, 0.5);
+  --lyrics-help-text: white;
 }
 
 

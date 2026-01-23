@@ -557,3 +557,7 @@ select:focus-visible {
   border-color: var(--accent) !important;
   box-shadow: 0 0 8px var(--accent);
 }
+
+.lyrics-help-text {
+  color: var(--lyrics-help-text);
+}

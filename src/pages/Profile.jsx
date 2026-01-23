@@ -26,7 +26,6 @@ const Profile = () => {
 
   // SONG UPLOAD STATE
   const [songTitle, setSongTitle] = useState("");
-  const [lyrics, setLyrics] = useState("");
 
   const [writers, setWriters] = useState([]);
   const [writerOption, setWriterOption] = useState("existing");
@@ -41,13 +40,17 @@ const Profile = () => {
 
   // LANGUAGE ENUMS
   const [language, setLanguage] = useState("");
-  const [displayLanguage, setDisplayLanguage] = useState("");
 
   const [languageOptions, setLanguageOptions] = useState([]);
-  const [displayLanguageOptions, setDisplayLanguageOptions] = useState([]);
+
 
   const [forgotPassword, setForgotPassword] = useState(false);
   const [resetMessage, setResetMessage] = useState("");
+
+  const [lyricsRoman, setLyricsRoman] = useState("");
+  const [lyricsArabic, setLyricsArabic] = useState("");
+  const [activeScript, setActiveScript] = useState("roman");
+
 
   const location = useLocation();
   const navigate = useNavigate();
@@ -94,12 +97,8 @@ const Profile = () => {
         enum_name: "language_enum",
       });
 
-      const { data: dispList } = await supabase.rpc("get_enum_values", {
-        enum_name: "display_language_enum",
-      });
-
       setLanguageOptions(langList || []);
-      setDisplayLanguageOptions(dispList || []);
+
     } catch (err) {
       console.error("ENUM fetch failed", err);
     }
@@ -194,15 +193,19 @@ const Profile = () => {
 
     if (
       !songTitle ||
-      !lyrics ||
       !language ||
-      !displayLanguage ||
       (writerOption === "existing" && !selectedWriterId) ||
       (writerOption === "new" && !newWriterName)
     ) {
-      setUploadError("All fields are required");
+      setUploadError("All required fields must be filled.");
       return;
     }
+
+    if (!lyricsRoman.trim() && !lyricsArabic.trim()) {
+      setUploadError("Please add lyrics in Roman or Arabic (or both).");
+      return;
+    }
+
 
     try {
       let finalWriterId = selectedWriterId;
@@ -221,9 +224,9 @@ const Profile = () => {
       const { error } = await supabase.from("songs").insert([
         {
           title: songTitle,
-          lyrics,
+          lyrics_roman: lyricsRoman || null,
+          lyrics_arabic: lyricsArabic || null,
           language,
-          display_language: displayLanguage,
           writer_id: finalWriterId,
           user_id: user.id,
           youtube_url: youtubeUrl || null,
@@ -240,13 +243,15 @@ const Profile = () => {
 
       // RESET FORM
       setSongTitle("");
-      setLyrics("");
       setLanguage("");
-      setDisplayLanguage("");
       setWriterOption("existing");
       setSelectedWriterId("");
       setNewWriterName("");
       setYoutubeUrl("");
+      setLyricsRoman("");
+      setLyricsArabic("");
+      setActiveScript("roman");
+
 
 
       setTimeout(() => setUploadSuccess(""), 4000);
@@ -423,21 +428,29 @@ const Profile = () => {
               </select>
             </div>
 
-            {/* DISPLAY LANGUAGE */}
             <div className="form-group">
-              <label>Lyrics Script:</label>
-              <select
-                value={displayLanguage}
-                onChange={(e) => setDisplayLanguage(e.target.value)}
-              >
-                <option value="">Select Display Language</option>
-                {displayLanguageOptions.map((lang) => (
-                  <option key={lang} value={lang}>
-                    {lang}
-                  </option>
-                ))}
-              </select>
+              <p className="lyrics-help-text">
+                You can upload the song in Roman script, Arabic script, or both.
+                Use the toggle below to switch between scripts.
+              </p>
             </div>
+
+            <div className="script-toggle">
+              <div
+                className={`script-option ${activeScript === "roman" ? "active" : ""}`}
+                onClick={() => setActiveScript("roman")}
+              >
+                Roman
+              </div>
+
+              <div
+                className={`script-option ${activeScript === "arabic" ? "active" : ""}`}
+                onClick={() => setActiveScript("arabic")}
+              >
+                Arabic
+              </div>
+            </div>
+
 
             {/* YOUTUBE LINK (OPTIONAL) */}
             <div className="form-group">
@@ -455,20 +468,27 @@ const Profile = () => {
             <div className="form-group">
               <label>Lyrics:</label>
               <textarea
-                value={lyrics}
+                value={activeScript === "arabic" ? lyricsArabic : lyricsRoman}
                 onChange={(e) => {
-                  setLyrics(e.target.value);
+                  if (activeScript === "arabic") {
+                    setLyricsArabic(e.target.value);
+                  } else {
+                    setLyricsRoman(e.target.value);
+                  }
+
                   e.target.style.height = "auto";
                   e.target.style.height = e.target.scrollHeight + "px";
                 }}
                 style={{
                   fontFamily:
-                    displayLanguage === "urdu"
+                    activeScript === "arabic"
                       ? "'NafeesNastaleeq','Noto Nastaliq Urdu', serif"
                       : "Comfortaa, Arial, sans-serif, Helvetica",
                   textAlign: "center",
+                  lineHeight: activeScript === "arabic" ? "2.4" : "1.8",
                 }}
               />
+
             </div>
 
             <button onClick={uploadSong} className="upload-button">
