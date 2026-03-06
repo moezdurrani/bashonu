@@ -25,6 +25,7 @@ const SongDetails = () => {
   const lyricsRef = React.useRef(null);
   const [activeScript, setActiveScript] = useState(null);
   const [fontSize, setFontSize] = useState(16);
+  const viewRegistered = React.useRef(false);
 
   const [editForm, setEditForm] = useState({
     title: "",
@@ -118,6 +119,18 @@ const SongDetails = () => {
     }
   };
 
+  const registerView = async (songId) => {
+    const key = `song_view_${songId}`;
+    const lastView = localStorage.getItem(key);
+    const now = Date.now();
+    const ONE_HOUR = 60 * 60 * 1000;
+
+    if (!lastView || now - parseInt(lastView) > ONE_HOUR) {
+      await supabase.rpc("increment_views", { song_id: songId });
+      localStorage.setItem(key, now.toString());
+    }
+  };
+
   const fetchWriters = async () => {
     const { data, error } = await supabase
       .from("writers")
@@ -128,6 +141,12 @@ const SongDetails = () => {
       setWriters(data);
     }
   };
+
+  useEffect(() => {
+    if (viewRegistered.current) return;
+    viewRegistered.current = true;
+    registerView(parseInt(id));
+  }, [id]);
 
   const fetchSongDetails = async () => {
     try {
