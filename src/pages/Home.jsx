@@ -5,6 +5,7 @@ import "./Home.css";
 
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faSearch } from "@fortawesome/free-solid-svg-icons";
+import { faHeart as solidHeart, faEye } from "@fortawesome/free-solid-svg-icons";
 
 const Home = () => {
   const [songs, setSongs] = useState([]);
@@ -20,7 +21,7 @@ const Home = () => {
   const fetchSongs = async () => {
     const { data, error } = await supabase
       .from("songs")
-      .select("id, title, language, display_language, writers (name)")
+      .select("id, title, language, display_language, likes, views, writers (name)")
       .order("title", { ascending: true });
 
     if (error) {
@@ -97,6 +98,12 @@ const Home = () => {
             className="song-item"
             onClick={() => navigate(`/song/${song.id}`)}
           >
+
+            <div className="song-stats">
+              <span><FontAwesomeIcon icon={solidHeart} /> {song.likes ?? 0}</span>
+              <span><FontAwesomeIcon icon={faEye} /> {song.views ?? 0}</span>
+            </div>
+
             <div className="song-sooner-card-outer">
               <div className="song-corner-card">
                 <p className="song-corner-card-text">{song.language}</p>

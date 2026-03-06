@@ -137,7 +137,7 @@
 
 .song-item .scrollable strong {
   color: var(--txt);
-  /* margin-right: 95px; */
+  margin-right: 85px;
 }
 .song-item .text-container .scrollable span {
   margin-right: 95px;
@@ -303,4 +303,33 @@
 }
 .scrollable:hover {
   scrollbar-color: var(--webkit-scrollbar-thumb-bg-hover) transparent;
+}
+
+
+
+.song-stats {
+  position: absolute;
+  top: 25%;
+  transform: translateY(-50%);
+  right: 10px;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 12px;
+  font-size: 0.75rem;
+  color: var(--light-txt);
+  background-color: var(--bg-white);
+  padding: 4px 8px;
+  border-radius: 6px;
+  z-index: 5;
+}
+
+.song-stats span {
+  display: flex;
+  align-items: center;
+  gap: 3px;
+}
+
+.song-stats .fa-heart {
+  color: var(--heart);
 }
