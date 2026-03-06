@@ -6,6 +6,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faHeart as solidHeart } from "@fortawesome/free-solid-svg-icons";
 import { faHeart as outlineHeart } from "@fortawesome/free-regular-svg-icons";
 import { faPenToSquare } from "@fortawesome/free-solid-svg-icons";
+import { faMagnifyingGlass, faMagnifyingGlassPlus, faMagnifyingGlassMinus } from "@fortawesome/free-solid-svg-icons";
 
 const SongDetails = () => {
   const { id } = useParams();
@@ -23,6 +24,7 @@ const SongDetails = () => {
   const [displayLanguageOptions, setDisplayLanguageOptions] = useState([]);
   const lyricsRef = React.useRef(null);
   const [activeScript, setActiveScript] = useState(null);
+  const [fontSize, setFontSize] = useState(16);
 
   const [editForm, setEditForm] = useState({
     title: "",
@@ -469,6 +471,7 @@ const SongDetails = () => {
             </div>
 
             <div className="song-header-right">
+
               <button className="like-button" onClick={handleLike}>
                 <FontAwesomeIcon icon={hasLiked ? solidHeart : outlineHeart} />
               </button>
@@ -518,14 +521,22 @@ const SongDetails = () => {
             </div>
           )}
 
-
-
-
           <div className="lyrics">
-            <pre style={{ fontFamily: lyricsFont }}>
+            <pre style={{ fontFamily: lyricsFont, fontSize: `${fontSize}px` }}>
               {displayedLyrics}
             </pre>
+          </div>
 
+          <div className="font-size-controls">
+            <button onClick={() => setFontSize(f => Math.max(f - 2, 10))}>
+              <FontAwesomeIcon icon={faMagnifyingGlassMinus} />
+            </button>
+            <button onClick={() => setFontSize(16)}>
+              <FontAwesomeIcon icon={faMagnifyingGlass} />
+            </button>
+            <button onClick={() => setFontSize(f => Math.min(f + 2, 32))}>
+              <FontAwesomeIcon icon={faMagnifyingGlassPlus} />
+            </button>
           </div>
 
           {/* <p className="uploader-name">

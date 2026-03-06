@@ -141,7 +141,7 @@ button:last-child {
 
   user-select: none;
   line-height: 2;
-  
+  position: relative;
 }
 
 .lyrics pre {
@@ -383,3 +383,50 @@ button:last-child {
   color: white;
 }
 
+.font-size-controls {
+  background: var(--bg-white);
+  position: sticky;
+  bottom: 16px;
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+  margin-top: 16px;
+  border-radius: 15px;
+  background: var(--bg-white);
+  border: 5px solid var(--bg-white);
+  padding: 8px 15px;
+  background-color: var(--bg-white);
+  border: 1px solid var(--border);
+  box-shadow: 0 4px 12px var(--song-item-hover), 0 1px 3px var(--song-item);
+  
+  z-index: 100;
+}
+
+.font-size-controls button {
+  background: var(--bg-white); /* Give buttons a solid base */
+  border: 1px solid var(--border-2);
+  color: var(--accent);
+  width: 42px;
+  height: 42px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+  font-size: 1.1rem;
+  
+  /* Soft shadow for depth */
+  box-shadow: 0 2px 5px var(--song-item);
+}
+
+.font-size-controls button:hover {
+  background-color: var(--accent);
+  color: white;
+  transform: translateY(-2px); /* Lift effect */
+  box-shadow: 0 4px 8px var(--song-item-hover);
+}
+
+.font-size-controls button:active {
+  transform: translateY(0) scale(0.95);
+}
