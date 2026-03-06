@@ -482,8 +482,8 @@ const Profile = () => {
                 style={{
                   fontFamily:
                     activeScript === "arabic"
-                      ? "'NafeesNastaleeq','Noto Nastaliq Urdu', serif"
-                      : "Comfortaa, Arial, sans-serif, Helvetica",
+                      ? "var(--font-arabic)"
+                      : "var(--font-main)",
                   textAlign: "center",
                   lineHeight: activeScript === "arabic" ? "2.4" : "1.8",
                 }}

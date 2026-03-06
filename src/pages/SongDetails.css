@@ -151,6 +151,14 @@ button:last-child {
   max-width: 100%;
 }
 
+/* .lyrics pre {
+  font-family: var(--font-main);
+  font-weight: 500;       
+  letter-spacing: 0.02rem;  
+    
+  opacity: 0.95;        
+} */
+
 .lyrics-label {
   margin-top: 10px;
 }

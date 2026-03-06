@@ -1,5 +1,6 @@
 /* GLOBAL FONTS */
 @import url("https://fonts.googleapis.com/css2?family=Comfortaa:wght@300..700&family=Exo+2:ital,wght@0,100..900;1,100..900&family=Noto+Nastaliq+Urdu:wght@400..700&display=swap");
+@import url('https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400..700;1,400..700&display=swap');
 
 @font-face {
   font-family: "KhowarFont";
@@ -17,6 +18,21 @@
   font-style: normal;
 }
 
+/* Scheherazade New - Arabic/Urdu Script */
+@font-face {
+  font-family: "ScheherazadeNew";
+  src: url("/fonts/ScheherazadeNew-Regular.ttf") format("truetype");
+  font-weight: normal;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: "ScheherazadeNew";
+  src: url("/fonts/ScheherazadeNew-Bold.ttf") format("truetype");
+  font-weight: bold;
+  font-style: normal;
+}
+
 /* GLOBAL RESET */
 * {
   margin: 0;
@@ -28,9 +44,13 @@ html {
   scroll-behavior: smooth;
 }
 
-
+/* Lora Font */
 /* THEME VARIABLES (LIGHT MODE DEFAULT) */
 :root {
+
+  --font-main: 'Comfortaa',Arial, sans-serif, Helvetica;
+  --font-arabic: 'ScheherazadeNew','NafeesNastaleeq', 'Noto Nastaliq Urdu', serif;
+
   --bg: rgb(243, 244, 247);
   --bg-white: rgb(255, 255, 255);
   --txt-white: rgb(255, 255, 255);
