@@ -31,6 +31,7 @@ const SongDetails = () => {
   const [commentText, setCommentText] = useState("");
   const [commentsLoading, setCommentsLoading] = useState(false);
   const [showCommentLoginMessage, setShowCommentLoginMessage] = useState(false);
+  const commentsRef = React.useRef(null);
 
   const { slug } = useParams();
   const id = slug.split("-").pop(); // gets the last part after final hyphen
@@ -69,7 +70,12 @@ const SongDetails = () => {
   };
 
   const handleToggleComments = () => {
-    if (!showComments) fetchComments();
+    if (!showComments) {
+      fetchComments();
+      setTimeout(() => {
+        commentsRef.current?.scrollIntoView({ behavior: "smooth", block: "start" });
+      }, 100);
+    }
     setShowComments(prev => !prev);
   };
 
@@ -673,7 +679,7 @@ const SongDetails = () => {
           </p> */}
 
           {showComments && (
-            <div className="comments-section">
+            <div className="comments-section" ref={commentsRef}>
               {showCommentLoginMessage && (
                 <div className="login-message">Please log in to comment</div>
               )}
