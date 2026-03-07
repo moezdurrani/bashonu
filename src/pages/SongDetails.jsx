@@ -816,6 +816,9 @@ const SongDetails = () => {
               {showLikeCommentLoginMessage && (
                 <div className="login-message">Please log in to like a comment</div>
               )}
+              {showCommentLoginMessage && (
+                <div className="login-message">Please log in to comment</div>
+              )}
               <div className="comment-input-row">
                 <input
                   type="text"
