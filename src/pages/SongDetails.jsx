@@ -100,8 +100,8 @@ const SongDetails = () => {
 
     setContextMenu({
       commentId,
-      x: clientX,
-      y: clientY - 70, // appear above the press point
+      x: clientX + 50,
+      y: clientY - 50, // appear above the press point
     });
   };
 

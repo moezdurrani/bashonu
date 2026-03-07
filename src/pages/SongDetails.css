@@ -639,7 +639,7 @@ button:last-child {
   gap: 4px;
   background-color: var(--bg-white);
   border: 1px solid var(--border);
-  border-radius: 999px;
+  border-radius: 8px;
   padding: 2px 8px;
   font-size: 0.75rem;
   color: var(--accent);
@@ -647,11 +647,12 @@ button:last-child {
   width: fit-content;
 }
 
+/* This is where you move how far the like comment option is */
 .comment-context-menu {
   position: fixed;
   background-color: var(--bg-white);
   border: 1px solid var(--border);
-  border-radius: 999px;
+  border-radius: 7px;
   padding: 6px 10px;
   display: flex;
   gap: 8px;
