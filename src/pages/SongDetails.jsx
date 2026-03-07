@@ -43,6 +43,14 @@ const SongDetails = () => {
   const [contextMenu, setContextMenu] = useState(null); // { commentId, x, y }
   const [commentLikes, setCommentLikes] = useState({}); // { commentId: { count, hasLiked } }
 
+  const playChitraliSound = () => {
+    const audio = new Audio("/comment_sound.mp3");
+    audio.volume = 0.4;
+    audio.play().catch(() => { }); // catch needed for browser autoplay policy
+  };
+
+
+
   const fetchCommentLikes = async (commentIds) => {
     if (!commentIds.length) return;
 
@@ -95,6 +103,7 @@ const SongDetails = () => {
 
   const handleLongPress = (e, commentId) => {
     e.preventDefault();
+    playChitraliSound();
 
     const isTouch = e.touches !== undefined;
     const clientX = isTouch ? e.touches[0].clientX : e.clientX;
@@ -216,7 +225,13 @@ const SongDetails = () => {
     youtube_url: "",
   });
 
+  useEffect(() => {
+    if (!contextMenu) return;
 
+    const handleScroll = () => setContextMenu(null);
+    window.addEventListener("scroll", handleScroll, { passive: true });
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, [contextMenu]);
 
   useEffect(() => {
     fetchCurrentUser();
@@ -836,12 +851,17 @@ const SongDetails = () => {
                       onContextMenu={(e) => handleLongPress(e, comment.id)}
                       onTouchStart={(e) => {
                         const touch = e.touches[0];
+                        const audio = new Audio("/comment_sound.mp3"); // preload immediately
+                        audio.volume = 0.4;
+                        audio.load();
+
                         const timer = setTimeout(() => {
                           e.preventDefault();
+                          audio.play().catch(() => { });  // already loaded, plays instantly
                           setContextMenu({
                             commentId: comment.id,
-                            x: touch.clientX,
-                            y: touch.clientY - 70,
+                            x: touch.clientX + 50,
+                            y: touch.clientY - 80,
                           });
                         }, 500);
                         e.currentTarget._longPressTimer = timer;
