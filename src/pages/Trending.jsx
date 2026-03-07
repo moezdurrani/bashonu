@@ -3,6 +3,12 @@ import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { supabase } from "../supabaseClient";
 import "./Trending.css";
+import { generateSlug } from "../utils";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faHeart as solidHeart, faEye } from "@fortawesome/free-solid-svg-icons";
+
+// in onClick:
+
 
 const Trending = () => {
   const navigate = useNavigate();
@@ -68,7 +74,7 @@ const Trending = () => {
             <div
               className="card clickable"
               key={song.song_id}
-              onClick={() => navigate(`/song/${song.song_id}`)}
+              onClick={() => navigate(`/song/${generateSlug(song.title, song.song_id)}`)}
             >
               <div className="card-content">
                 <div className="title-container">
@@ -77,7 +83,10 @@ const Trending = () => {
                   </div>
                 </div>
                 <div className="stats-container">
-                  <span className="stats">{song.likes} likes</span>
+                  <span className="stats">
+                    <FontAwesomeIcon icon={solidHeart} /> {song.likes}&nbsp;&nbsp;
+                    <FontAwesomeIcon icon={faEye} /> {song.views}
+                  </span>
                 </div>
               </div>
             </div>
@@ -100,7 +109,8 @@ const Trending = () => {
                 </div>
                 <div className="stats-container">
                   <span className="stats">
-                    Total Likes: {writer.total_likes}
+                    <FontAwesomeIcon icon={solidHeart} /> {writer.total_likes}&nbsp;&nbsp;
+                    <FontAwesomeIcon icon={faEye} /> {writer.total_views}
                   </span>
                 </div>
               </div>
