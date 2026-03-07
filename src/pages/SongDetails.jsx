@@ -6,7 +6,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faHeart as solidHeart } from "@fortawesome/free-solid-svg-icons";
 import { faHeart as outlineHeart } from "@fortawesome/free-regular-svg-icons";
 import { faPenToSquare } from "@fortawesome/free-solid-svg-icons";
-import { faMagnifyingGlass, faMagnifyingGlassPlus, faMagnifyingGlassMinus, faShare } from "@fortawesome/free-solid-svg-icons";
+import { faMagnifyingGlass, faMagnifyingGlassPlus, faMagnifyingGlassMinus, faShare, faComment, faPaperPlane, faCircleUser } from "@fortawesome/free-solid-svg-icons";
 
 const SongDetails = () => {
   // const { id } = useParams();
@@ -26,9 +26,82 @@ const SongDetails = () => {
   const [activeScript, setActiveScript] = useState(null);
   const [fontSize, setFontSize] = useState(16);
   const viewRegistered = React.useRef(false);
+  const [showComments, setShowComments] = useState(false);
+  const [comments, setComments] = useState([]);
+  const [commentText, setCommentText] = useState("");
+  const [commentsLoading, setCommentsLoading] = useState(false);
+  const [showCommentLoginMessage, setShowCommentLoginMessage] = useState(false);
 
   const { slug } = useParams();
   const id = slug.split("-").pop(); // gets the last part after final hyphen
+
+  // const fetchComments = async () => {
+  //   setCommentsLoading(true);
+  //   const { data, error } = await supabase
+  //     .from("comments")
+  //     .select("id, content, created_at, user_id, profile (username)")
+  //     .eq("song_id", id)
+  //     .is("parent_id", null) // flat for now
+  //     .order("created_at", { ascending: false });
+
+  //   if (!error) setComments(data);
+  //   setCommentsLoading(false);
+  // };
+
+  const fetchComments = async () => {
+    setCommentsLoading(true);
+    const { data, error } = await supabase
+      .from("comments")
+      .select("id, content, created_at, user_id")
+      .eq("song_id", id)
+      .is("parent_id", null)
+      .order("created_at", { ascending: false });
+
+    if (!error && data) {
+      // get unique user ids and fetch their usernames
+      const userIds = [...new Set(data.map(c => c.user_id))];
+      const { data: profiles } = await supabase
+        .from("profile")
+        .select("id, username")
+        .in("id", userIds);
+
+      // attach username to each comment
+      const commentsWithUsers = data.map(comment => ({
+        ...comment,
+        username: profiles?.find(p => p.id === comment.user_id)?.username || "Unknown"
+      }));
+
+      setComments(commentsWithUsers);
+    }
+    setCommentsLoading(false);
+  };
+
+  const handleToggleComments = () => {
+    if (!showComments) fetchComments();
+    setShowComments(prev => !prev);
+  };
+
+  const handleSubmitComment = async () => {
+    if (!currentUser) {
+      setShowCommentLoginMessage(true);
+      setTimeout(() => setShowCommentLoginMessage(false), 3000);
+      return;
+    }
+    if (!commentText.trim()) return;
+
+    const { error } = await supabase
+      .from("comments")
+      .insert([{ song_id: parseInt(id), user_id: currentUser.id, content: commentText.trim() }]);
+
+    if (!error) {
+      setCommentText("");
+      fetchComments(); // add this
+    }
+  };
+
+  const handleDeleteComment = async (commentId) => {
+    await supabase.from("comments").delete().eq("id", commentId);
+  };
 
   const handleShare = async () => {
     if (navigator.share) {
@@ -65,6 +138,24 @@ const SongDetails = () => {
     fetchWriters();
     fetchLanguageEnums();
   }, [id]);
+
+  useEffect(() => {
+    if (!showComments) return;
+
+    const channel = supabase
+      .channel(`comments-${id}`)
+      .on("postgres_changes", {
+        event: "*",
+        schema: "public",
+        table: "comments",
+        filter: `song_id=eq.${id}`,
+      }, () => {
+        fetchComments();
+      })
+      .subscribe();
+
+    return () => supabase.removeChannel(channel);
+  }, [showComments, id]);
 
   useEffect(() => {
     if (isEditing && lyricsRef.current) {
@@ -567,6 +658,9 @@ const SongDetails = () => {
           </div>
 
           <div className="font-size-controls">
+            <button onClick={handleToggleComments}>
+              <FontAwesomeIcon icon={faComment} />
+            </button>
             <button onClick={() => setFontSize(f => Math.max(f - 2, 10))}>
               <FontAwesomeIcon icon={faMagnifyingGlassMinus} />
             </button>
@@ -585,6 +679,63 @@ const SongDetails = () => {
             <strong>Uploaded by:</strong>{" "}
             {song.profile?.username || "Unknown"}
           </p> */}
+
+          {showComments && (
+            <div className="comments-section">
+              {showCommentLoginMessage && (
+                <div className="login-message">Please log in to comment</div>
+              )}
+              <div className="comment-input-row">
+                <input
+                  type="text"
+                  className="comment-input"
+                  placeholder="Write a comment..."
+                  value={commentText}
+                  onChange={(e) => setCommentText(e.target.value)}
+                  onKeyDown={(e) => e.key === "Enter" && handleSubmitComment()}
+                />
+                <button
+                  className={`comment-send-btn ${!currentUser ? "disabled" : ""}`}
+                  onClick={handleSubmitComment}
+                >
+                  <FontAwesomeIcon icon={faPaperPlane} />
+                </button>
+              </div>
+
+              {commentsLoading ? (
+                <p className="comments-loading">Loading comments...</p>
+              ) : comments.length === 0 ? (
+                <p className="no-comments">No comments yet. Be the first!</p>
+              ) : (
+                <div className="comments-list">
+                  {comments.map((comment) => (
+                    <div key={comment.id} className="comment-item">
+                      <FontAwesomeIcon icon={faCircleUser} className="comment-avatar-icon" />
+                      <div className="comment-body">
+                        <div className="comment-header">
+                          <div className="comment-meta">
+                            <span className="comment-username">{comment.username}</span>
+                            <span className="comment-date">
+                              {new Date(comment.created_at).toLocaleDateString()}
+                            </span>
+                          </div>
+                          {currentUser && currentUser.id === comment.user_id && (
+                            <button
+                              className="comment-delete-btn"
+                              onClick={() => handleDeleteComment(comment.id)}
+                            >
+                              ✕
+                            </button>
+                          )}
+                        </div>
+                        <p className="comment-content">{comment.content}</p>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              )}
+            </div>
+          )}
 
           {embedUrl && (
             <div className="youtube-section">
