@@ -35,18 +35,10 @@ const SongDetails = () => {
   const { slug } = useParams();
   const id = slug.split("-").pop(); // gets the last part after final hyphen
 
-  // const fetchComments = async () => {
-  //   setCommentsLoading(true);
-  //   const { data, error } = await supabase
-  //     .from("comments")
-  //     .select("id, content, created_at, user_id, profile (username)")
-  //     .eq("song_id", id)
-  //     .is("parent_id", null) // flat for now
-  //     .order("created_at", { ascending: false });
-
-  //   if (!error) setComments(data);
-  //   setCommentsLoading(false);
-  // };
+  const detectCommentDirection = (text) => {
+    const arabicPattern = /[\u0600-\u06FF\u0750-\u077F\u08A0-\u08FF]/;
+    return arabicPattern.test(text) ? "rtl" : "ltr";
+  };
 
   const fetchComments = async () => {
     setCommentsLoading(true);
@@ -693,6 +685,12 @@ const SongDetails = () => {
                   value={commentText}
                   onChange={(e) => setCommentText(e.target.value)}
                   onKeyDown={(e) => e.key === "Enter" && handleSubmitComment()}
+                  style={{
+                    direction: detectCommentDirection(commentText),
+                    fontFamily: detectCommentDirection(commentText) === "rtl"
+                      ? "var(--font-arabic)"
+                      : "var(--font-main)",
+                  }}
                 />
                 <button
                   className={`comment-send-btn ${!currentUser ? "disabled" : ""}`}
@@ -728,7 +726,17 @@ const SongDetails = () => {
                             </button>
                           )}
                         </div>
-                        <p className="comment-content">{comment.content}</p>
+                        <p
+                          className="comment-content"
+                          style={{
+                            direction: detectCommentDirection(comment.content),
+                            fontFamily: detectCommentDirection(comment.content) === "rtl"
+                              ? "var(--font-arabic)"
+                              : "var(--font-main)",
+                          }}
+                        >
+                          {comment.content}
+                        </p>
                       </div>
                     </div>
                   ))}
