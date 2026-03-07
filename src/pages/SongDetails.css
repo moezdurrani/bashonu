@@ -602,3 +602,23 @@ button:last-child {
 .comments-list::-webkit-scrollbar-thumb:hover {
   background: var(--accent);
 }
+
+.font-size-controls button {
+  position: relative; /* add this to existing rule */
+}
+
+.comment-count-badge {
+  position: absolute;
+  top: -6px;
+  right: -6px;
+  background-color: var(--accent);
+  color: white;
+  font-size: 0.6rem;
+  font-weight: 700;
+  padding: 1px 4px;
+  border-radius: 999px;
+  line-height: 1.4;
+  min-width: 16px;
+  text-align: center;
+  border: 2px solid var(--bg-white);
+}

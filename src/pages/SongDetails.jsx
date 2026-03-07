@@ -32,6 +32,7 @@ const SongDetails = () => {
   const [commentsLoading, setCommentsLoading] = useState(false);
   const [showCommentLoginMessage, setShowCommentLoginMessage] = useState(false);
   const commentsRef = React.useRef(null);
+  const [commentsCount, setCommentsCount] = useState(0);
 
   const { slug } = useParams();
   const id = slug.split("-").pop(); // gets the last part after final hyphen
@@ -69,6 +70,22 @@ const SongDetails = () => {
     setCommentsLoading(false);
   };
 
+  const formatCount = (n) => {
+    if (n >= 1000) return `${(n / 1000).toFixed(n >= 10000 ? 0 : 1)}k`;
+    return n;
+  };
+
+  const fetchCommentsCount = async () => {
+    const { count } = await supabase
+      .from("comments")
+      .select("*", { count: "exact", head: true })
+      .eq("song_id", id)
+      .is("parent_id", null);
+
+    setCommentsCount(count || 0);
+  };
+
+
   const handleToggleComments = () => {
     if (!showComments) {
       fetchComments();
@@ -100,6 +117,7 @@ const SongDetails = () => {
   const handleDeleteComment = async (commentId) => {
     await supabase.from("comments").delete().eq("id", commentId);
     fetchComments();
+    fetchCommentsCount(); // add
   };
 
   const handleShare = async () => {
@@ -136,6 +154,7 @@ const SongDetails = () => {
     fetchSongDetails();
     fetchWriters();
     fetchLanguageEnums();
+    fetchCommentsCount();
   }, [id]);
 
   useEffect(() => {
@@ -657,8 +676,11 @@ const SongDetails = () => {
           </div>
 
           <div className="font-size-controls">
-            <button onClick={handleToggleComments}>
+            <button onClick={handleToggleComments} style={{ position: "relative" }}>
               <FontAwesomeIcon icon={faComment} />
+              {commentsCount > 0 && (
+                <span className="comment-count-badge">{formatCount(commentsCount)}</span>
+              )}
             </button>
             <button onClick={() => setFontSize(f => Math.max(f - 2, 10))}>
               <FontAwesomeIcon icon={faMagnifyingGlassMinus} />
