@@ -504,6 +504,8 @@ button:last-child {
   display: flex;
   align-items: flex-start;
   gap: 12px;
+  -webkit-user-select: none;
+  user-select: none;
 }
 
 .comment-header {

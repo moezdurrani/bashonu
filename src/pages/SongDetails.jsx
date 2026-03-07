@@ -8,6 +8,7 @@ import { faHeart as outlineHeart } from "@fortawesome/free-regular-svg-icons";
 import { faPenToSquare } from "@fortawesome/free-solid-svg-icons";
 import { faMagnifyingGlass, faMagnifyingGlassPlus, faMagnifyingGlassMinus, faShare, faComment, faPaperPlane, faCircleUser } from "@fortawesome/free-solid-svg-icons";
 import { faThumbsUp } from "@fortawesome/free-solid-svg-icons";
+import { PiXBold } from "react-icons/pi";
 
 const SongDetails = () => {
   // const { id } = useParams();
@@ -34,6 +35,7 @@ const SongDetails = () => {
   const [showCommentLoginMessage, setShowCommentLoginMessage] = useState(false);
   const commentsRef = React.useRef(null);
   const [commentsCount, setCommentsCount] = useState(0);
+  const [showLikeCommentLoginMessage, setShowLikeCommentLoginMessage] = useState(false);
 
   const { slug } = useParams();
   const id = slug.split("-").pop(); // gets the last part after final hyphen
@@ -63,8 +65,8 @@ const SongDetails = () => {
   const handleCommentLike = async (commentId) => {
     setContextMenu(null);
     if (!currentUser) {
-      setShowCommentLoginMessage(true);
-      setTimeout(() => setShowCommentLoginMessage(false), 3000);
+      setShowLikeCommentLoginMessage(true);
+      setTimeout(() => setShowLikeCommentLoginMessage(false), 3000);
       return;
     }
 
@@ -94,14 +96,14 @@ const SongDetails = () => {
   const handleLongPress = (e, commentId) => {
     e.preventDefault();
 
-    // get coordinates from mouse or touch
-    const clientX = e.touches ? e.touches[0].clientX : e.clientX;
-    const clientY = e.touches ? e.touches[0].clientY : e.clientY;
+    const isTouch = e.touches !== undefined;
+    const clientX = isTouch ? e.touches[0].clientX : e.clientX;
+    const clientY = isTouch ? e.touches[0].clientY : e.clientY;
 
     setContextMenu({
       commentId,
-      x: clientX + 50,
-      y: clientY - 50, // appear above the press point
+      x: clientX + (isTouch ? 50 : -20),
+      y: clientY + (isTouch ? -80 : -60),
     });
   };
 
@@ -796,8 +798,8 @@ const SongDetails = () => {
 
           {showComments && (
             <div className="comments-section" ref={commentsRef}>
-              {showCommentLoginMessage && (
-                <div className="login-message">Please log in to comment</div>
+              {showLikeCommentLoginMessage && (
+                <div className="login-message">Please log in to like a comment</div>
               )}
               <div className="comment-input-row">
                 <input
