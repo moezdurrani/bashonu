@@ -6,7 +6,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faHeart as solidHeart } from "@fortawesome/free-solid-svg-icons";
 import { faHeart as outlineHeart } from "@fortawesome/free-regular-svg-icons";
 import { faPenToSquare } from "@fortawesome/free-solid-svg-icons";
-import { faMagnifyingGlass, faMagnifyingGlassPlus, faMagnifyingGlassMinus } from "@fortawesome/free-solid-svg-icons";
+import { faMagnifyingGlass, faMagnifyingGlassPlus, faMagnifyingGlassMinus, faShare } from "@fortawesome/free-solid-svg-icons";
 
 const SongDetails = () => {
   // const { id } = useParams();
@@ -29,6 +29,23 @@ const SongDetails = () => {
 
   const { slug } = useParams();
   const id = slug.split("-").pop(); // gets the last part after final hyphen
+
+  const handleShare = async () => {
+    if (navigator.share) {
+      try {
+        await navigator.share({
+          title: song.title,
+          url: window.location.href,
+        });
+      } catch (error) {
+        // user cancelled, do nothing
+      }
+    } else {
+      // fallback for desktop - copy to clipboard
+      navigator.clipboard.writeText(window.location.href);
+      alert("Link copied to clipboard!");
+    }
+  };
 
   const [editForm, setEditForm] = useState({
     title: "",
@@ -558,6 +575,9 @@ const SongDetails = () => {
             </button>
             <button onClick={() => setFontSize(f => Math.min(f + 2, 32))}>
               <FontAwesomeIcon icon={faMagnifyingGlassPlus} />
+            </button>
+            <button onClick={(e) => { e.stopPropagation(); handleShare(); }}>
+              <FontAwesomeIcon icon={faShare} />
             </button>
           </div>
 
