@@ -9,7 +9,7 @@ import { faPenToSquare } from "@fortawesome/free-solid-svg-icons";
 import { faMagnifyingGlass, faMagnifyingGlassPlus, faMagnifyingGlassMinus } from "@fortawesome/free-solid-svg-icons";
 
 const SongDetails = () => {
-  const { id } = useParams();
+  // const { id } = useParams();
   const navigate = useNavigate();
   const [song, setSong] = useState(null);
   const [isEditing, setIsEditing] = useState(false);
@@ -26,6 +26,9 @@ const SongDetails = () => {
   const [activeScript, setActiveScript] = useState(null);
   const [fontSize, setFontSize] = useState(16);
   const viewRegistered = React.useRef(false);
+
+  const { slug } = useParams();
+  const id = slug.split("-").pop(); // gets the last part after final hyphen
 
   const [editForm, setEditForm] = useState({
     title: "",

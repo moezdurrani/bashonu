@@ -7,6 +7,9 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faSearch } from "@fortawesome/free-solid-svg-icons";
 import { faHeart as solidHeart, faEye } from "@fortawesome/free-solid-svg-icons";
 
+import { generateSlug } from "../utils";
+
+
 const Home = () => {
   const [songs, setSongs] = useState([]);
   const [searchTerm, setSearchTerm] = useState("");
@@ -96,7 +99,7 @@ const Home = () => {
           <div
             key={song.id}
             className="song-item"
-            onClick={() => navigate(`/song/${song.id}`)}
+            onClick={() => navigate(`/song/${generateSlug(song.title, song.id)}`)}
           >
 
             <div className="song-stats">

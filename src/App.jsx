@@ -21,7 +21,7 @@ export default function App() {
             <Route path="/about" element={<About />} />
             <Route path="/profile" element={<Profile />} />
             <Route path="/trending" element={<Trending />} />
-            <Route path="/song/:id" element={<SongDetails />} />
+            <Route path="/song/:slug" element={<SongDetails />} />
             <Route path="/my-songs" element={<MySongs />} />
             <Route path="/reset-password" element={<ResetPassword />} />
           </Routes>
