@@ -7,6 +7,7 @@ import { faHeart as solidHeart } from "@fortawesome/free-solid-svg-icons";
 import { faHeart as outlineHeart } from "@fortawesome/free-regular-svg-icons";
 import { faPenToSquare } from "@fortawesome/free-solid-svg-icons";
 import { faMagnifyingGlass, faMagnifyingGlassPlus, faMagnifyingGlassMinus, faShare, faComment, faPaperPlane, faCircleUser } from "@fortawesome/free-solid-svg-icons";
+import { faThumbsUp } from "@fortawesome/free-solid-svg-icons";
 
 const SongDetails = () => {
   // const { id } = useParams();
@@ -37,6 +38,73 @@ const SongDetails = () => {
   const { slug } = useParams();
   const id = slug.split("-").pop(); // gets the last part after final hyphen
 
+  const [contextMenu, setContextMenu] = useState(null); // { commentId, x, y }
+  const [commentLikes, setCommentLikes] = useState({}); // { commentId: { count, hasLiked } }
+
+  const fetchCommentLikes = async (commentIds) => {
+    if (!commentIds.length) return;
+
+    const { data: likesData } = await supabase
+      .from("comment_likes")
+      .select("comment_id, user_id")
+      .in("comment_id", commentIds);
+
+    const likesMap = {};
+    commentIds.forEach(cid => {
+      const likes = likesData?.filter(l => l.comment_id === cid) || [];
+      likesMap[cid] = {
+        count: likes.length,
+        hasLiked: currentUser ? likes.some(l => l.user_id === currentUser.id) : false
+      };
+    });
+    setCommentLikes(likesMap);
+  };
+
+  const handleCommentLike = async (commentId) => {
+    setContextMenu(null);
+    if (!currentUser) {
+      setShowCommentLoginMessage(true);
+      setTimeout(() => setShowCommentLoginMessage(false), 3000);
+      return;
+    }
+
+    const already = commentLikes[commentId]?.hasLiked;
+
+    // optimistic update
+    setCommentLikes(prev => ({
+      ...prev,
+      [commentId]: {
+        count: (prev[commentId]?.count || 0) + (already ? -1 : 1),
+        hasLiked: !already
+      }
+    }));
+
+    if (already) {
+      await supabase.from("comment_likes").delete()
+        .eq("comment_id", commentId)
+        .eq("user_id", currentUser.id);
+    } else {
+      await supabase.from("comment_likes").insert([{
+        comment_id: commentId,
+        user_id: currentUser.id
+      }]);
+    }
+  };
+
+  const handleLongPress = (e, commentId) => {
+    e.preventDefault();
+
+    // get coordinates from mouse or touch
+    const clientX = e.touches ? e.touches[0].clientX : e.clientX;
+    const clientY = e.touches ? e.touches[0].clientY : e.clientY;
+
+    setContextMenu({
+      commentId,
+      x: clientX,
+      y: clientY - 70, // appear above the press point
+    });
+  };
+
   const detectCommentDirection = (text) => {
     const arabicPattern = /[\u0600-\u06FF\u0750-\u077F\u08A0-\u08FF]/;
     return arabicPattern.test(text) ? "rtl" : "ltr";
@@ -52,20 +120,19 @@ const SongDetails = () => {
       .order("created_at", { ascending: false });
 
     if (!error && data) {
-      // get unique user ids and fetch their usernames
       const userIds = [...new Set(data.map(c => c.user_id))];
       const { data: profiles } = await supabase
         .from("profile")
         .select("id, username")
         .in("id", userIds);
 
-      // attach username to each comment
       const commentsWithUsers = data.map(comment => ({
         ...comment,
         username: profiles?.find(p => p.id === comment.user_id)?.username || "Unknown"
       }));
 
       setComments(commentsWithUsers);
+      fetchCommentLikes(data.map(c => c.id)); // add this
     }
     setCommentsLoading(false);
   };
@@ -156,6 +223,32 @@ const SongDetails = () => {
     fetchLanguageEnums();
     fetchCommentsCount();
   }, [id]);
+
+  useEffect(() => {
+    if (!showComments) return;
+
+    const channel = supabase
+      .channel(`comments-${id}`)
+      .on("postgres_changes", {
+        event: "*",
+        schema: "public",
+        table: "comments",
+        filter: `song_id=eq.${id}`,
+      }, () => {
+        fetchComments();
+        fetchCommentsCount();
+      })
+      .on("postgres_changes", {
+        event: "*",
+        schema: "public",
+        table: "comment_likes",
+      }, () => {
+        fetchCommentLikes(comments.map(c => c.id));
+      })
+      .subscribe();
+
+    return () => supabase.removeChannel(channel);
+  }, [showComments, id, comments]);
 
   useEffect(() => {
     if (!showComments) return;
@@ -717,8 +810,7 @@ const SongDetails = () => {
                   style={{
                     direction: detectCommentDirection(commentText),
                     fontFamily: detectCommentDirection(commentText) === "rtl"
-                      ? "var(--font-arabic)"
-                      : "var(--font-main)",
+                      ? "var(--font-arabic)" : "var(--font-main)",
                   }}
                 />
                 <button
@@ -736,7 +828,25 @@ const SongDetails = () => {
               ) : (
                 <div className="comments-list">
                   {comments.map((comment) => (
-                    <div key={comment.id} className="comment-item">
+                    <div
+                      key={comment.id}
+                      className="comment-item"
+                      onContextMenu={(e) => handleLongPress(e, comment.id)}
+                      onTouchStart={(e) => {
+                        const touch = e.touches[0];
+                        const timer = setTimeout(() => {
+                          e.preventDefault();
+                          setContextMenu({
+                            commentId: comment.id,
+                            x: touch.clientX,
+                            y: touch.clientY - 70,
+                          });
+                        }, 500);
+                        e.currentTarget._longPressTimer = timer;
+                      }}
+                      onTouchEnd={(e) => clearTimeout(e.currentTarget._longPressTimer)}
+                      onTouchMove={(e) => clearTimeout(e.currentTarget._longPressTimer)}
+                    >
                       <FontAwesomeIcon icon={faCircleUser} className="comment-avatar-icon" />
                       <div className="comment-body">
                         <div className="comment-header">
@@ -760,16 +870,36 @@ const SongDetails = () => {
                           style={{
                             direction: detectCommentDirection(comment.content),
                             fontFamily: detectCommentDirection(comment.content) === "rtl"
-                              ? "var(--font-arabic)"
-                              : "var(--font-main)",
+                              ? "var(--font-arabic)" : "var(--font-main)",
                           }}
                         >
                           {comment.content}
                         </p>
+                        {commentLikes[comment.id]?.count > 0 && (
+                          <div className="comment-like-badge">
+                            <FontAwesomeIcon icon={faThumbsUp} />
+                            <span>{commentLikes[comment.id].count}</span>
+                          </div>
+                        )}
                       </div>
                     </div>
                   ))}
                 </div>
+              )}
+
+              {/* Context menu */}
+              {contextMenu && (
+                <>
+                  <div className="context-overlay" onClick={() => setContextMenu(null)} />
+                  <div className="comment-context-menu" style={{ top: contextMenu.y, left: contextMenu.x }}>
+                    <button
+                      className={`context-menu-btn ${commentLikes[contextMenu.commentId]?.hasLiked ? "liked" : ""}`}
+                      onClick={() => handleCommentLike(contextMenu.commentId)}
+                    >
+                      <FontAwesomeIcon icon={faThumbsUp} />
+                    </button>
+                  </div>
+                </>
               )}
             </div>
           )}
