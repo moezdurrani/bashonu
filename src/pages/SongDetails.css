@@ -480,6 +480,11 @@ button:last-child {
   display: flex;
   flex-direction: column;
   gap: 12px;
+
+  max-height: 400px;   /* limit height */
+  overflow-y: auto;    /* enable vertical scroll */
+
+  padding-right: 4px;  /* prevents scrollbar covering content */
 }
 
 .comment-item {
@@ -536,7 +541,7 @@ button:last-child {
   flex: 1;
   display: flex;
   flex-direction: column;
-  gap: 4px;
+  gap: 0px;
   text-align: left;
 }
 
@@ -544,7 +549,7 @@ button:last-child {
   display: flex;
   align-items: center;
   gap: 8px;
-  margin-bottom: 4px;
+  margin-bottom: 0px;
 }
 
 .comment-avatar-icon {
@@ -555,8 +560,8 @@ button:last-child {
 
 .comment-meta {
   display: flex;
-  flex-direction: column;
-  gap: 1px;
+  align-items: center;
+  gap: 8px;
 }
 
 .comment-username {
@@ -570,3 +575,30 @@ button:last-child {
   color: var(--light-txt);
 }
 
+.comment-item {
+  align-items: flex-start;
+}
+
+.comment-content {
+  margin-top: 2px;
+}
+
+.comment-content {
+  font-size: 0.9rem;
+  color: var(--txt);
+  margin: 0; 
+  word-wrap: break-word;
+}
+
+.comments-list::-webkit-scrollbar {
+  width: 6px;
+}
+
+.comments-list::-webkit-scrollbar-thumb {
+  background: var(--border);
+  border-radius: 4px;
+}
+
+.comments-list::-webkit-scrollbar-thumb:hover {
+  background: var(--accent);
+}
