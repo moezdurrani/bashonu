@@ -99,6 +99,7 @@ const SongDetails = () => {
 
   const handleDeleteComment = async (commentId) => {
     await supabase.from("comments").delete().eq("id", commentId);
+    fetchComments();
   };
 
   const handleShare = async () => {
