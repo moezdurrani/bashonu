@@ -32,7 +32,7 @@
 /* Add these new styles to your existing CSS */
 .search-input-wrapper {
   position: relative;
-  width: 95%;
+  width: 100%;
   max-width: 900px;
   display: flex;
   align-items: center;
@@ -98,7 +98,7 @@
   margin: 5px;
   padding: 10px;
   border-radius: 8px;
-  width: 95%;
+  width: 100%;
   max-width: 600px;
   box-shadow: 0 2px 4px var(--song-item);
   transition: box-shadow 0.3s, transform 0.2s;
@@ -333,14 +333,12 @@
 }
 
 .featured-section {
-  width: 95%;
+  width: 100%;
   max-width: 900px;
-  margin: 8px auto 12px;
+  margin: 0px auto 12px;
   position: relative;
-  background-color: var(--bg-white);
-  border: 1px solid var(--border);
   border-radius: 12px;
-  padding: 14px 14px 6px;
+  padding: 14px 0 6px; /* remove left/right padding */
 }
 
 .featured-row-header {
@@ -348,11 +346,16 @@
   justify-content: space-between;
   align-items: center;
   margin-bottom: 6px;
+  background-color: var(--bg-white);
+  border: 1px solid var(--border);
+  padding: 5px 10px;
+  border-radius: 5px;
+  max-width: 600px;
+  margin-left: auto;
+  margin-right: auto;
+  width: 100%;
 }
 
-.featured-header {
-  display: none; /* no longer needed */
-}
 
 .featured-dismiss {
   background: none;
@@ -400,6 +403,9 @@
   padding: 4px 2px 8px;
   scrollbar-width: thin;
   scrollbar-color: var(--accent) transparent;
+  max-width: 900px;
+  margin-left: auto;
+  margin-right: auto;
 }
 
 @media (min-width: 700px) {
