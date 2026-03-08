@@ -42,6 +42,7 @@ const SongDetails = () => {
 
   const [contextMenu, setContextMenu] = useState(null); // { commentId, x, y }
   const [commentLikes, setCommentLikes] = useState({}); // { commentId: { count, hasLiked } }
+  const [likesCount, setLikesCount] = useState(0);
 
   const playChitraliSound = () => {
     const audio = new Audio("/comment_sound.mp3");
@@ -404,6 +405,7 @@ const SongDetails = () => {
       if (songError) throw songError;
 
       setSong(songData);
+      setLikesCount(songData.likes ?? 0);
 
       const hasRoman = !!songData.lyrics_roman;
       const hasArabic = !!songData.lyrics_arabic;
@@ -500,10 +502,7 @@ const SongDetails = () => {
   const handleLike = async () => {
     if (!currentUser) {
       setShowLoginMessage(true);
-      // Automatically hide the message after 3 seconds
-      setTimeout(() => {
-        setShowLoginMessage(false);
-      }, 3000);
+      setTimeout(() => setShowLoginMessage(false), 3000);
       return;
     }
 
@@ -517,6 +516,7 @@ const SongDetails = () => {
 
         if (error) throw error;
         setHasLiked(false);
+        setLikesCount(c => c - 1); // add this
       } else {
         const { error } = await supabase
           .from("likes")
@@ -524,6 +524,7 @@ const SongDetails = () => {
 
         if (error) throw error;
         setHasLiked(true);
+        setLikesCount(c => c + 1); // add this
       }
     } catch (error) {
       console.error("Error liking song:", error);
@@ -730,8 +731,11 @@ const SongDetails = () => {
 
             <div className="song-header-right">
 
-              <button className="like-button" onClick={handleLike}>
+              <button className="like-button" onClick={handleLike} style={{ position: "relative" }}>
                 <FontAwesomeIcon icon={hasLiked ? solidHeart : outlineHeart} />
+                {likesCount > 0 && (
+                  <span className="like-count-badge">{formatCount(likesCount)}</span>
+                )}
               </button>
 
               {canEdit && (
