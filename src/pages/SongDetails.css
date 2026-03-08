@@ -3,7 +3,7 @@
 .container {
   max-width: 800px;
   margin: 0 auto;
-  padding: 20px;
+  padding: 20px 10px;
   display: flex;
   flex-direction: column;
   align-items: center; /* Center items horizontally */
@@ -127,7 +127,8 @@ button:last-child {
   background-color: var(--bg-white);
   border: 1px solid var(--border);
   border-radius: 5px;
-  padding: 20px;
+  padding: 20px 5px;
+  /* background-color: red; */
 
   width: 100%;
   max-width: 900px;
@@ -149,6 +150,7 @@ button:last-child {
   word-wrap: break-word;      /* legacy support */
   overflow-wrap: break-word;  /* modern wrapping */
   max-width: 100%;
+  /* background-color: blue; */
 }
 
 /* .lyrics pre {
@@ -438,16 +440,13 @@ button:last-child {
   background-color: var(--bg-white);
   border: 1px solid var(--border);
   border-radius: 8px;
-  padding: 16px;
+  padding: 6px;
   overflow: visible; /* change from any hidden/auto */
   position: relative;
 }
 
-
-
 .comment-input-row {
   display: flex;
-  gap: 8px;
   margin-bottom: 16px;
 }
 
@@ -467,12 +466,21 @@ button:last-child {
 }
 
 .comment-send-btn {
-  background-color: var(--accent);
-  color: white;
+  background: none;
   border: none;
-  border-radius: 8px;
-  padding: 10px 14px;
+  border-radius: 0;
+  padding: 10px 4px 14px 10px;
   cursor: pointer;
+  color: var(--accent);
+  font-size: 1.3rem;
+  box-shadow: none;
+}
+
+.comment-send-btn:hover {
+  background: none;
+  color: var(--accent);
+  transform: none;
+  box-shadow: none;
 }
 
 .comment-send-btn.disabled {
