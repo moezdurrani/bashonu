@@ -20,6 +20,9 @@ const Home = () => {
   const [newSongs, setNewSongs] = useState([]);
   const [showFeatured, setShowFeatured] = useState(false);
 
+  const [showTrending, setShowTrending] = useState(true);
+  const [showNew, setShowNew] = useState(true);
+
   useEffect(() => {
     fetchSongs();
   }, []);
@@ -52,6 +55,20 @@ const Home = () => {
   const handleDismissFeatured = () => {
     localStorage.setItem("featuredDismissedAt", Date.now().toString());
     setShowFeatured(false);
+  };
+
+  const handleDismissTrending = () => {
+    setShowTrending(false);
+    if (!showNew) {
+      localStorage.setItem("featuredDismissedAt", Date.now().toString());
+    }
+  };
+
+  const handleDismissNew = () => {
+    setShowNew(false);
+    if (!showTrending) {
+      localStorage.setItem("featuredDismissedAt", Date.now().toString());
+    }
   };
 
   const fetchSongs = async () => {
@@ -127,16 +144,15 @@ const Home = () => {
         </div>
       </div>
 
-      {showFeatured && (trendingSongs.length > 0 || newSongs.length > 0) && (
+      {showFeatured && (showTrending || showNew) && (
         <div className="featured-section">
-          <div className="featured-header">
-            <button className="featured-dismiss" onClick={handleDismissFeatured}>✕</button>
-          </div>
 
-          {/* Trending row */}
-          {trendingSongs.length > 0 && (
+          {trendingSongs.length > 0 && showTrending && (
             <div className="featured-row">
-              <p className="featured-row-title">🔥 Trending</p>
+              <div className="featured-row-header">
+                <p className="featured-row-title">Most Loved</p>
+                <button className="featured-dismiss" onClick={handleDismissTrending}>✕</button>
+              </div>
               <div className="featured-scroll">
                 {trendingSongs.map((song) => (
                   <div
@@ -145,9 +161,7 @@ const Home = () => {
                     onClick={() => navigate(`/song/${generateSlug(song.title, song.song_id)}`)}
                   >
                     <p className="featured-card-title">{song.title}</p>
-                    <p className="featured-card-poet">
-                      {song.writers?.name || "Unknown"}
-                    </p>
+                    <p className="featured-card-poet">{song.writers?.name || "Unknown"}</p>
                     <p className="featured-card-score">
                       <FontAwesomeIcon icon={solidHeart} /> {song.likes ?? 0} &nbsp;
                       <FontAwesomeIcon icon={faEye} /> {song.views ?? 0}
@@ -158,10 +172,12 @@ const Home = () => {
             </div>
           )}
 
-          {/* New additions row */}
-          {newSongs.length > 0 && (
+          {newSongs.length > 0 && showNew && (
             <div className="featured-row">
-              <p className="featured-row-title">✨ New Additions</p>
+              <div className="featured-row-header">
+                <p className="featured-row-title">New Additions</p>
+                <button className="featured-dismiss" onClick={handleDismissNew}>✕</button>
+              </div>
               <div className="featured-scroll">
                 {newSongs.map((song) => (
                   <div
@@ -170,9 +186,7 @@ const Home = () => {
                     onClick={() => navigate(`/song/${generateSlug(song.title, song.id)}`)}
                   >
                     <p className="featured-card-title">{song.title}</p>
-                    <p className="featured-card-poet">
-                      {song.writers?.name || "Unknown"}
-                    </p>
+                    <p className="featured-card-poet">{song.writers?.name || "Unknown"}</p>
                     <p className="featured-card-score">
                       <FontAwesomeIcon icon={solidHeart} /> {song.likes ?? 0} &nbsp;
                       <FontAwesomeIcon icon={faEye} /> {song.views ?? 0}
@@ -182,6 +196,7 @@ const Home = () => {
               </div>
             </div>
           )}
+
         </div>
       )}
 
