@@ -335,10 +335,10 @@
 .featured-section {
   width: 100%;
   max-width: 900px;
-  margin: 0px auto 12px;
+  margin: 0px auto 0px;
   position: relative;
   border-radius: 12px;
-  padding: 14px 0 6px; /* remove left/right padding */
+  padding: 14px 0 0px; /* remove left/right padding */
 }
 
 .featured-row-header {
@@ -437,11 +437,16 @@
   box-shadow: 0 2px 8px rgba(0,0,0,0.2);
   transition: transform 0.2s, box-shadow 0.2s;
   overflow: hidden;
+  will-change: transform; /* hints browser to prep GPU layer */
+  -webkit-overflow-scrolling: touch; /* smoother scroll on iOS */
 }
 
-.featured-card:hover {
-  transform: translateY(-3px);
-  box-shadow: 0 6px 16px rgba(0,0,0,0.3);
+/* Only apply hover on devices that support it (not touch) */
+@media (hover: hover) {
+  .featured-card:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 6px 16px rgba(0,0,0,0.3);
+  }
 }
 
 .featured-card-title {
