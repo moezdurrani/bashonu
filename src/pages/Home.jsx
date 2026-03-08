@@ -30,8 +30,8 @@ const Home = () => {
   useEffect(() => {
     const dismissed = localStorage.getItem("featuredDismissedAt");
     const now = Date.now();
-    // const ONE_DAY = 24 * 60 * 60 * 1000;
-    const ONE_DAY = 0;
+    const ONE_DAY = 24 * 60 * 60 * 1000;
+    // const ONE_DAY = 0;
     if (dismissed && now - parseInt(dismissed) < ONE_DAY) return;
     setShowFeatured(true);
     fetchTrending();
@@ -50,11 +50,6 @@ const Home = () => {
       .order("created_at", { ascending: false })
       .limit(5);
     if (data) setNewSongs(data);
-  };
-
-  const handleDismissFeatured = () => {
-    localStorage.setItem("featuredDismissedAt", Date.now().toString());
-    setShowFeatured(false);
   };
 
   const handleDismissTrending = () => {
@@ -161,7 +156,7 @@ const Home = () => {
                     onClick={() => navigate(`/song/${generateSlug(song.title, song.song_id)}`)}
                   >
                     <p className="featured-card-title">{song.title}</p>
-                    <p className="featured-card-poet">{song.writers?.name || "Unknown"}</p>
+                    <p className="featured-card-poet">{song.writer_name || "Unknown"}</p>
                     <p className="featured-card-score">
                       <FontAwesomeIcon icon={solidHeart} /> {song.likes ?? 0} &nbsp;
                       <FontAwesomeIcon icon={faEye} /> {song.views ?? 0}

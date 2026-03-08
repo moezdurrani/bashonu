@@ -432,13 +432,14 @@
   cursor: pointer;
   display: flex;
   flex-direction: column;
-  justify-content: space-between;
+  justify-content: flex-start; /* change from space-between */
+  gap: 4px;
   background: linear-gradient(135deg, var(--accent), color-mix(in srgb, var(--accent) 60%, black));
   box-shadow: 0 2px 8px rgba(0,0,0,0.2);
   transition: transform 0.2s, box-shadow 0.2s;
   overflow: hidden;
-  will-change: transform; /* hints browser to prep GPU layer */
-  -webkit-overflow-scrolling: touch; /* smoother scroll on iOS */
+  will-change: transform;
+  -webkit-overflow-scrolling: touch;
 }
 
 /* Only apply hover on devices that support it (not touch) */
@@ -454,11 +455,17 @@
   font-weight: 700;
   color: white;
   margin: 0;
-  display: -webkit-box;
-  -webkit-line-clamp: 3;
-  -webkit-box-orient: vertical;
-  overflow: hidden;
   line-height: 1.3;
+  flex-grow: 1;
+  overflow-y: auto;
+  overflow-x: hidden;
+  white-space: normal;
+  scrollbar-width: none; /* hide scrollbar Firefox */
+  -ms-overflow-style: none; /* hide scrollbar IE */
+}
+
+.featured-card-title::-webkit-scrollbar {
+  display: none; /* hide scrollbar Chrome/Safari */
 }
 
 .featured-card-poet {
@@ -468,6 +475,7 @@
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
+  flex-shrink: 0; /* never shrinks */
 }
 
 .featured-card-score {
@@ -477,4 +485,5 @@
   display: flex;
   align-items: center;
   gap: 6px;
+  flex-shrink: 0; /* never shrinks */
 }
