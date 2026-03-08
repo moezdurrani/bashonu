@@ -711,3 +711,16 @@ button:last-child {
   text-align: center;
   border: 2px solid var(--bg-white);
 }
+
+.song-meta-stats {
+  font-size: 0.8rem;
+  color: var(--light-txt);
+  margin-top: 4px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.song-meta-stats .fa-heart {
+  color: var(--heart);
+}

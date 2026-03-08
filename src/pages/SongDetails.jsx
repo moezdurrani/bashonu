@@ -6,7 +6,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faHeart as solidHeart } from "@fortawesome/free-solid-svg-icons";
 import { faHeart as outlineHeart } from "@fortawesome/free-regular-svg-icons";
 import { faPenToSquare } from "@fortawesome/free-solid-svg-icons";
-import { faMagnifyingGlass, faMagnifyingGlassPlus, faMagnifyingGlassMinus, faShare, faComment, faPaperPlane, faCircleUser } from "@fortawesome/free-solid-svg-icons";
+import { faMagnifyingGlass, faMagnifyingGlassPlus, faMagnifyingGlassMinus, faShare, faComment, faPaperPlane, faCircleUser, faEye } from "@fortawesome/free-solid-svg-icons";
 import { faThumbsUp } from "@fortawesome/free-solid-svg-icons";
 import { PiXBold } from "react-icons/pi";
 
@@ -225,6 +225,23 @@ const SongDetails = () => {
     new_writer_name: "",
     youtube_url: "",
   });
+
+  useEffect(() => {
+    const channel = supabase
+      .channel(`song-${id}`)
+      .on("postgres_changes", {
+        event: "UPDATE",
+        schema: "public",
+        table: "songs",
+        filter: `id=eq.${id}`,
+      }, (payload) => {
+        setLikesCount(payload.new.likes ?? 0);
+        setSong(prev => ({ ...prev, views: payload.new.views }));
+      })
+      .subscribe();
+
+    return () => supabase.removeChannel(channel);
+  }, [id]);
 
   useEffect(() => {
     if (!contextMenu) return;
@@ -726,6 +743,10 @@ const SongDetails = () => {
               <h1 className="song-title">{song?.title}</h1>
               <p className="song-writer">
                 Poet: {song.writers?.name || "Unknown"}
+              </p>
+              <p className="song-meta-stats">
+                <FontAwesomeIcon icon={solidHeart} /> {formatCount(likesCount)} &nbsp;·&nbsp;
+                <FontAwesomeIcon icon={faEye} /> {formatCount(song.views ?? 0)}
               </p>
             </div>
 
