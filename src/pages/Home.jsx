@@ -28,14 +28,32 @@ const Home = () => {
   }, []);
 
   useEffect(() => {
-    const dismissed = localStorage.getItem("featuredDismissedAt");
     const now = Date.now();
     const ONE_DAY = 24 * 60 * 60 * 1000;
-    // const ONE_DAY = 0;
-    if (dismissed && now - parseInt(dismissed) < ONE_DAY) return;
-    setShowFeatured(true);
-    fetchTrending();
-    fetchNewSongs();
+
+    const trendingDismissed = localStorage.getItem("featuredTrendingDismissedAt");
+    const newDismissed = localStorage.getItem("featuredNewDismissedAt");
+
+    const trendingHidden = trendingDismissed && now - parseInt(trendingDismissed) < ONE_DAY;
+    const newHidden = newDismissed && now - parseInt(newDismissed) < ONE_DAY;
+
+    if (!trendingHidden) {
+      setShowTrending(true);
+      fetchTrending();
+    } else {
+      setShowTrending(false);
+    }
+
+    if (!newHidden) {
+      setShowNew(true);
+      fetchNewSongs();
+    } else {
+      setShowNew(false);
+    }
+
+    if (!trendingHidden || !newHidden) {
+      setShowFeatured(true);
+    }
   }, []);
 
   const fetchTrending = async () => {
@@ -54,16 +72,12 @@ const Home = () => {
 
   const handleDismissTrending = () => {
     setShowTrending(false);
-    if (!showNew) {
-      localStorage.setItem("featuredDismissedAt", Date.now().toString());
-    }
+    localStorage.setItem("featuredTrendingDismissedAt", Date.now().toString());
   };
 
   const handleDismissNew = () => {
     setShowNew(false);
-    if (!showTrending) {
-      localStorage.setItem("featuredDismissedAt", Date.now().toString());
-    }
+    localStorage.setItem("featuredNewDismissedAt", Date.now().toString());
   };
 
   const fetchSongs = async () => {
