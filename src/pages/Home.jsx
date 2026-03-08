@@ -16,10 +16,43 @@ const Home = () => {
   const navigate = useNavigate();
   const [selectedLanguage, setSelectedLanguage] = useState("all");
 
+  const [trendingSongs, setTrendingSongs] = useState([]);
+  const [newSongs, setNewSongs] = useState([]);
+  const [showFeatured, setShowFeatured] = useState(false);
 
   useEffect(() => {
     fetchSongs();
   }, []);
+
+  useEffect(() => {
+    const dismissed = localStorage.getItem("featuredDismissedAt");
+    const now = Date.now();
+    // const ONE_DAY = 24 * 60 * 60 * 1000;
+    const ONE_DAY = 0;
+    if (dismissed && now - parseInt(dismissed) < ONE_DAY) return;
+    setShowFeatured(true);
+    fetchTrending();
+    fetchNewSongs();
+  }, []);
+
+  const fetchTrending = async () => {
+    const { data } = await supabase.rpc("get_top_songs");
+    if (data) setTrendingSongs(data.slice(0, 5));
+  };
+
+  const fetchNewSongs = async () => {
+    const { data } = await supabase
+      .from("songs")
+      .select("id, title, likes, views, writers(name)")
+      .order("created_at", { ascending: false })
+      .limit(5);
+    if (data) setNewSongs(data);
+  };
+
+  const handleDismissFeatured = () => {
+    localStorage.setItem("featuredDismissedAt", Date.now().toString());
+    setShowFeatured(false);
+  };
 
   const fetchSongs = async () => {
     const { data, error } = await supabase
@@ -93,6 +126,64 @@ const Home = () => {
           ))}
         </div>
       </div>
+
+      {showFeatured && (trendingSongs.length > 0 || newSongs.length > 0) && (
+        <div className="featured-section">
+          <div className="featured-header">
+            <button className="featured-dismiss" onClick={handleDismissFeatured}>✕</button>
+          </div>
+
+          {/* Trending row */}
+          {trendingSongs.length > 0 && (
+            <div className="featured-row">
+              <p className="featured-row-title">🔥 Trending</p>
+              <div className="featured-scroll">
+                {trendingSongs.map((song) => (
+                  <div
+                    key={song.song_id}
+                    className="featured-card"
+                    onClick={() => navigate(`/song/${generateSlug(song.title, song.song_id)}`)}
+                  >
+                    <p className="featured-card-title">{song.title}</p>
+                    <p className="featured-card-poet">
+                      {song.writers?.name || "Unknown"}
+                    </p>
+                    <p className="featured-card-score">
+                      <FontAwesomeIcon icon={solidHeart} /> {song.likes ?? 0} &nbsp;
+                      <FontAwesomeIcon icon={faEye} /> {song.views ?? 0}
+                    </p>
+                  </div>
+                ))}
+              </div>
+            </div>
+          )}
+
+          {/* New additions row */}
+          {newSongs.length > 0 && (
+            <div className="featured-row">
+              <p className="featured-row-title">✨ New Additions</p>
+              <div className="featured-scroll">
+                {newSongs.map((song) => (
+                  <div
+                    key={song.id}
+                    className="featured-card"
+                    onClick={() => navigate(`/song/${generateSlug(song.title, song.id)}`)}
+                  >
+                    <p className="featured-card-title">{song.title}</p>
+                    <p className="featured-card-poet">
+                      {song.writers?.name || "Unknown"}
+                    </p>
+                    <p className="featured-card-score">
+                      <FontAwesomeIcon icon={solidHeart} /> {song.likes ?? 0} &nbsp;
+                      <FontAwesomeIcon icon={faEye} /> {song.views ?? 0}
+                    </p>
+                  </div>
+                ))}
+              </div>
+            </div>
+          )}
+        </div>
+      )}
 
       <div className="list-container">
         {filteredSongs.map((song) => (

@@ -305,8 +305,6 @@
   scrollbar-color: var(--webkit-scrollbar-thumb-bg-hover) transparent;
 }
 
-
-
 .song-stats {
   position: absolute;
   top: 25%;
@@ -332,4 +330,131 @@
 
 .song-stats .fa-heart {
   color: var(--heart);
+}
+
+.featured-section {
+  width: 100%;
+  max-width: 900px;
+  margin: 0px auto 4px;
+  position: relative;
+}
+
+.featured-header {
+  display: flex;
+  justify-content: flex-end;
+  padding-right: 4px;
+  margin-bottom: -4px;
+}
+
+.featured-dismiss {
+  background: none;
+  border: none;
+  color: var(--light-txt);
+  font-size: 1.4rem;
+  cursor: pointer;
+  padding: 2px 6px;
+  border-radius: 4px;
+  transition: color 0.2s;
+  margin: 0;
+}
+@media (min-width: 700px) {
+  .featured-dismiss {
+    font-size: 0.95rem;
+  }
+}
+
+.featured-dismiss:hover {
+  color: var(--txt);
+}
+
+.featured-row {
+  margin-bottom: 12px;
+  max-width: 900px;
+  margin-left: auto;
+  margin-right: auto;
+  width: 100%;
+}
+
+.featured-row-title {
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: var(--light-txt);
+  margin: 0 0 6px 4px;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.featured-scroll {
+  display: flex;
+  gap: 10px;
+  overflow-x: auto;
+  padding: 4px 2px 8px;
+  scrollbar-width: thin;
+  scrollbar-color: var(--accent) transparent;
+}
+
+@media (min-width: 700px) {
+  .featured-scroll {
+    justify-content: center;
+  }
+}
+
+.featured-scroll::-webkit-scrollbar {
+  height: 4px;
+}
+
+.featured-scroll::-webkit-scrollbar-thumb {
+  background: var(--accent);
+  border-radius: 999px;
+}
+
+.featured-card {
+  flex: 0 0 120px;
+  width: 120px;
+  height: 120px;
+  border-radius: 12px;
+  padding: 10px;
+  cursor: pointer;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  background: linear-gradient(135deg, var(--accent), color-mix(in srgb, var(--accent) 60%, black));
+  box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+  transition: transform 0.2s, box-shadow 0.2s;
+  overflow: hidden;
+}
+
+.featured-card:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 6px 16px rgba(0,0,0,0.3);
+}
+
+.featured-card-title {
+  font-size: 0.75rem;
+  font-weight: 700;
+  color: white;
+  margin: 0;
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  line-height: 1.3;
+}
+
+.featured-card-poet {
+  font-size: 0.65rem;
+  color: rgba(255,255,255,0.75);
+  margin: 0;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.featured-card-score {
+  font-size: 0.65rem;
+  color: rgba(255,255,255,0.7);
+  margin: 0;
+  display: flex;
+  align-items: center;
+  gap: 6px;
 }
