@@ -6,6 +6,7 @@ import "./Home.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faSearch } from "@fortawesome/free-solid-svg-icons";
 import { faHeart as solidHeart, faEye } from "@fortawesome/free-solid-svg-icons";
+import { faCircleArrowUp } from "@fortawesome/free-solid-svg-icons";
 
 import { generateSlug } from "../utils";
 
@@ -22,6 +23,14 @@ const Home = () => {
 
   const [showTrending, setShowTrending] = useState(true);
   const [showNew, setShowNew] = useState(true);
+
+  const [showScrollTop, setShowScrollTop] = useState(false);
+
+  useEffect(() => {
+    const handleScroll = () => setShowScrollTop(window.scrollY > 400);
+    window.addEventListener("scroll", handleScroll, { passive: true });
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
 
   useEffect(() => {
     fetchSongs();
@@ -248,6 +257,17 @@ const Home = () => {
           </div>
         ))}
       </div>
+
+      {showScrollTop && (
+        <button
+          className="scroll-to-top"
+          onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
+        >
+          <FontAwesomeIcon icon={faCircleArrowUp} />
+        </button>
+      )}
+
+
     </div>
   );
 };
