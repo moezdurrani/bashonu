@@ -220,10 +220,14 @@ const Home = () => {
 
       <div className="list-container">
         {filteredSongs.map((song) => (
-          <div
+          <a
             key={song.id}
             className="song-item"
-            onClick={() => navigate(`/song/${generateSlug(song.title, song.id)}`)}
+            href={`/song/${generateSlug(song.title, song.id)}`}
+            onClick={(e) => {
+              e.preventDefault();
+              navigate(`/song/${generateSlug(song.title, song.id)}`);
+            }}
           >
 
             <div className="song-stats">
@@ -254,7 +258,7 @@ const Home = () => {
               </div>
 
             </div>
-          </div>
+          </a>
         ))}
       </div>
 

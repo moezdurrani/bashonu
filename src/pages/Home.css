@@ -103,6 +103,11 @@
   box-shadow: 0 2px 4px var(--song-item);
   transition: box-shadow 0.3s, transform 0.2s;
   background: var(--bg-white);
+
+  user-select: none;
+  -webkit-user-select: none;
+  text-decoration: none;
+  display: block;
 }
 
 .song-item:hover {
