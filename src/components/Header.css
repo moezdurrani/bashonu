@@ -218,3 +218,8 @@
 .theme-toggle svg {
   font-size: 1.2rem;
 }
+
+
+.menuToggleBtn svg {
+  stroke-width: 1.8;
+}
