@@ -173,7 +173,7 @@
     gap: 15px;
   }
 }
-
+/* 
 .theme-toggle {
   background: none;
   border: none;
@@ -194,12 +194,27 @@
 
 .theme-toggle {
   color: var(--icon-color);
-}
-
-/* [data-theme="light"] .theme-toggle {
-  color: var(--icon-color);
-}
-
-[data-theme="dark"] .theme-toggle {
-  color: #9aa0a6; 
 } */
+
+.theme-toggle {
+  background: none;
+  border: none;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--icon-color);
+  padding: 8px;
+  transition:
+    color 0.2s ease,
+    transform 0.2s ease;
+}
+
+.theme-toggle:hover {
+  color: var(--icon-color-hover);
+  transform: scale(1.08);
+}
+
+.theme-toggle svg {
+  font-size: 1.2rem;
+}
