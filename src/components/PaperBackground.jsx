@@ -129,6 +129,34 @@ export default function PaperBackground({ seed = 1, className = "" }) {
             ctx.fillStyle = vignette;
             ctx.fillRect(0, 0, w, h);
 
+
+
+            // === STEP 2.5: Add subtle pulp fibers ===
+            // We draw random tiny arcs/lines to simulate paper grain fibers
+            // const fiberCount = Math.floor((cssWidth * cssHeight) / 100); // adjust for density
+            // for (let i = 0; i < fiberCount; i++) {
+            //     const fx = seededRandom() * w;
+            //     const fy = seededRandom() * h;
+            //     const len = (2 + seededRandom() * 5) * dpr;
+            //     const angle = seededRandom() * Math.PI * 2;
+
+            //     ctx.beginPath();
+            //     ctx.strokeStyle = `rgba(60, 40, 20, ${0.03 + seededRandom() * 0.05})`;
+            //     ctx.lineWidth = 0.5 * dpr;
+            //     // Draw a slightly curved fiber
+            //     ctx.moveTo(fx, fy);
+            //     ctx.quadraticCurveTo(
+            //         fx + Math.cos(angle) * len / 2,
+            //         fy + Math.sin(angle) * len / 2 + (seededRandom() * 2),
+            //         fx + Math.cos(angle) * len,
+            //         fy + Math.sin(angle) * len
+            //     );
+            //     ctx.stroke();
+            // }
+
+
+
+
             // === STEP 5: Soft rough edge — the paper "fades out" near the boundary
             // with noise-modulated darkening, so the rectangular edge looks organic. ===
             const edgeData = ctx.getImageData(0, 0, w, h);

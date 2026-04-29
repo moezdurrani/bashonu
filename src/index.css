@@ -165,7 +165,7 @@ html {
 
 /* PAPER THEME — old book page aesthetic */
 [data-theme="paper"] {
-  --bg: #e6d8b5;
+  --bg: #e6d8d8;
   --bg-white: #f0e6cc;
   --txt: #3a2818;
   --txt-dark: #3a2818;
@@ -199,73 +199,43 @@ html {
   --webkit-scrollbar-thumb-bg-hover: #6f3610;
 }
 
-/* Paper texture — old book page using Clean Gray Paper from Transparent Textures.
-   Gray fibers are blended via multiply so they darken the cream base instead of sitting on top as gray. */
-[data-theme="paper"] .lyrics {
-  background-color: #f0e6cc;
-  background-image:
-    /* Foxing spots — small, irregular, slightly reddish-brown age spots */
-    radial-gradient(circle 8px at 12% 18%, rgba(140, 90, 50, 0.35) 0%, transparent 100%),
-    radial-gradient(circle 5px at 78% 9%, rgba(155, 100, 55, 0.30) 0%, transparent 100%),
-    radial-gradient(circle 12px at 88% 42%, rgba(135, 85, 45, 0.28) 0%, transparent 100%),
-    radial-gradient(circle 6px at 22% 55%, rgba(150, 95, 50, 0.32) 0%, transparent 100%),
-    radial-gradient(circle 9px at 65% 73%, rgba(140, 88, 48, 0.30) 0%, transparent 100%),
-    radial-gradient(circle 4px at 42% 88%, rgba(160, 105, 60, 0.35) 0%, transparent 100%),
-    radial-gradient(circle 7px at 8% 80%, rgba(145, 92, 50, 0.28) 0%, transparent 100%),
-    radial-gradient(circle 5px at 92% 92%, rgba(150, 95, 52, 0.30) 0%, transparent 100%),
-    /* Soft warm vignette */
-    radial-gradient(ellipse at center, transparent 60%, rgba(120, 85, 45, 0.18) 100%),
-    /* Clean Gray Paper texture — layered twice at different scales to break up the tile pattern */
-    url("/textures/clean-gray-paper.png"),
-    url("/textures/clean-gray-paper.png");
-  background-size:
-    auto, auto, auto, auto, auto, auto, auto, auto,
-    100% 100%,
-    auto,
-    300px 300px;
-  background-repeat:
-    no-repeat, no-repeat, no-repeat, no-repeat, no-repeat, no-repeat, no-repeat, no-repeat,
-    no-repeat,
-    repeat,
-    repeat;
-  background-blend-mode:
-    normal, normal, normal, normal, normal, normal, normal, normal,
-    normal,
-    multiply,
-    multiply;
-  border: 1px solid #c4ad7e;
-  box-shadow:
-    inset 0 0 40px rgba(120, 85, 45, 0.10),
-    0 2px 12px rgba(80, 55, 25, 0.18);
-}
 
-[data-theme="paper"] .lyrics pre {
-  color: #3a2818;
-}
 [data-theme="paper"] .lyrics {
   position: relative;
   background-color: transparent;
   background-image: none;
   border: none;
+  padding: 80px 40px;  /* was 40px 30px — bumped so text stays inside the torn edge */
+  filter: drop-shadow(0 6px 6px rgba(0, 0, 0, 0.6));
+  box-shadow: none;
+}
 
-  /* SVG mask with noise-displaced edges — gives the box an irregular,
-     paper-like outline that scales dynamically with content. */
-  -webkit-mask-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' preserveAspectRatio='none' viewBox='0 0 100 100'><defs><filter id='roughen' x='-5%25' y='-5%25' width='110%25' height='110%25'><feTurbulence type='fractalNoise' baseFrequency='0.04 0.08' numOctaves='3' seed='7' result='noise'/><feDisplacementMap in='SourceGraphic' in2='noise' scale='4' xChannelSelector='R' yChannelSelector='G'/></filter></defs><rect x='2' y='2' width='96' height='96' fill='white' filter='url(%23roughen)'/></svg>");
-  mask-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' preserveAspectRatio='none' viewBox='0 0 100 100'><defs><filter id='roughen' x='-5%25' y='-5%25' width='110%25' height='110%25'><feTurbulence type='fractalNoise' baseFrequency='0.04 0.08' numOctaves='3' seed='7' result='noise'/><feDisplacementMap in='SourceGraphic' in2='noise' scale='4' xChannelSelector='R' yChannelSelector='G'/></filter></defs><rect x='2' y='2' width='96' height='96' fill='white' filter='url(%23roughen)'/></svg>");
+[data-theme="paper"] .paper-bg-wrapper {
+  -webkit-mask-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' preserveAspectRatio='none' viewBox='0 0 100 100'><defs><filter id='roughen' x='-10%25' y='-10%25' width='120%25' height='120%25'><feTurbulence type='fractalNoise' baseFrequency='0.04 0.08' numOctaves='4' seed='7' result='noise'/><feDisplacementMap in='SourceGraphic' in2='noise' scale='8' xChannelSelector='R' yChannelSelector='G'/></filter></defs><rect x='4' y='4' width='92' height='92' fill='white' filter='url(%23roughen)'/></svg>");
+  mask-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' preserveAspectRatio='none' viewBox='0 0 100 100'><defs><filter id='roughen' x='-10%25' y='-10%25' width='120%25' height='120%25'><feTurbulence type='fractalNoise' baseFrequency='0.04 0.08' numOctaves='4' seed='7' result='noise'/><feDisplacementMap in='SourceGraphic' in2='noise' scale='8' xChannelSelector='R' yChannelSelector='G'/></filter></defs><rect x='4' y='4' width='92' height='92' fill='white' filter='url(%23roughen)'/></svg>");
   -webkit-mask-size: 100% 100%;
   mask-size: 100% 100%;
   -webkit-mask-repeat: no-repeat;
   mask-repeat: no-repeat;
-
-  /* Drop-shadow filter follows the masked shape (unlike box-shadow,
-     which follows the rectangle and would expose the original edge). */
-    filter: drop-shadow(0 6px 16px rgba(0, 0, 0, 0.5));
-  box-shadow: none;
 }
 
+[data-theme="paper"] .lyrics pre {
+  position: relative;
+  z-index: 1;
+  color: rgba(45, 28, 13, 0.82);
+  font-weight: 500;
+  line-height: 2.35;
+  text-shadow:
+    0 0.4px 0 rgba(120, 75, 35, 0.25),
+    0 1px 1px rgba(255, 235, 185, 0.18);
+  mix-blend-mode: multiply;
+}
 
-
-
+@media (max-width: 600px) {
+  [data-theme="paper"] .lyrics {
+    padding: 100px 30px;
+  }
+}
 
 
 
@@ -287,18 +257,6 @@ html {
   height: 100%;
 }
 
-/* Make sure the lyrics text sits ABOVE the canvas. */
-[data-theme="paper"] .lyrics {
-  position: relative;
-  background-color: transparent; /* canvas handles the background */
-  background-image: none;
-}
-
-[data-theme="paper"] .lyrics pre {
-  position: relative;
-  z-index: 1;
-  color: #3a2818;
-}
 
 
 

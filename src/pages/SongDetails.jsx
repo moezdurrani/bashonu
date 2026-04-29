@@ -227,6 +227,22 @@ const SongDetails = () => {
     youtube_url: "",
   });
 
+  const [currentTheme, setCurrentTheme] = useState("light");
+
+  useEffect(() => {
+    const checkTheme = () => {
+      const htmlTheme = document.documentElement.getAttribute("data-theme");
+      const bodyTheme = document.body.getAttribute("data-theme");
+      const theme = htmlTheme || bodyTheme || "light";
+      setCurrentTheme(prev => prev === theme ? prev : theme);
+    };
+
+    checkTheme(); // run once immediately
+
+    const interval = setInterval(checkTheme, 200);
+    return () => clearInterval(interval);
+  }, []);
+
   useEffect(() => {
     const channel = supabase
       .channel(`song-${id}`)
@@ -811,7 +827,7 @@ const SongDetails = () => {
             </pre>
           </div> */}
           <div className="lyrics">
-            {document.documentElement.getAttribute("data-theme") === "paper" && (
+            {currentTheme === "paper" && (
               <PaperBackground seed={parseInt(id) || 1} />
             )}
             <pre style={{ fontFamily: lyricsFont, fontSize: `${fontSize}px` }}>
