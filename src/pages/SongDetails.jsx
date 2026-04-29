@@ -9,6 +9,7 @@ import { faPenToSquare } from "@fortawesome/free-solid-svg-icons";
 import { faMagnifyingGlass, faMagnifyingGlassPlus, faMagnifyingGlassMinus, faShare, faComment, faPaperPlane, faCircleUser, faEye } from "@fortawesome/free-solid-svg-icons";
 import { faThumbsUp } from "@fortawesome/free-solid-svg-icons";
 import { PiXBold } from "react-icons/pi";
+import PaperBackground from "../components/PaperBackground";
 
 const SongDetails = () => {
   // const { id } = useParams();
@@ -804,7 +805,15 @@ const SongDetails = () => {
             </div>
           )}
 
+          {/* <div className="lyrics">
+            <pre style={{ fontFamily: lyricsFont, fontSize: `${fontSize}px` }}>
+              {displayedLyrics}
+            </pre>
+          </div> */}
           <div className="lyrics">
+            {document.documentElement.getAttribute("data-theme") === "paper" && (
+              <PaperBackground seed={parseInt(id) || 1} />
+            )}
             <pre style={{ fontFamily: lyricsFont, fontSize: `${fontSize}px` }}>
               {displayedLyrics}
             </pre>

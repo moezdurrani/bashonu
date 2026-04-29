@@ -6,7 +6,7 @@ import bashonuDark from "../assets/bashonu1-dark.png";
 import "./Header.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCircleUser } from "@fortawesome/free-solid-svg-icons";
-import { Sun, Moon } from "lucide-react";
+import { Sun, Moon, Feather } from "lucide-react";
 import {
   SquareChevronLeft,
   SquareChevronRight
@@ -24,9 +24,20 @@ const Header = () => {
   );
 
   const toggleTheme = () => {
-    const newTheme = theme === "light" ? "dark" : "light";
+    let newTheme;
+
+    if (theme === "light") {
+      newTheme = "paper";
+    } else if (theme === "paper") {
+      newTheme = "dark";
+    } else {
+      newTheme = "light";
+    }
+
     setTheme(newTheme);
+
     document.documentElement.setAttribute("data-theme", newTheme);
+
     localStorage.setItem("theme", newTheme);
   };
 
@@ -50,8 +61,22 @@ const Header = () => {
 
       <div className="header-right">
 
-        <button className="theme-toggle" onClick={toggleTheme}>
-          {theme === "light" ? <Moon size={20} /> : <Sun size={20} />}
+        <button
+          className="theme-toggle"
+          onClick={toggleTheme}
+          aria-label="Toggle theme"
+        >
+          {theme === "light" && (
+            <Feather size={20} strokeWidth={1.9} />
+          )}
+
+          {theme === "paper" && (
+            <Moon size={20} strokeWidth={1.9} />
+          )}
+
+          {theme === "dark" && (
+            <Sun size={20} strokeWidth={1.9} />
+          )}
         </button>
 
         <label
