@@ -85,9 +85,9 @@ const Header = () => {
           onClick={toggleMenu}
         >
           {isOpen ? (
-            <SquareChevronLeft size={24} strokeWidth={2} />
-          ) : (
             <SquareChevronRight size={24} strokeWidth={2} />
+          ) : (
+            <SquareChevronLeft size={24} strokeWidth={2} />
           )}
         </label>
         <ul

@@ -221,7 +221,7 @@ html {
 
 [data-theme="paper"] .lyrics pre {
   position: relative;
-  z-index: 1;
+  z-index: 2;
   color: rgba(45, 28, 13, 0.82);
   font-weight: 500;
   line-height: 2.35;
@@ -238,7 +238,27 @@ html {
 }
 
 
+[data-theme="paper"] .lyrics::after {
+  content: "";
 
+  position: absolute;
+  inset: 0;
+
+  pointer-events: none;
+
+  z-index: 3;
+
+  opacity: 0.08;
+
+  background-image:
+    radial-gradient(rgba(0,0,0,0.18) 0.4px, transparent 0.5px),
+    radial-gradient(rgba(255,255,255,0.12) 0.4px, transparent 0.5px);
+
+  background-size: 4px 4px, 6px 6px;
+  background-position: 0 0, 2px 2px;
+
+  mix-blend-mode: multiply;
+}
 
 
 /* Procedural paper background — fills its parent, sits behind content */
@@ -259,11 +279,86 @@ html {
 
 
 
+[data-theme="paper"] .lyrics pre {
+  position: relative;
+  z-index: 2;
+
+  color: rgba(43, 31, 20, 0.88);
+  background: none;
+
+  font-weight: 500;
+  line-height: 2.35;
+  opacity: 0.96;
+
+  mix-blend-mode: multiply;
+
+  filter: none;
+
+  text-shadow:
+    0.7px 0.7px 0 rgba(80, 45, 18, 0.22),
+    -0.4px -0.4px 0 rgba(255, 235, 190, 0.18);
+}
+[data-theme="paper"] .lyrics::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 3;
+  pointer-events: none;
+
+  opacity: 0.18;
+
+  background-image:
+    radial-gradient(rgba(60, 35, 15, 0.35) 0.6px, transparent 0.8px),
+    radial-gradient(rgba(255, 245, 210, 0.35) 0.6px, transparent 0.9px);
+
+  background-size: 3px 3px, 5px 5px;
+  background-position: 0 0, 2px 2px;
+
+  mix-blend-mode: multiply;
+}
+
+/* [data-theme="paper"] .lyrics pre {
+  background: linear-gradient(
+    170deg, 
+    rgba(43, 31, 20, 1) 0%, 
+    rgba(43, 31, 20, 0.9) 50%, 
+    rgba(43, 31, 20, 1) 100%
+  );
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent; 
+} */
 
 
 
 
 
+
+
+/* Slightly rough edges on the script toggle, paper theme only */
+[data-theme="paper"] .script-toggle {
+  -webkit-mask-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' preserveAspectRatio='none' viewBox='0 0 100 100'><defs><filter id='rough-active' x='-10%25' y='-10%25' width='120%25' height='120%25'><feTurbulence type='fractalNoise' baseFrequency='0.03 0.03' numOctaves='2' seed='5' result='noise'/><feDisplacementMap in='SourceGraphic' in2='noise' scale='4' xChannelSelector='R' yChannelSelector='G'/></filter></defs><rect x='2' y='2' width='96' height='96' rx='10' ry='10' fill='white' filter='url(%23rough-active)'/></svg>");
+
+  mask-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' preserveAspectRatio='none' viewBox='0 0 100 100'><defs><filter id='rough-active' x='-10%25' y='-10%25' width='120%25' height='120%25'><feTurbulence type='fractalNoise' baseFrequency='0.03 0.03' numOctaves='2' seed='5' result='noise'/><feDisplacementMap in='SourceGraphic' in2='noise' scale='4' xChannelSelector='R' yChannelSelector='G'/></filter></defs><rect x='2' y='2' width='96' height='96' rx='10' ry='10' fill='white' filter='url(%23rough-active)'/></svg>");
+-webkit-mask-size: 100% 100%;
+  mask-size: 100% 100%;
+  -webkit-mask-repeat: no-repeat;
+  mask-repeat: no-repeat;
+}
+
+[data-theme="paper"] .script-option.active {
+  border-radius: 4px;
+
+  -webkit-mask-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' preserveAspectRatio='none' viewBox='0 0 100 100'><defs><filter id='rough-active' x='-10%25' y='-10%25' width='120%25' height='120%25'><feTurbulence type='fractalNoise' baseFrequency='0.03 0.03' numOctaves='2' seed='5' result='noise'/><feDisplacementMap in='SourceGraphic' in2='noise' scale='4' xChannelSelector='R' yChannelSelector='G'/></filter></defs><rect x='2' y='2' width='96' height='96' rx='10' ry='10' fill='white' filter='url(%23rough-active)'/></svg>");
+
+  mask-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' preserveAspectRatio='none' viewBox='0 0 100 100'><defs><filter id='rough-active' x='-10%25' y='-10%25' width='120%25' height='120%25'><feTurbulence type='fractalNoise' baseFrequency='0.03 0.03' numOctaves='2' seed='5' result='noise'/><feDisplacementMap in='SourceGraphic' in2='noise' scale='4' xChannelSelector='R' yChannelSelector='G'/></filter></defs><rect x='2' y='2' width='96' height='96' rx='10' ry='10' fill='white' filter='url(%23rough-active)'/></svg>");
+
+  -webkit-mask-size: 100% 100%;
+  mask-size: 100% 100%;
+
+  -webkit-mask-repeat: no-repeat;
+  mask-repeat: no-repeat;
+}
 
 
 
