@@ -162,8 +162,8 @@ export default function PaperBackground({ seed = 1, className = "" }) {
             const edgeData = ctx.getImageData(0, 0, w, h);
             const ed = edgeData.data;
             const edgeFreq = 0.04 * dpr;       // controls roughness — bigger = jaggier
-            const edgeWidth = 8 * dpr;          // how far in from the edge the effect reaches
-            const edgeStrength = 0.55;          // 0..1, how dark the edge gets
+            const edgeWidth = 30 * dpr;          // how far in from the edge the effect reaches
+            const edgeStrength = 0.85;          // 0..1, how dark the edge gets
 
             for (let y = 0; y < h; y++) {
                 for (let x = 0; x < w; x++) {

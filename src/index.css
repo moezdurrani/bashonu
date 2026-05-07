@@ -210,13 +210,20 @@ html {
   box-shadow: none;
 }
 
-[data-theme="paper"] .paper-bg-wrapper {
-  -webkit-mask-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' preserveAspectRatio='none' viewBox='0 0 100 100'><defs><filter id='roughen' x='-10%25' y='-10%25' width='120%25' height='120%25'><feTurbulence type='fractalNoise' baseFrequency='0.04 0.08' numOctaves='2' seed='7' result='noise'/><feDisplacementMap in='SourceGraphic' in2='noise' scale='8' xChannelSelector='R' yChannelSelector='G'/></filter></defs><rect x='4' y='4' width='92' height='92' fill='white' filter='url(%23roughen)'/></svg>");
-  mask-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' preserveAspectRatio='none' viewBox='0 0 100 100'><defs><filter id='roughen' x='-10%25' y='-10%25' width='120%25' height='120%25'><feTurbulence type='fractalNoise' baseFrequency='0.04 0.08' numOctaves='2' seed='7' result='noise'/><feDisplacementMap in='SourceGraphic' in2='noise' scale='8' xChannelSelector='R' yChannelSelector='G'/></filter></defs><rect x='4' y='4' width='92' height='92' fill='white' filter='url(%23roughen)'/></svg>");
+/* This ensures the procedural paper itself gets the torn edges */
+[data-theme="paper"] .paper-bg-canvas {
+  -webkit-mask-image: url("/paper-mask.svg");
+  mask-image: url("/paper-mask.svg");
+  mask-mode: luminance;
   -webkit-mask-size: 100% 100%;
   mask-size: 100% 100%;
-  -webkit-mask-repeat: no-repeat;
   mask-repeat: no-repeat;
+}
+
+/* Remove the mask from the wrapper so the shadows don't get cut off */
+[data-theme="paper"] .paper-bg-wrapper {
+  mask-image: none; 
+  -webkit-mask-image: none;
 }
 
 [data-theme="paper"] .lyrics pre {
@@ -282,22 +289,27 @@ html {
 
 /* Slightly rough edges on the script toggle, paper theme only */
 [data-theme="paper"] .script-toggle {
-  -webkit-mask-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' preserveAspectRatio='none' viewBox='0 0 100 100'><defs><filter id='rough-active' x='-10%25' y='-10%25' width='120%25' height='120%25'><feTurbulence type='fractalNoise' baseFrequency='0.03 0.03' numOctaves='1' seed='5' result='noise'/><feDisplacementMap in='SourceGraphic' in2='noise' scale='4' xChannelSelector='R' yChannelSelector='G'/></filter></defs><rect x='2' y='2' width='96' height='96' rx='10' ry='10' fill='white' filter='url(%23rough-active)'/></svg>");
-
-  mask-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' preserveAspectRatio='none' viewBox='0 0 100 100'><defs><filter id='rough-active' x='-10%25' y='-10%25' width='120%25' height='120%25'><feTurbulence type='fractalNoise' baseFrequency='0.03 0.03' numOctaves='1' seed='5' result='noise'/><feDisplacementMap in='SourceGraphic' in2='noise' scale='4' xChannelSelector='R' yChannelSelector='G'/></filter></defs><rect x='2' y='2' width='96' height='96' rx='10' ry='10' fill='white' filter='url(%23rough-active)'/></svg>");
--webkit-mask-size: 100% 100%;
+ -webkit-mask-image: url("/paper-mask2.svg");
+  mask-image: url("/paper-mask2.svg");
+  -webkit-mask-size: 100% 100%;
   mask-size: 100% 100%;
   -webkit-mask-repeat: no-repeat;
   mask-repeat: no-repeat;
 }
 
+/* This ensures the procedural paper itself gets the torn edges */
+/* [data-theme="paper"] .paper-bg-canvas {
+  -webkit-mask-image: url("/paper-mask.svg");
+  mask-image: url("/paper-mask.svg");
+  -webkit-mask-size: 100% 100%;
+  mask-size: 100% 100%;
+  mask-repeat: no-repeat;
+} */
+
 [data-theme="paper"] .script-option.active {
   border-radius: 4px;
-
-  -webkit-mask-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' preserveAspectRatio='none' viewBox='0 0 100 100'><defs><filter id='rough-active' x='-10%25' y='-10%25' width='120%25' height='120%25'><feTurbulence type='fractalNoise' baseFrequency='0.03 0.03' numOctaves='1' seed='5' result='noise'/><feDisplacementMap in='SourceGraphic' in2='noise' scale='4' xChannelSelector='R' yChannelSelector='G'/></filter></defs><rect x='2' y='2' width='96' height='96' rx='10' ry='10' fill='white' filter='url(%23rough-active)'/></svg>");
-
-  mask-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' preserveAspectRatio='none' viewBox='0 0 100 100'><defs><filter id='rough-active' x='-10%25' y='-10%25' width='120%25' height='120%25'><feTurbulence type='fractalNoise' baseFrequency='0.03 0.03' numOctaves='1' seed='5' result='noise'/><feDisplacementMap in='SourceGraphic' in2='noise' scale='4' xChannelSelector='R' yChannelSelector='G'/></filter></defs><rect x='2' y='2' width='96' height='96' rx='10' ry='10' fill='white' filter='url(%23rough-active)'/></svg>");
-
+-webkit-mask-image: url("/paper-mask2.svg");
+  mask-image: url("/paper-mask2.svg");
   -webkit-mask-size: 100% 100%;
   mask-size: 100% 100%;
 
@@ -308,16 +320,14 @@ html {
 
 @media (max-width: 600px) {
   [data-theme="paper"] .script-toggle {
-    -webkit-mask-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' preserveAspectRatio='none' viewBox='0 0 100 100'><defs><filter id='rough-toggle-mobile' x='-15%25' y='-15%25' width='130%25' height='130%25'><feTurbulence type='fractalNoise' baseFrequency='0.055 0.075' numOctaves='1' seed='9' result='noise'/><feDisplacementMap in='SourceGraphic' in2='noise' scale='9' xChannelSelector='R' yChannelSelector='G'/></filter></defs><rect x='3' y='3' width='94' height='94' rx='12' ry='12' fill='white' filter='url(%23rough-toggle-mobile)'/></svg>");
-
-    mask-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' preserveAspectRatio='none' viewBox='0 0 100 100'><defs><filter id='rough-toggle-mobile' x='-15%25' y='-15%25' width='130%25' height='130%25'><feTurbulence type='fractalNoise' baseFrequency='0.055 0.075' numOctaves='1' seed='9' result='noise'/><feDisplacementMap in='SourceGraphic' in2='noise' scale='9' xChannelSelector='R' yChannelSelector='G'/></filter></defs><rect x='3' y='3' width='94' height='94' rx='12' ry='12' fill='white' filter='url(%23rough-toggle-mobile)'/></svg>");
-  }
+    -webkit-mask-image: url("/paper-mask2.svg");
+  mask-image: url("/paper-mask2.svg");
+}
 
   [data-theme="paper"] .script-option.active {
-    -webkit-mask-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' preserveAspectRatio='none' viewBox='0 0 100 100'><defs><filter id='rough-active-mobile' x='-15%25' y='-15%25' width='130%25' height='130%25'><feTurbulence type='fractalNoise' baseFrequency='0.06 0.08' numOctaves='1' seed='12' result='noise'/><feDisplacementMap in='SourceGraphic' in2='noise' scale='8' xChannelSelector='R' yChannelSelector='G'/></filter></defs><rect x='3' y='3' width='94' height='94' rx='12' ry='12' fill='white' filter='url(%23rough-active-mobile)'/></svg>");
-
-    mask-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' preserveAspectRatio='none' viewBox='0 0 100 100'><defs><filter id='rough-active-mobile' x='-15%25' y='-15%25' width='130%25' height='130%25'><feTurbulence type='fractalNoise' baseFrequency='0.06 0.08' numOctaves='1' seed='12' result='noise'/><feDisplacementMap in='SourceGraphic' in2='noise' scale='8' xChannelSelector='R' yChannelSelector='G'/></filter></defs><rect x='3' y='3' width='94' height='94' rx='12' ry='12' fill='white' filter='url(%23rough-active-mobile)'/></svg>");
-  }
+    -webkit-mask-image: url("/paper-mask2.svg");
+  mask-image: url("/paper-mask2.svg");
+}
 }
 
 
@@ -330,10 +340,8 @@ html {
 
 
 [data-theme="paper"] .font-size-controls {
-  -webkit-mask-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' preserveAspectRatio='none' viewBox='0 0 100 100'><defs><filter id='rough-toolbar' x='-15%25' y='-15%25' width='130%25' height='130%25'><feTurbulence type='fractalNoise' baseFrequency='0.045 0.06' numOctaves='1' seed='11' result='noise'/><feDisplacementMap in='SourceGraphic' in2='noise' scale='5' xChannelSelector='R' yChannelSelector='G'/></filter></defs><rect x='2' y='2' width='96' height='96' rx='18' ry='18' fill='white' filter='url(%23rough-toolbar)'/></svg>");
-
-  mask-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' preserveAspectRatio='none' viewBox='0 0 100 100'><defs><filter id='rough-toolbar' x='-15%25' y='-15%25' width='130%25' height='130%25'><feTurbulence type='fractalNoise' baseFrequency='0.045 0.06' numOctaves='1' seed='11' result='noise'/><feDisplacementMap in='SourceGraphic' in2='noise' scale='5' xChannelSelector='R' yChannelSelector='G'/></filter></defs><rect x='2' y='2' width='96' height='96' rx='18' ry='18' fill='white' filter='url(%23rough-toolbar)'/></svg>");
-
+  -webkit-mask-image: url("/paper-mask2.svg");
+  mask-image: url("/paper-mask2.svg");
   -webkit-mask-size: 100% 100%;
   mask-size: 100% 100%;
   -webkit-mask-repeat: no-repeat;
@@ -398,10 +406,9 @@ html {
 }
 @media (max-width: 600px) {
   [data-theme="paper"] .font-size-controls {
-    -webkit-mask-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' preserveAspectRatio='none' viewBox='0 0 100 100'><defs><filter id='rough-toolbar-mobile' x='-20%25' y='-20%25' width='140%25' height='140%25'><feTurbulence type='fractalNoise' baseFrequency='0.07 0.09' numOctaves='1' seed='15' result='noise'/><feDisplacementMap in='SourceGraphic' in2='noise' scale='9' xChannelSelector='R' yChannelSelector='G'/></filter></defs><rect x='3' y='3' width='94' height='94' rx='18' ry='18' fill='white' filter='url(%23rough-toolbar-mobile)'/></svg>");
-
-    mask-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' preserveAspectRatio='none' viewBox='0 0 100 100'><defs><filter id='rough-toolbar-mobile' x='-20%25' y='-20%25' width='140%25' height='140%25'><feTurbulence type='fractalNoise' baseFrequency='0.07 0.09' numOctaves='1' seed='15' result='noise'/><feDisplacementMap in='SourceGraphic' in2='noise' scale='9' xChannelSelector='R' yChannelSelector='G'/></filter></defs><rect x='3' y='3' width='94' height='94' rx='18' ry='18' fill='white' filter='url(%23rough-toolbar-mobile)'/></svg>");
-  }
+      -webkit-mask-image: url("/paper-mask2.svg");
+  mask-image: url("/paper-mask2.svg");
+}
 }
 
 
