@@ -835,26 +835,30 @@ const SongDetails = () => {
             </pre>
           </div>
 
-          <div className="font-size-controls">
-            <button onClick={handleToggleComments} style={{ position: "relative" }}>
-              <FontAwesomeIcon icon={faComment} />
-              {commentsCount > 0 && (
-                <span className="comment-count-badge">{formatCount(commentsCount)}</span>
-              )}
-            </button>
-            <button onClick={() => setFontSize(f => Math.max(f - 2, 10))}>
-              <FontAwesomeIcon icon={faMagnifyingGlassMinus} />
-            </button>
-            <button onClick={() => setFontSize(16)}>
-              <FontAwesomeIcon icon={faMagnifyingGlass} />
-            </button>
-            <button onClick={() => setFontSize(f => Math.min(f + 2, 32))}>
-              <FontAwesomeIcon icon={faMagnifyingGlassPlus} />
-            </button>
-            <button onClick={(e) => { e.stopPropagation(); handleShare(); }}>
-              <FontAwesomeIcon icon={faShare} />
-            </button>
+          <div className="font-size-controls-wrapper">
+            <div className="font-size-controls">
+              <button onClick={handleToggleComments} style={{ position: "relative" }}>
+                <FontAwesomeIcon icon={faComment} />
+                {commentsCount > 0 && (
+                  <span className="comment-count-badge">{formatCount(commentsCount)}</span>
+                )}
+              </button>
+              <button onClick={() => setFontSize(f => Math.max(f - 2, 10))}>
+                <FontAwesomeIcon icon={faMagnifyingGlassMinus} />
+              </button>
+              <button onClick={() => setFontSize(16)}>
+                <FontAwesomeIcon icon={faMagnifyingGlass} />
+              </button>
+              <button onClick={() => setFontSize(f => Math.min(f + 2, 32))}>
+                <FontAwesomeIcon icon={faMagnifyingGlassPlus} />
+              </button>
+              <button onClick={(e) => { e.stopPropagation(); handleShare(); }}>
+                <FontAwesomeIcon icon={faShare} />
+              </button>
+            </div>
           </div>
+
+
 
           {/* <p className="uploader-name">
             <strong>Uploaded by:</strong>{" "}

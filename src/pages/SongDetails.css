@@ -387,8 +387,7 @@ button:last-child {
 
 .font-size-controls {
   background: var(--bg-white);
-  position: sticky;
-  bottom: 16px;
+  
   display: flex;
   justify-content: center;
   gap: 10px;
@@ -401,7 +400,17 @@ button:last-child {
   border: 1px solid var(--border);
   box-shadow: 0 4px 12px var(--song-item-hover), 0 1px 3px var(--song-item);
   
+  /* position: sticky;
+  bottom: 16px;
+  z-index: 100; */
+}
+
+.font-size-controls-wrapper {
+  position: sticky;
+  bottom: 16px;
   z-index: 100;
+  display: flex;
+  justify-content: center;
 }
 
 .font-size-controls button {
@@ -724,3 +733,5 @@ button:last-child {
 .song-meta-stats .fa-heart {
   color: var(--heart);
 }
+
+
