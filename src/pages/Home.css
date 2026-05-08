@@ -714,9 +714,9 @@
 }
 
 .feedback-textarea {
-  min-height: 55px;
+  min-height: 75px;
   padding: 8px;
-  font-size: 0.76rem;
+  font-size: 16px;
   border-radius: 9px;
 }
 
