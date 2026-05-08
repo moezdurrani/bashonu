@@ -7,9 +7,8 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faSearch } from "@fortawesome/free-solid-svg-icons";
 import { faHeart as solidHeart, faEye } from "@fortawesome/free-solid-svg-icons";
 import { faCircleArrowUp } from "@fortawesome/free-solid-svg-icons";
-
 import { generateSlug } from "../utils";
-
+import { Star, X } from "lucide-react";
 
 const Home = () => {
   const [songs, setSongs] = useState([]);
@@ -25,6 +24,44 @@ const Home = () => {
   const [showNew, setShowNew] = useState(true);
 
   const [showScrollTop, setShowScrollTop] = useState(false);
+
+  const [showFeedbackPopup, setShowFeedbackPopup] = useState(false);
+  const [feedbackRating, setFeedbackRating] = useState(0);
+  const [feedbackComment, setFeedbackComment] = useState("");
+  const [feedbackSubmitting, setFeedbackSubmitting] = useState(false);
+
+  useEffect(() => {
+    // For testing
+    // const FEEDBACK_COOLDOWN = 3000;
+    // For production use:
+    const FEEDBACK_COOLDOWN = 60 * 24 * 60 * 60 * 1000;
+
+    const lastFeedbackTime = localStorage.getItem("bashonu_feedback_last_submitted");
+    const now = Date.now();
+
+    const shouldShow =
+      !lastFeedbackTime || now - Number(lastFeedbackTime) > FEEDBACK_COOLDOWN;
+
+    if (shouldShow) {
+      const timer = setTimeout(() => {
+        setShowFeedbackPopup(true);
+      }, 12000);
+
+      return () => clearTimeout(timer);
+    }
+  }, []);
+
+  useEffect(() => {
+    if (showFeedbackPopup) {
+      document.body.style.overflow = "hidden";
+    } else {
+      document.body.style.overflow = "";
+    }
+
+    return () => {
+      document.body.style.overflow = "";
+    };
+  }, [showFeedbackPopup]);
 
   useEffect(() => {
     const handleScroll = () => setShowScrollTop(window.scrollY > 400);
@@ -64,6 +101,34 @@ const Home = () => {
       setShowFeatured(true);
     }
   }, []);
+
+  const closeFeedbackPopup = () => {
+    setShowFeedbackPopup(false);
+    localStorage.setItem("bashonu_feedback_last_submitted", Date.now().toString());
+  };
+
+  const handleSubmitFeedback = async () => {
+    if (!feedbackRating) return;
+
+    setFeedbackSubmitting(true);
+
+    const { error } = await supabase.from("feedback").insert({
+      rating: feedbackRating,
+      comment: feedbackComment.trim() || null,
+    });
+
+    setFeedbackSubmitting(false);
+
+    if (error) {
+      console.log("Error submitting feedback:", error);
+      return;
+    }
+
+    localStorage.setItem("bashonu_feedback_last_submitted", Date.now().toString());
+    setShowFeedbackPopup(false);
+    setFeedbackRating(0);
+    setFeedbackComment("");
+  };
 
   const fetchTrending = async () => {
     const { data } = await supabase.rpc("get_top_songs");
@@ -134,6 +199,53 @@ const Home = () => {
   return (
 
     <div className="wrapper">
+
+      {showFeedbackPopup && (
+        <div className="feedback-popup-overlay">
+          <div className="feedback-popup">
+            <div className="feedback-popup-header">
+              <div>
+                <h3>Please rate us</h3>
+                <p>Help us improve Bashonu</p>
+              </div>
+
+              <button className="feedback-close-btn" onClick={closeFeedbackPopup}>
+                <X size={18} />
+              </button>
+            </div>
+
+            <div className="feedback-stars">
+              {[1, 2, 3, 4, 5].map((star) => (
+                <button
+                  key={star}
+                  className={`feedback-star-btn ${feedbackRating >= star ? "active" : ""
+                    }`}
+                  onClick={() => setFeedbackRating(star)}
+                >
+                  <Star size={35} fill={feedbackRating >= star ? "currentColor" : "none"} />
+                </button>
+              ))}
+            </div>
+
+            <label className="feedback-label">Feedback or comments</label>
+
+            <textarea
+              className="feedback-textarea"
+              placeholder="(Optional) Share your thoughts..."
+              value={feedbackComment}
+              onChange={(e) => setFeedbackComment(e.target.value)}
+            />
+
+            <button
+              className="feedback-submit-btn"
+              onClick={handleSubmitFeedback}
+              disabled={!feedbackRating || feedbackSubmitting}
+            >
+              {feedbackSubmitting ? "Submitting..." : "Submit"}
+            </button>
+          </div>
+        </div>
+      )}
 
       <div className="search-bar-container">
         <div className="search-input-wrapper">
